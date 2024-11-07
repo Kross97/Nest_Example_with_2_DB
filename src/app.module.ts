@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {ConfigModule, ConfigService} from "@nestjs/config";
+import {ConfigModule, ConfigService } from '@nestjs/config';
+import { UserModule } from './modules/user/user.module';
+import { RentCarsModule } from './modules/rentCars/rentCars.module';
 // import dbConfiguration from "./config/db.config";
 
 
@@ -23,7 +25,7 @@ import {ConfigModule, ConfigService} from "@nestjs/config";
     migrationsTableName: "kross97_migration_table",
     entities: ['dist/entities/**/*.entity.js'],
     migrations: ['dist/migrations/*.js'],
-  }), ConfigModule.forRoot()],
+  }), ConfigModule.forRoot(), UserModule, RentCarsModule],
   controllers: [AppController],
   providers: [AppService],
 })

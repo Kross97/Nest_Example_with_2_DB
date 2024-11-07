@@ -1,5 +1,4 @@
 import { DataSource } from "typeorm";
-import {join} from "path";
 
 const AppDataSource = new DataSource({
     type: "postgres",
