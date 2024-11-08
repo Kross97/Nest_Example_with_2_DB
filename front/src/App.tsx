@@ -29,16 +29,7 @@ function App() {
       console.log("FORM_DATA", formData);
       fetch('http://localhost:3001/user/', {
         method: 'POST',
-
-        body: JSON.stringify( {
-          name: 'front_user_test',
-          test: 'test',
-          car: {
-            model: 1,
-            year: 2001,
-          },
-          //photos: [file]
-        })
+        body: 'sdasdas',
       })
     }
   };
