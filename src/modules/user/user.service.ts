@@ -24,6 +24,10 @@ export class UserService {
     return user;
   }
 
+  async createUserWithPhoto() {
+
+  };
+
   getUsers() {
     return this.userRepository.find({
       relations: {

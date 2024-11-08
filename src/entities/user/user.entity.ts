@@ -40,7 +40,10 @@ export class User {
   @JoinTable() // @JoinTable()требуется для @ManyToMany отношений. Вы должны поставить @JoinTable на одну (владеющую) сторону отношения.
   rentCars: RentCarEntity[];
 
-  @OneToMany(() => PhotoEntity, (photo) => photo.user)
+  @OneToMany(() => PhotoEntity, (photo) => photo.user, {
+    onDelete: 'CASCADE',
+    cascade: ['insert']
+  })
   //  Если вы хотите использовать @OneToMany, @ManyToOne является обязательным.
   photos: PhotoEntity[];
 
