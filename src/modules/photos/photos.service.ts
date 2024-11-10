@@ -11,10 +11,14 @@ export class PhotosService {
   }
 
   async createPhoto(file: Express.Multer.File) {
-    console.log("SAVED_FILE");
-    await this.photosRepository.save({
+    const fileSaved = await this.photosRepository.save({
       data: file
     })
-    return 'FILE_SAVED';
+
+    return { status: 'ФАЙЛ_СОХРАНЕН', file: fileSaved };
+  }
+
+  async getAll() {
+    return this.photosRepository.find();
   }
 }

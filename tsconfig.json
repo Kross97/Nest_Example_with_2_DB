@@ -19,5 +19,5 @@
     "noFallthroughCasesInSwitch": false
   },
   "exclude": ["node_modules", "dist", "front"],
-  "include": ["src"]
+  "include": ["src", "./nodeNativeServer.ts"]
 }
