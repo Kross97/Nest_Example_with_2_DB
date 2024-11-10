@@ -13,4 +13,8 @@ export class PhotosController {
     return this.photosService.createPhoto(file);
   }
 
+  @Get('all')
+  getAll() {
+    return this.photosService.getAll();
+  }
 }

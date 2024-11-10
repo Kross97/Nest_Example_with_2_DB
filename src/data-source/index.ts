@@ -10,8 +10,8 @@ const AppDataSource = new DataSource({
     synchronize: false,
     migrationsRun: false,
     migrationsTableName: "kross97_migration_table",
-    entities: ['dist/entities/**/*.entity.js'],
-    migrations: ['dist/migrations/*.js'],
+    entities: ['dist/src/entities/**/*.entity.js'],
+    migrations: ['dist/src/migrations/*.js'],
 })
 
 AppDataSource.initialize()
