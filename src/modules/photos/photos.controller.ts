@@ -1,7 +1,7 @@
-import { Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Header, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { PhotosService } from './photos.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
 
 @Controller('photos')
 export class PhotosController {
@@ -16,5 +16,12 @@ export class PhotosController {
   @Get('all')
   getAll() {
     return this.photosService.getAll();
+  }
+
+  // Первый успешный способ возврата файла из БД (тип данных поля jsonb (post_gre))
+  @Get('download/first/:id')
+  // @Header('content-type', 'image/png')
+  getPhotoBuffer(@Param('id') id: string, @Res() response: Response) {
+    return this.photosService.getPhotoBufferFirst(id, response);
   }
 }

@@ -2,7 +2,7 @@ interface IUrlParams {
   url: string;
   headers?: Record<string, string>
   body?: any;
-  responseType?: 'json' | 'blob' | 'text';
+  responseType?: 'json' | 'blob' | 'text' | 'arrayBuffer';
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 }
 
