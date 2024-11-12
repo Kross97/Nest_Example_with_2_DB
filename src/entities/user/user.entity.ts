@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Car } from '../car/car.entity';
 import { RentCarEntity } from '../rentCar/rent-car.entity';
-import { PhotoEntity } from '../photos/photo.entity';
+import { MediaMaterialsEntity } from '../media_materials/MediaMaterials.entity';
 
 export class Name {
     @Column()
@@ -40,12 +40,12 @@ export class User {
   @JoinTable() // @JoinTable() требуется для @ManyToMany отношений. Вы должны поставить @JoinTable на одну (владеющую) сторону отношения.
   rentCars: RentCarEntity[];
 
-  @OneToMany(() => PhotoEntity, (photo) => photo.user, {
+  @OneToMany(() => MediaMaterialsEntity, (mediaMaterial) => mediaMaterial.user, {
     onDelete: 'CASCADE',
     cascade: ['insert']
   })
   //  Если вы хотите использовать @OneToMany, @ManyToOne является обязательным.
-  photos: PhotoEntity[];
+  mediaMaterials: MediaMaterialsEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

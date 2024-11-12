@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.modulee';
 import { RentCarsModule } from './modules/rentCars/rentCars.modulee';
-import { PhotosModule } from './modules/photos/photos.modulee';
+import { MediaMaterialsModule } from './modules/media_materials/mediaMaterials.modulee';
 // import dbConfiguration from "./config/db.config";
 
 
@@ -26,7 +26,7 @@ import { PhotosModule } from './modules/photos/photos.modulee';
     migrationsTableName: "kross97_migration_table",
     entities: ['dist/src/entities/**/*.entity.js'],
     migrations: ['dist/src/migrations/*.js'],
-  }), ConfigModule.forRoot(), UserModule, RentCarsModule, PhotosModule],
+  }), ConfigModule.forRoot(), UserModule, RentCarsModule, MediaMaterialsModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,15 +1,26 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 
+
+
 @Entity()
-export class PhotoEntity {
+export class MediaMaterialsEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  size: number;
+
+  @Column()
+  mimeType: string;
 
   @Column({ type: 'jsonb'})
   data: any;
 
-  @ManyToOne(() => User, (user) => user.photos, {
+  @ManyToOne(() => User, (user) => user.mediaMaterials, {
     onDelete: 'CASCADE',
     nullable: true,
   })

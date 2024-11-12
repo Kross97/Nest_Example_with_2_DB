@@ -34,7 +34,7 @@ export class UserController {
   createUserFormData(@UploadedFile() file: Express.Multer.File, @Body() body: { user: string }, @Req() req: RawBodyRequest<Request>) {
     // console.log('BODY', body);
     const user = JSON.parse(body.user);
-    return this.userService.createUserWithPhoto(user, file);
+    return this.userService.createUserWithMedia(user, file);
   }
 
   @Get('all')

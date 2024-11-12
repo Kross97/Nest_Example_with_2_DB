@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities/user/user.entity';
 import { Repository } from 'typeorm';
 import { Car } from '../../entities/car/car.entity';
-import { PhotoEntity } from '../../entities/photos/photo.entity';
 import { MOCK_USER } from './constants';
+import { fileToMediaEntity } from '../../utils/fileToMediaEntity';
 
 @Injectable()
 export class UserService {
@@ -20,10 +20,8 @@ export class UserService {
     return user;
   }
 
-  async createUserWithPhoto(user: User, file: Express.Multer.File) {
-    const photo = new PhotoEntity();
-    photo.data = file;
-    user.photos = [photo];
+  async createUserWithMedia(user: User, file: Express.Multer.File) {
+    user.mediaMaterials = [fileToMediaEntity(file)];
     await this.userRepository.save(user);
 
     return { status: 'ПОЛЬЗОВАТЕЛЬ_С_FORM_DATA_PHOTO_СОЗДАН', user};

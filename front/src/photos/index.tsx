@@ -2,14 +2,18 @@ import cn from './Photos.module.scss';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { FetchAgent } from '../FetchService';
 
-interface IFile { id: number; originalname: string; mimetype: string;}
+interface IFile {
+  id: number;
+  originalname: string;
+  mimetype: string;
+}
 
 export const PhotoBlock = () => {
   const [file, setFile] = useState<File | null | undefined>(null);
   const [files, setFiles] = useState<IFile[]>([]);
 
   useEffect(() => {
-    FetchAgent.getRequest({ url: '/photos/all' }).then((results) => {
+    FetchAgent.getRequest({ url: '/media/all' }).then((results) => {
 
       setFiles(results);
     });
@@ -21,8 +25,20 @@ export const PhotoBlock = () => {
     const formData = new FormData();
     if (file) {
       formData.set('file', file);
-      FetchAgent.postRequest({ url: '/photos', body: formData });
+      FetchAgent.postRequest({ url: '/media', body: formData });
 
+    }
+  };
+
+  const changeMany = (e: SyntheticEvent) => {
+    const files = (e.target as HTMLInputElement).files;
+    const formData = new FormData();
+
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        formData.append('file', files[i]);
+      }
+      FetchAgent.postRequest({ url: '/media/many', body: formData });
     }
   };
 
@@ -49,7 +65,25 @@ export const PhotoBlock = () => {
     }
   };
   const downloadFile = async (file: IFile) => {
-    const arrayBuffer = await FetchAgent.getRequest({ url: `/photos/download/first/${file.id}`, responseType: 'arrayBuffer'});
+    const arrayBuffer = await FetchAgent.getRequest({
+      url: `/media/download/first/${file.id}`,
+      responseType: 'arrayBuffer',
+    });
+    const blob = new Blob([arrayBuffer], {
+      type: file.mimetype,
+    });
+
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = file.originalname;
+    a.click();
+  };
+
+  const downloadFile2 = async (file: IFile) => {
+    const arrayBuffer = await FetchAgent.getRequest({
+      url: `/media/download/second/${file.id}`,
+      responseType: 'arrayBuffer',
+    });
     const blob = new Blob([arrayBuffer], {
       type: file.mimetype,
     });
@@ -63,19 +97,24 @@ export const PhotoBlock = () => {
   return <div className={cn.photosBlock}>
     <h3>Фотографии</h3>
     <div className={cn.column}>
-      <span>Закачка фотографии</span>
+      <span>Закачка медиа</span>
       <input onChange={change} type={'file'} />
     </div>
-    <div className={cn.column} style={{ alignItems: 'flex-start'}}>
+    <div className={cn.column}>
+      <span>Закачка медиа (множественное)</span>
+      <input onChange={changeMany} multiple={true} type={'file'} />
+    </div>
+    <div className={cn.column} style={{ alignItems: 'flex-start' }}>
       <span>Установка пользователя вместе с фотографией</span>
       <input onChange={changeUserPhoto} type={'file'} />
-      { file && <button onClick={createUser}>Создать пользователя</button>}
+      {file && <button onClick={createUser}>Создать пользователя</button>}
     </div>
     <div className={cn.listFiles}>
       {files.map((f: any) => {
         return <div>
           <span>{f.originalname}</span>
-          <button onClick={() => downloadFile(f)}>загрузка</button>
+          <button onClick={() => downloadFile(f)}>загрузка_способ_1</button>
+          <button onClick={() => downloadFile2(f)}>загрузка_способ_2</button>
         </div>;
       })}
     </div>
