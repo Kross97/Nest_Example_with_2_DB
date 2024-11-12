@@ -13,11 +13,11 @@ import { RentCarEntity } from '../rentCar/rent-car.entity';
 import { MediaMaterialsEntity } from '../media_materials/MediaMaterials.entity';
 
 export class Name {
-    @Column()
-    first: string;
+  @Column()
+  first: string;
 
-    @Column()
-    last: string;
+  @Column()
+  last: string;
 }
 
 @Entity()
@@ -28,23 +28,30 @@ export class User {
   @Column(() => Name)
   name: Name;
 
-  @Column()
+  @Column({ nullable: true, default: 'test' })
   test: string;
 
-  @OneToOne(() => Car, (car) => car.user, { cascade: true })
+  @Column({ default: 'login' })
+  login: string;
+
+  @Column({ default: 'password' })
+  password: string;
+
+  @OneToOne(() => Car, (car) => car.user, { cascade: true, nullable: true })
   // { cascade: true} - нужен для рекурсивной вставки элементов
   @JoinColumn() // выставляет внешний ключ на этой таблице
   car: Car;
 
-  @ManyToMany(() => RentCarEntity, (rentCar) => rentCar.users, { cascade: true })
+  @ManyToMany(() => RentCarEntity, (rentCar) => rentCar.users, { cascade: true, nullable: true })
   @JoinTable() // @JoinTable() требуется для @ManyToMany отношений. Вы должны поставить @JoinTable на одну (владеющую) сторону отношения.
   rentCars: RentCarEntity[];
 
   @OneToMany(() => MediaMaterialsEntity, (mediaMaterial) => mediaMaterial.user, {
     onDelete: 'CASCADE',
-    cascade: ['insert']
+    cascade: ['insert'],
+    nullable: true,
   })
-  //  Если вы хотите использовать @OneToMany, @ManyToOne является обязательным.
+    //  Если вы хотите использовать @OneToMany, @ManyToOne является обязательным.
   mediaMaterials: MediaMaterialsEntity[];
 
   @CreateDateColumn()

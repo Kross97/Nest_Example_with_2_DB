@@ -1,0 +1,36 @@
+.userBlock {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  background-color: #e59f83;
+}
+
+.formUser {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: #364040E5;
+}
+
+.formUserModal {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  top: 50%;
+  left: 50%;
+  z-index: 101;
+  padding: 30px;
+  background-color: #fff;
+  transform: translateY(-50%) translateX(-50%);
+}

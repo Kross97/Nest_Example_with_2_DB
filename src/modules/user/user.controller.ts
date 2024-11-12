@@ -8,11 +8,12 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
-  Delete,
+  Delete, Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { User } from '../../entities/user/user.entity';
 
 
 @Controller('user')
@@ -22,11 +23,21 @@ export class UserController {
 
   @Get()
   create() {
-    return this.userService.createUser();
+    return this.userService.createUserMock();
   }
 
+  @Get('refresh')
+  refresh() {
+    return this.userService.refreshUserData();
+  }
 
-  @Post()
+  @Post('create')
+  createUser(@Body() body: User) {
+    return this.userService.createUser(body)
+  };
+
+
+  @Post('createWithFile')
   @UseInterceptors(FileInterceptor('file'))
   // Метод получения данных user в json и файла фотографии file , все в FormData
   // при использовании FileInterceptor и UploadedFile в теле остается только данные user в виде строки json
@@ -45,5 +56,10 @@ export class UserController {
   @Delete('delete/:id')
   deleteUser(@Param('id') id: string) {
     return this.userService.deleteUser(id);
+  }
+
+  @Put('update/:id')
+  updateUser(@Param('id') id: string, @Body() body: Partial<User>) {
+    return this.userService.updateUser(id, body)
   }
 }
