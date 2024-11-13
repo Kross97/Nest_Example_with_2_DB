@@ -6,11 +6,12 @@ import {
   OneToOne,
   JoinColumn,
   ManyToMany,
-  JoinTable, OneToMany,
+  JoinTable, OneToMany, ManyToOne,
 } from 'typeorm';
 import { Car } from '../car/car.entity';
 import { RentCarEntity } from '../rentCar/rent-car.entity';
 import { MediaMaterialsEntity } from '../media_materials/MediaMaterials.entity';
+import { RoleEntity } from './role.entity';
 
 export class Name {
   @Column()
@@ -19,6 +20,8 @@ export class Name {
   @Column()
   last: string;
 }
+
+
 
 @Entity()
 export class User {
@@ -36,6 +39,10 @@ export class User {
 
   @Column({ default: 'password' })
   password: string;
+
+  @ManyToOne(() => RoleEntity, { cascade: true }) // @ManyToOne при это отношении внешний ключ
+    // выставляется автоматически , без указания  @JoinColumn()
+  role: RoleEntity;
 
   @OneToOne(() => Car, (car) => car.user, { cascade: true, nullable: true })
   // { cascade: true} - нужен для рекурсивной вставки элементов

@@ -8,6 +8,7 @@ interface IProps {
   showEditHandler: (user: IUSerRequest | null) => void;
 }
 
+
 export const ModalUser = ({ user, showEditHandler }: IProps) => {
   const [data, setUser] = useState<IUSerRequest | null>({} as IUSerRequest);
 
@@ -47,6 +48,7 @@ export const ModalUser = ({ user, showEditHandler }: IProps) => {
       <input onChange={change} type={'text'} name={'nameLast'} value={data?.nameLast} />
       <span>Логин</span>
       <input onChange={change} type={'text'} name={'login'} value={data?.login} />
+      <span>Роль</span>
       <span>Пароль</span>
       <input onChange={change} type={'password'} name={'password'} value={data?.password} />
       <button onClick={submitUser}>Обновить пользователя</button>

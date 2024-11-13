@@ -19,7 +19,8 @@ export class MediaMaterialsEntity {
   mimeType: string;
 
   @OneToOne(() => MediaBufferEntity, {
-    cascade: true
+    cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   buffer: MediaBufferEntity;
