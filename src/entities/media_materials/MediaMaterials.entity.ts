@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../user/user.entity';
+import { MediaBufferEntity } from './MediaBuffer.entity';
 
 
 
@@ -17,8 +18,11 @@ export class MediaMaterialsEntity {
   @Column()
   mimeType: string;
 
-  @Column({ type: 'jsonb'})
-  data: any;
+  @OneToOne(() => MediaBufferEntity, {
+    cascade: true
+  })
+  @JoinColumn()
+  buffer: MediaBufferEntity;
 
   @ManyToOne(() => User, (user) => user.mediaMaterials, {
     onDelete: 'CASCADE',

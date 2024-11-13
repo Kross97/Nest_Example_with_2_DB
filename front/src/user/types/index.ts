@@ -10,3 +10,12 @@ export interface IUser {
   test: string;
   rentCars: any[]
 }
+
+export interface IUSerRequest {
+  id?: number;
+  login: string;
+  nameFirst: string;
+  nameLast: string;
+  password: string;
+  test?: string;
+}

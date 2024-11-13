@@ -4,13 +4,14 @@ import { FetchAgent } from '../FetchService';
 
 interface IFile {
   id: number;
-  originalname: string;
-  mimetype: string;
+  name: string;
+  mimeType: string;
 }
 
 export const PhotoBlock = () => {
   const [file, setFile] = useState<File | null | undefined>(null);
   const [files, setFiles] = useState<IFile[]>([]);
+
 
   useEffect(() => {
     FetchAgent.getRequest({ url: '/media/all' }).then((results) => {
@@ -70,12 +71,12 @@ export const PhotoBlock = () => {
       responseType: 'arrayBuffer',
     });
     const blob = new Blob([arrayBuffer], {
-      type: file.mimetype,
+      type: file.mimeType,
     });
 
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = file.originalname;
+    a.download = file.name;
     a.click();
   };
 
@@ -85,12 +86,12 @@ export const PhotoBlock = () => {
       responseType: 'arrayBuffer',
     });
     const blob = new Blob([arrayBuffer], {
-      type: file.mimetype,
+      type: file.mimeType,
     });
 
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = file.originalname;
+    a.download = file.name;
     a.click();
   };
 
@@ -110,9 +111,9 @@ export const PhotoBlock = () => {
       {file && <button onClick={createUser}>Создать пользователя</button>}
     </div>
     <div className={cn.listFiles}>
-      {files.map((f: any) => {
+      {files.map((f: IFile) => {
         return <div>
-          <span>{f.originalname}</span>
+          <span>{f.name}</span>
           <button onClick={() => downloadFile(f)}>загрузка_способ_1</button>
           <button onClick={() => downloadFile2(f)}>загрузка_способ_2</button>
         </div>;

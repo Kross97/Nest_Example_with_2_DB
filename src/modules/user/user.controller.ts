@@ -14,6 +14,7 @@ import { UserService } from './user.service';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { User } from '../../entities/user/user.entity';
+import { IUserRequest } from './types';
 
 
 @Controller('user')
@@ -32,7 +33,7 @@ export class UserController {
   }
 
   @Post('create')
-  createUser(@Body() body: User) {
+  createUser(@Body() body: IUserRequest) {
     return this.userService.createUser(body)
   };
 
@@ -59,7 +60,7 @@ export class UserController {
   }
 
   @Put('update/:id')
-  updateUser(@Param('id') id: string, @Body() body: Partial<User>) {
+  updateUser(@Param('id') id: string, @Body() body: IUserRequest) {
     return this.userService.updateUser(id, body)
   }
 }
