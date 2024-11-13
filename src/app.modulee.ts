@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.modulee';
 import { RentCarsModule } from './modules/rentCars/rentCars.modulee';
 import { MediaMaterialsModule } from './modules/media_materials/mediaMaterials.modulee';
+import { AuthorizationModule } from './modules/authorization/authorization.modulee';
 // import dbConfiguration from "./config/db.config";
 
 
@@ -14,7 +15,7 @@ import { MediaMaterialsModule } from './modules/media_materials/mediaMaterials.m
 
 @Module({
   imports: [TypeOrmModule.forRoot({
-    type: "postgres",
+    type: 'postgres',
     host: 'localhost',
     port: 5430,
     username: 'postgres_kross97',
@@ -23,11 +24,12 @@ import { MediaMaterialsModule } from './modules/media_materials/mediaMaterials.m
     synchronize: false,
     migrationsRun: false,
     autoLoadEntities: false,
-    migrationsTableName: "kross97_migration_table",
+    migrationsTableName: 'kross97_migration_table',
     entities: ['dist/src/entities/**/*.entity.js'],
     migrations: ['dist/src/migrations/*.js'],
-  }), ConfigModule.forRoot(), UserModule, RentCarsModule, MediaMaterialsModule],
+  }), ConfigModule.forRoot(), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+}

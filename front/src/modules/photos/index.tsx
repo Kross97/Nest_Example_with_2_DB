@@ -1,6 +1,6 @@
 import cn from './Photos.module.scss';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { FetchAgent } from '../FetchService';
+import { FetchAgent } from '../../FetchService';
 
 interface IFile {
   id: number;

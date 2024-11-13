@@ -1,6 +1,6 @@
 import cn from './User.module.scss';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { FetchAgent } from '../FetchService';
+import { FetchAgent } from '../../FetchService';
 import { IUser, IUSerRequest } from './types';
 import { ModalUser } from './ModalUser';
 
@@ -25,7 +25,7 @@ export const UserBlock = () => {
   };
 
   const submitUser = async () => {
-    await FetchAgent.postRequest({ url: '/user/create', body: JSON.stringify(data), requestType: 'json' });
+    await FetchAgent.postRequest({ url: '/user/create', body: data, requestType: 'json' });
   };
 
   const refreshUsers = async () => {
@@ -47,7 +47,7 @@ export const UserBlock = () => {
         <button onClick={submitUser}>Создать пользователя</button>
       </div>
       <button onClick={refreshUsers}>рефреш_логинов</button>
-      <div style={{ display: 'flex', rowGap: '12px', flexDirection: 'column' }}>
+      <div className={cn.listUsers}>
         {users.map((userList) => <div>
           <span>{`${userList.name.first} ${userList.name.last}`}</span>
           <button onClick={() => showEditHandler({

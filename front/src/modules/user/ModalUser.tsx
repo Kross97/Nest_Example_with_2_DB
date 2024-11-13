@@ -1,6 +1,6 @@
 import cn from './User.module.scss';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { FetchAgent } from '../FetchService';
+import { FetchAgent } from '../../FetchService';
 import { IUser, IUSerRequest } from './types';
 
 interface IProps {
@@ -28,12 +28,12 @@ export const ModalUser = ({ user, showEditHandler }: IProps) => {
   const submitUser = () => {
     void FetchAgent.putRequest({
       url: `/user/update/${data?.id}`,
-      body: JSON.stringify({
+      body: {
         nameFirst: data?.nameFirst,
         nameLast: data?.nameLast,
         login: data?.login,
         password: data?.password,
-      }),
+      },
       requestType: 'json'
     });
   };

@@ -8,16 +8,19 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
-  Delete, Put,
+  Delete, Put, UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { User } from '../../entities/user/user.entity';
 import { IUserRequest } from './types';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { RolesGuard } from '../../common/guards/roles.guard';
 
 
 @Controller('user')
+@UseGuards(RolesGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {
   }
@@ -50,6 +53,7 @@ export class UserController {
   }
 
   @Get('all')
+  @Roles(['admin'])
   getAllUsers() {
     return this.userService.getUsers();
   }

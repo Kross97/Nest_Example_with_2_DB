@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.modulee';
 import 'reflect-metadata';
 import { json } from 'express';
+import { AuthGuard } from './common/guards/jwt.guard';
 
 
 async function bootstrap() {
@@ -18,7 +19,7 @@ async function bootstrap() {
   app.use(json({ limit: '50mb' })); // Обязательный мидл-вэйр для работы с JSON в теле запроса
 
   // app.useGlobalFilters();
-  // app.useGlobalGuards();
+   app.useGlobalGuards(new AuthGuard());
   // app.useGlobalInterceptors();
   // app.useGlobalPipes();
   // app.useWebSocketAdapter();
