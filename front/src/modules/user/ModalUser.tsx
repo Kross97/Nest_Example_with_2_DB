@@ -11,7 +11,13 @@ interface IProps {
 
 export const ModalUser = ({ user, showEditHandler }: IProps) => {
   const [data, setUser] = useState<IUSerRequest | null>({} as IUSerRequest);
+  const [roles, setRoles] = useState<{id: number; role: string}[]>([]);
 
+  useEffect(() => {
+    FetchAgent.getRequest({ url: '/user/allRoles'}).then((roles) => {
+      setRoles(roles);
+    })
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -25,6 +31,10 @@ export const ModalUser = ({ user, showEditHandler }: IProps) => {
     setUser((prev) => ({ ...prev, [nameField]: value } as IUSerRequest));
   };
 
+  const changeRole = (e: ChangeEvent<HTMLSelectElement>) => {
+    //@ts-ignore
+    setUser((prev) => ({...prev, ['role']: roles.find((role) => role.id == e.target.value)}));
+  }
 
   const submitUser = () => {
     void FetchAgent.putRequest({
@@ -34,6 +44,7 @@ export const ModalUser = ({ user, showEditHandler }: IProps) => {
         nameLast: data?.nameLast,
         login: data?.login,
         password: data?.password,
+        role: data?.role
       },
       requestType: 'json'
     });
@@ -48,6 +59,10 @@ export const ModalUser = ({ user, showEditHandler }: IProps) => {
       <input onChange={change} type={'text'} name={'nameLast'} value={data?.nameLast} />
       <span>Логин</span>
       <input onChange={change} type={'text'} name={'login'} value={data?.login} />
+      <span>Роли</span>
+      <select onChange={changeRole}>
+        {roles.map((role) => <option key={role.id} value={role.id}>{role.role}</option>)}
+      </select>
       <span>Роль</span>
       <span>Пароль</span>
       <input onChange={change} type={'password'} name={'password'} value={data?.password} />

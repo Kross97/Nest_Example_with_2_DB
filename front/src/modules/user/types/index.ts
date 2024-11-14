@@ -7,6 +7,7 @@ export interface IUser {
     last: string;
   }
   password: string;
+  role: { id: number; role: string };
   test: string;
   rentCars: any[]
 }
@@ -17,5 +18,6 @@ export interface IUSerRequest {
   nameFirst: string;
   nameLast: string;
   password: string;
+  role: { id: number; role: string }
   test?: string;
 }

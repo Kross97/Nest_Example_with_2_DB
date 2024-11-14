@@ -35,9 +35,14 @@ export class UserController {
     return this.userService.refreshUserData();
   }
 
+  @Get('allRoles')
+  getAllRoles() {
+    return this.userService.getAllRoles();
+  }
+
   @Post('create')
   createUser(@Body() body: IUserRequest) {
-    return this.userService.createUser(body)
+    return this.userService.createUser(body);
   };
 
 
@@ -58,6 +63,7 @@ export class UserController {
     return this.userService.getUsers();
   }
 
+
   @Delete('delete/:id')
   deleteUser(@Param('id') id: string) {
     return this.userService.deleteUser(id);
@@ -65,6 +71,6 @@ export class UserController {
 
   @Put('update/:id')
   updateUser(@Param('id') id: string, @Body() body: IUserRequest) {
-    return this.userService.updateUser(id, body)
+    return this.userService.updateUser(id, body);
   }
 }

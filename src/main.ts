@@ -3,6 +3,8 @@ import { AppModule } from './app.modulee';
 import 'reflect-metadata';
 import { json } from 'express';
 import { AuthGuard } from './common/guards/jwt.guard';
+import { ValidationPipe } from './common/pipes/parseCookies.pipe';
+import { ParseCookieInterceptor } from './common/interceptors/parseCookie.interceptor';
 
 
 async function bootstrap() {
@@ -13,6 +15,7 @@ async function bootstrap() {
   app.enableCors({
     origin: ['http://localhost:3000'],
     methods: ['POST', 'DELETE', 'PUT', 'PATCH'],
+    credentials: true
   });
 
 
@@ -20,8 +23,8 @@ async function bootstrap() {
 
   // app.useGlobalFilters();
    app.useGlobalGuards(new AuthGuard());
-  // app.useGlobalInterceptors();
-  // app.useGlobalPipes();
+  app.useGlobalInterceptors(new ParseCookieInterceptor());
+  app.useGlobalPipes(new ValidationPipe());
   // app.useWebSocketAdapter();
   // app.useLogger();
   await app.listen(3001);

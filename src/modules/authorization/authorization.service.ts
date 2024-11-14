@@ -4,8 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities/user/user.entity';
 import { Repository } from 'typeorm';
 import { HTTP_ERROR_DICTIONARY } from '../../common/constants/httpErrorDictionary';
-import { createHmac } from 'crypto';
 import { createJWTSignature } from '../../common/utils/createJWTSignature';
+import { Response } from 'express';
+import { setCookieHandler } from '../../common/utils/setCookieHandler';
 
 @Injectable()
 export class AuthorizationService {
@@ -13,7 +14,6 @@ export class AuthorizationService {
    * Обьявлять переменные нужно здесь а не в конструкторе (при использовании декораторов на подобии @InjectRepository)
    * т.к будет ошибка решения зависимостей "Nest can't resolve dependencies...."
    * */
-  private tokenKey: string;
   private headJwt: { alg: string, typ: string };
   private minuteExp: number;
 
@@ -43,18 +43,23 @@ export class AuthorizationService {
     return { login: user.login, password: user.password, token: `${head}.${body}.${signature}` };
   }
 
-  async signIn(body: IAuthRequest) {
-    console.log('body =>', body);
+  async signIn(body: IAuthRequest, response: Response) {
     const userExist = await this.userRepository.findOne({
       where: {
         login: body.login,
         password: body.password,
       },
+      relations: {
+        role: true
+      }
     });
 
     if (userExist) {
-      return this.buildJwtToken(userExist);
+      setCookieHandler(response, 'role', Buffer.from(JSON.stringify(userExist.role)).toString('base64'))
+      response.setHeader('content-type', 'application/json; charset=utf-8');
+      response.end(JSON.stringify(this.buildJwtToken(userExist)));
+    } else {
+      response.end(JSON.stringify(new HTTP_ERROR_DICTIONARY.UnauthorizedException('Данные о пользователе неккоректны')));
     }
-    return new HTTP_ERROR_DICTIONARY.UnauthorizedException('Данные о пользователе неккоректны');
   }
 }

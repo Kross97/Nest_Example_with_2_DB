@@ -56,6 +56,7 @@ export const UserBlock = () => {
             login: userList.login,
             password: userList.password,
             id: userList.id,
+            role: userList.role
           })}>изменить
           </button>
         </div>)}

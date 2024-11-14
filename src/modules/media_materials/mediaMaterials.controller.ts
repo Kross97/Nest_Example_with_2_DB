@@ -11,6 +11,7 @@ import {
 import { MediaMaterialsService } from './mediaMaterials.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @Controller('media')
 export class MediaMaterialsController {
@@ -29,9 +30,11 @@ export class MediaMaterialsController {
   }
 
   @Get('all')
+  @Roles(['admin'])
   getAll() {
     return this.mediaMaterialsService.getAll();
   }
+
 
   // Первый успешный способ возврата файла из БД (тип данных поля jsonb (post_gre))
   //  с помощью записи файла и его чтения через ReadableStream

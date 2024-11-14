@@ -35,6 +35,7 @@ class FetchService {
       headers: currentHeaders,
       method,
       body: method === 'GET' ? null : dispatcherBody[requestType](body),
+      credentials: 'include'
     });
 
     if(response.ok) {
