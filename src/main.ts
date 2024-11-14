@@ -22,9 +22,9 @@ async function bootstrap() {
   app.use(json({ limit: '50mb' })); // Обязательный мидл-вэйр для работы с JSON в теле запроса
 
   // app.useGlobalFilters();
-   app.useGlobalGuards(new AuthGuard());
-  app.useGlobalInterceptors(new ParseCookieInterceptor());
+  // app.useGlobalInterceptors(new ParseCookieInterceptor());
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalGuards(new AuthGuard());
   // app.useWebSocketAdapter();
   // app.useLogger();
   await app.listen(3001);

@@ -5,15 +5,17 @@ import {
   Post,
   Res,
   UploadedFile,
-  UploadedFiles,
+  UploadedFiles, UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { MediaMaterialsService } from './mediaMaterials.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { RolesGuard } from '../../common/guards/roles.guard';
 
 @Controller('media')
+@UseGuards(RolesGuard)
 export class MediaMaterialsController {
   constructor(private readonly mediaMaterialsService: MediaMaterialsService) {}
 

@@ -15,8 +15,7 @@ export const PhotoBlock = () => {
 
   useEffect(() => {
     FetchAgent.getRequest({ url: '/media/all' }).then((results) => {
-
-      setFiles(results);
+      setFiles(results || []);
     });
   }, []);
 

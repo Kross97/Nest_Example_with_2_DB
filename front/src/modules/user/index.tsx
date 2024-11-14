@@ -14,7 +14,7 @@ export const UserBlock = () => {
 
   useEffect(() => {
     FetchAgent.getRequest({ url: '/user/all' }).then((results) => {
-      setUsers(results);
+      setUsers(results || []);
     });
   }, []);
 
@@ -48,7 +48,7 @@ export const UserBlock = () => {
       </div>
       <button onClick={refreshUsers}>рефреш_логинов</button>
       <div className={cn.listUsers}>
-        {users.map((userList) => <div>
+        {users?.map((userList) => <div>
           <span>{`${userList.name.first} ${userList.name.last}`}</span>
           <button onClick={() => showEditHandler({
             nameFirst: userList.name.first,
