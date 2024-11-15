@@ -4,7 +4,7 @@ import { EventEmitterAgent, EventsDictionary } from '../EventEmitter';
 
 interface IAllContext {
   token: string | null;
-  setToken: (token: string) => void;
+  setToken: (token: string | null) => void;
 }
 
 const AllContext = React.createContext<IAllContext>({
@@ -27,8 +27,8 @@ export const AllProvider = ({ children }: { children: JSX.Element })  => {
     };
   }, []);
 
-  const setTokenHandler = (token: string) => {
-    localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE, token);
+  const setTokenHandler = (token: string | null) => {
+    token ? localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE, token) : localStorage.removeItem(JWT_TOKEN_LOCAL_STORAGE);
     setToken(token);
   }
 

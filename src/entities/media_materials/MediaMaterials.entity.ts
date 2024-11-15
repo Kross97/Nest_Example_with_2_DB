@@ -21,6 +21,7 @@ export class MediaMaterialsEntity {
   @OneToOne(() => MediaBufferEntity, {
     cascade: true,
     onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
   })
   @JoinColumn()
   buffer: MediaBufferEntity;

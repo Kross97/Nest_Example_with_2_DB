@@ -10,6 +10,8 @@ interface IUrlParams {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 }
 
+type ResponseType = Exclude<IUrlParams['responseType'], undefined>;
+
 const dispatcherHeaders = {
   'json': { 'content-type': 'application/json; charset=utf-8' },
   'none': {}
@@ -20,13 +22,18 @@ const dispatcherBody = {
   'none': (body: any) => body,
 }
 
+const dispatcherResponses: Record<string, string> = {
+  'application/json': 'json',
+  'text/html': 'text',
+};
+
 const initAuthHeader = () => ({ 'Authorization': `Bearer ${getTokenJwt()}`})
 
 class FetchService {
 
   private backUrl: string = process.env.BACK_HOST || 'http://localhost:3001';
 
-  async request<T = any>({ url, headers = {}, body = '', method, requestType = 'none', responseType = 'json' }: IUrlParams) {
+  async request<T = any>({ url, headers = {}, body = '', method, requestType = 'none', responseType }: IUrlParams) {
     const urlHost = (this.backUrl + (url.startsWith('/') ? url : `/${url}`));
     const currentHeaders = {...headers, ...dispatcherHeaders[requestType], ...initAuthHeader()};
     const currentUrl = method === 'GET' ? `${urlHost}?${new URLSearchParams(body).toString()}` : urlHost;
@@ -40,8 +47,11 @@ class FetchService {
 
     if(response.ok) {
       const contentLength = Number(response.headers.get('content-length') || 0);
+      const contentType = response.headers.get('content-type');
+      const dispatcherType = contentType ? dispatcherResponses[contentType.split(';')[0]] : null;
+      const currentResponseType = responseType ? responseType : dispatcherType ? dispatcherType : 'text';
       if (contentLength) {
-        return response[responseType]();
+        return response[currentResponseType as ResponseType]();
       }
     } else {
       errorHandler(response);
@@ -58,6 +68,9 @@ class FetchService {
 
   async putRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
     return this.request<T>({ ...data, method: 'PUT' });
+  }
+  async deleteRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
+    return this.request<T>({ ...data, method: 'DELETE' });
   }
 };
 

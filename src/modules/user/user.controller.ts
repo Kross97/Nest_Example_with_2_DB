@@ -7,12 +7,13 @@ import {
   RawBodyRequest,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
-  Delete, Put, UseGuards,
+  Delete, Put, UseGuards, Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Request, NikitaRequest } from 'express';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 
 import { IUserRequest } from './types';
 import { Roles } from '../../common/decorators/roles.decorator';
@@ -48,6 +49,11 @@ export class UserController {
 
   @Post('createWithFile')
   @UseInterceptors(FileInterceptor('file'))
+  // Пример тела:
+  // const formData = new FormData();
+  // formData.set('user', JSON.stringify({ nameFirst: 'test', nameLast: 'test' }))
+  // formData.set('file', new File())
+
   // Метод получения данных user в json и файла фотографии file , все в FormData
   // при использовании FileInterceptor и UploadedFile в теле остается только данные user в виде строки json
   // оно как будто извлекает файл из тела запроса
@@ -59,8 +65,9 @@ export class UserController {
 
   @Get('all')
   @Roles(['admin'])
-  getAllUsers(@Req() request: NikitaRequest) {
-    return this.userService.getUsers();
+  getAllUsers(@Req() request: NikitaRequest, @Query() query: Record<'search', string>) {
+
+    return this.userService.getUsers(query);
   }
 
 
@@ -72,5 +79,12 @@ export class UserController {
   @Put('update/:id')
   updateUser(@Param('id') id: string, @Body() body: IUserRequest) {
     return this.userService.updateUser(id, body);
+  }
+
+  @Put('update/photos/:id')
+  @UseInterceptors(FilesInterceptor('files'))
+  // @Param() - без параметров возвращает обьект значений , @Param('id') - возвращает значение
+  updatePhotos(@UploadedFiles() files: Express.Multer.File[], @Param('id') id: string) {
+    return this.userService.updatePhotos(id, files)
   }
 }
