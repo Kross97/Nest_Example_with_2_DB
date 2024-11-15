@@ -83,7 +83,6 @@ export class UserService {
       login: body.login,
       password: body.password,
       role: body.role,
-      mediaMaterials: body.mediaMaterials,
     });
     return { status: 'Пользователь_обновлен', updatedUSer };
   }
