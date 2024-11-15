@@ -44,6 +44,16 @@ export class AuthorizationService {
   }
 
   async signIn(body: IAuthRequest, response: Response) {
+    response.setHeader('content-type', 'application/json; charset=utf-8');
+
+    if(!body.password || !body.login) {
+      const error = new HTTP_ERROR_DICTIONARY.UnauthorizedException('Не указаны логин или пароль');
+      console.log('error =>', error);
+      response.status(error.getStatus());
+      response.end(JSON.stringify(error.getResponse()));
+      return;
+    }
+
     const userExist = await this.userRepository.findOne({
       where: {
         login: body.login,
@@ -56,10 +66,11 @@ export class AuthorizationService {
 
     if (userExist) {
       setCookieHandler(response, 'role', Buffer.from(JSON.stringify(userExist.role)).toString('base64'))
-      response.setHeader('content-type', 'application/json; charset=utf-8');
       response.end(JSON.stringify(this.buildJwtToken(userExist)));
     } else {
-      response.end(JSON.stringify(new HTTP_ERROR_DICTIONARY.UnauthorizedException('Данные о пользователе неккоректны')));
+      const error = new HTTP_ERROR_DICTIONARY.UnauthorizedException('Данные о пользователе неккоректны');
+      response.status(error.getStatus());
+      response.end(JSON.stringify(error.getResponse()));
     }
   }
 }
