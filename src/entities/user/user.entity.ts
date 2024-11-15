@@ -55,6 +55,7 @@ export class User {
 
   @OneToMany(() => MediaMaterialsEntity, (mediaMaterial) => mediaMaterial.user, {
     onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
     cascade: ['insert'],
     nullable: true,
   })

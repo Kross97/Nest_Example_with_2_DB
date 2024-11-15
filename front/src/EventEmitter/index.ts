@@ -29,7 +29,7 @@ class EventEmitter {
 
   emit(event: TEvents) {
     if(event in this.eventsHandlersDispatcher) {
-      console.log('this.eventsHandlersDispatcher[event]', this.eventsHandlersDispatcher);
+
       this.eventsHandlersDispatcher[event] = this.eventsHandlersDispatcher[event].filter((handlerObj) => {
         handlerObj.handler();
         return !handlerObj.once;

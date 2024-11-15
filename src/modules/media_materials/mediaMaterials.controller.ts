@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Param,
-  Post,
+  Post, Query,
   Res,
   UploadedFile,
   UploadedFiles, UseGuards,
@@ -33,8 +33,8 @@ export class MediaMaterialsController {
 
   @Get('all')
   @Roles(['admin'])
-  getAll() {
-    return this.mediaMaterialsService.getAll();
+  getAll(@Query() query: Record<'search', string>) {
+    return this.mediaMaterialsService.getAll(query);
   }
 
 

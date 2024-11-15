@@ -1,5 +1,5 @@
 import cn from './Photos.module.scss';
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { FetchAgent } from '../../FetchService';
 
 interface IFile {
@@ -11,13 +11,13 @@ interface IFile {
 export const PhotoBlock = () => {
   const [file, setFile] = useState<File | null | undefined>(null);
   const [files, setFiles] = useState<IFile[]>([]);
-
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    FetchAgent.getRequest({ url: '/media/all' }).then((results) => {
+    FetchAgent.getRequest({ url: '/media/all', body: { search } }).then((results) => {
       setFiles(results || []);
     });
-  }, []);
+  }, [search]);
 
 
   const change = (e: SyntheticEvent) => {
@@ -94,6 +94,11 @@ export const PhotoBlock = () => {
     a.click();
   };
 
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+
   return <div className={cn.photosBlock}>
     <h3>Фотографии</h3>
     <div className={cn.column}>
@@ -109,6 +114,10 @@ export const PhotoBlock = () => {
       <input onChange={changeUserPhoto} type={'file'} />
       {file && <button onClick={createUser}>Создать пользователя</button>}
     </div>
+    <label>
+      Поиск
+      <input type={'text'} onChange={changeHandler} />
+    </label>
     <div className={cn.listFiles}>
       {files.map((f: IFile) => {
         return <div>

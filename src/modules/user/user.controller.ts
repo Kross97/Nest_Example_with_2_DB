@@ -7,12 +7,13 @@ import {
   RawBodyRequest,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
-  Delete, Put, UseGuards,
+  Delete, Put, UseGuards, Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Request, NikitaRequest } from 'express';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 
 import { IUserRequest } from './types';
 import { Roles } from '../../common/decorators/roles.decorator';
@@ -59,8 +60,9 @@ export class UserController {
 
   @Get('all')
   @Roles(['admin'])
-  getAllUsers(@Req() request: NikitaRequest) {
-    return this.userService.getUsers();
+  getAllUsers(@Req() request: NikitaRequest, @Query() query: Record<'search', string>) {
+
+    return this.userService.getUsers(query);
   }
 
 
@@ -72,5 +74,12 @@ export class UserController {
   @Put('update/:id')
   updateUser(@Param('id') id: string, @Body() body: IUserRequest) {
     return this.userService.updateUser(id, body);
+  }
+
+  @Put('update/photos/:id')
+  @UseInterceptors(FilesInterceptor('files'))
+  // @Param() - без параметров возвращает обьект значений , @Param('id') - возвращает значение
+  updatePhotos(@UploadedFiles() files: Express.Multer.File[], @Param('id') id: string) {
+    return this.userService.updatePhotos(id, files)
   }
 }

@@ -27,8 +27,10 @@ export class MediaMaterialsService {
     return { status: 'ФАЙЛЫ_СОХРАНЕНЫ', files: filesSaved };
   }
 
-  async getAll() {
-    const allPhotosData = await this.mediaMaterialsRepository.find();
+  async getAll(query: Record<'search', string>) {
+    const allPhotosData = await this.mediaMaterialsRepository.createQueryBuilder('media')
+      .where(`media.name LIKE '%${query.search}%'`)
+      .getMany();
     return allPhotosData
   }
 

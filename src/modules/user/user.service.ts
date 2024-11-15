@@ -8,13 +8,16 @@ import { fileToMediaEntity } from '../../common/utils/fileToMediaEntity';
 import { IUserRequest } from './types';
 import { HTTP_ERROR_DICTIONARY } from '../../common/constants/httpErrorDictionary';
 import { RoleEntity } from '../../entities/user/role.entity';
+import { MediaMaterialsEntity } from '../../entities/media_materials/MediaMaterials.entity';
+import { MediaBufferEntity } from '../../entities/media_materials/MediaBuffer.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Car) private carRepository: Repository<Car>,
-    @InjectRepository(RoleEntity) private roleEntityRepository: Repository<RoleEntity>
+    @InjectRepository(RoleEntity) private roleEntityRepository: Repository<RoleEntity>,
+    @InjectRepository(MediaMaterialsEntity) private mediaMaterialsEntityRepository: Repository<MediaMaterialsEntity>
   ) {
   }
 
@@ -60,13 +63,13 @@ export class UserService {
     return { status: 'ПОЛЬЗОВАТЕЛЬ_С_FORM_DATA_PHOTO_СОЗДАН', user };
   };
 
-  getUsers() {
-    return this.userRepository.find({
-      relations: {
-        rentCars: true, // для получение всех связанных сущностей
-        role: true
-      },
-    });
+  getUsers(query: Record<'search', string>) {
+    return this.userRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .leftJoinAndSelect('user.rentCars', 'rentCars')
+      .where(`user.nameFirst LIKE '%${query.search}%'`)
+      .orWhere(`user.login LIKE '%${query.search}%'`)
+      .orWhere(`user.nameLast LIKE '%${query.search}%'`).getMany();
   }
 
   async deleteUser(id: string) {
@@ -80,11 +83,43 @@ export class UserService {
       login: body.login,
       password: body.password,
       role: body.role,
+      mediaMaterials: body.mediaMaterials,
     });
     return { status: 'Пользователь_обновлен', updatedUSer };
   }
 
   async getAllRoles() {
     return this.roleEntityRepository.find();
+  }
+
+  /**
+   * Сохранять массив новых данных (mediaMaterials) лучше через создание save и привязки их к user
+   * в данном случае обновление на User через this.userRepository.update(id, { mediaMaterials }) не работает
+   * показывает ошибку в добавлении при связи one-to-many
+   * */
+  async updatePhotos(id: string, files: Express.Multer.File[]) {
+    const currentUser = await this.userRepository.findOneBy({ id });
+
+    const mediaMaterials = files.map((file) => {
+      const mediaEntity = new MediaMaterialsEntity();
+      mediaEntity.user = currentUser;
+      mediaEntity.mimeType = file.mimetype;
+      mediaEntity.size = file.size;
+      mediaEntity.name = file.originalname;
+
+      const buffer = new MediaBufferEntity();
+      //@ts-ignore
+      buffer.buffer = file.buffer;
+      mediaEntity.buffer = buffer;
+      return mediaEntity;
+    })
+
+    /**
+     * Вызовет ошибку в добавлении при связи one-to-many
+     * */
+    // await this.userRepository.update(id, { mediaMaterials })
+
+    await this.mediaMaterialsEntityRepository.save(mediaMaterials);
+    return { status: 'ОБНОВЛЕНИЕ_ФОТОГРАФИЙ_ПОЛЬЗОАВТЕЛЯ:' + id }
   }
 }
