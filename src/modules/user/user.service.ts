@@ -96,6 +96,9 @@ export class UserService {
    * (this.mediaMaterialsEntityRepository.save(mediaMaterials)) и привязки их к user
    * в данном случае обновление на User через this.userRepository.update(id, { mediaMaterials }) не работает
    * показывает ошибку в добавлении при связи one-to-many
+   *
+   * Моя заметка: обновление через update работать не будет если связанные сущности
+   * еще не были созданы в БД
    * */
   async updatePhotos(id: string, files: Express.Multer.File[]) {
     const currentUser = await this.userRepository.findOneBy({ id });
