@@ -18,6 +18,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { IUserRequest } from './types';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { RolesGuard } from '../../common/guards/roles.guard';
+import {parsingFormData} from "../../common/utils/parsingFormData";
 
 
 @Controller('user')
@@ -46,6 +47,13 @@ export class UserController {
     return this.userService.createUser(body);
   };
 
+  @Post('createFormData')
+  async createUserFormData(@Body() body: any, @Req() req: Request) {
+    const parsedBody = await parsingFormData(req);
+    console.log("PARSED_BODY", parsedBody);
+    return;
+  }
+
 
   @Post('createWithFile')
   @UseInterceptors(FileInterceptor('file'))
@@ -57,7 +65,7 @@ export class UserController {
   // Метод получения данных user в json и файла фотографии file , все в FormData
   // при использовании FileInterceptor и UploadedFile в теле остается только данные user в виде строки json
   // оно как будто извлекает файл из тела запроса
-  createUserFormData(@UploadedFile() file: Express.Multer.File, @Body() body: { user: string }, @Req() req: RawBodyRequest<Request>) {
+  createUserAndFileFormData(@UploadedFile() file: Express.Multer.File, @Body() body: { user: string }, @Req() req: RawBodyRequest<Request>) {
     // console.log('BODY', body);
     const user = JSON.parse(body.user);
     return this.userService.createUserWithMedia(user, file);

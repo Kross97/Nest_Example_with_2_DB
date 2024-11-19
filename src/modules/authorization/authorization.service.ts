@@ -22,7 +22,7 @@ export class AuthorizationService {
     // private tokenKeyErr: string, // - раскоментить для теста ошибки "Nest can't resolve dependencies...."
   ) {
     this.headJwt = { alg: 'HS256', typ: 'jwt' };
-    this.minuteExp = 2;
+    this.minuteExp = 20;
   }
 
   private buildJwtToken(user: User) {

@@ -5,11 +5,16 @@ import { IUser, IUSerRequest } from './types';
 import { ModalUser } from './ModalUser';
 
 
+type TKeysUser = 'password' | 'login' | 'nameLast' | 'nameFirst';
+
 export const UserBlock = () => {
   const [userEdit, setUserEdit] = useState<IUSerRequest | null>(null);
   const [users, setUsers] = useState<IUser[]>([]);
-  const [data, setUser] = useState<Record<string, string>>({});
+  const [data, setUser] = useState<Record<TKeysUser, string>>({} as Record<TKeysUser, string>);
   const [search, setSearch] = useState('');
+
+  // файл для создания пользователя через formData
+  const [fileUser, setFileUser] = useState<File | null>(null)
 
   const [refetchUsers, setRefetch] = useState(0);
 
@@ -32,6 +37,16 @@ export const UserBlock = () => {
     await FetchAgent.postRequest({ url: '/user/create', body: data, requestType: 'json' });
   };
 
+  const submitUserFormData =  async () => {
+    const formData = new FormData();
+    formData.set('login', data.login);
+    formData.set('password', data.password);
+    // formData.set('nameLast', data.nameLast);
+    // formData.set('nameFirst', data.nameFirst);
+    fileUser && formData.set('file', fileUser)
+    await FetchAgent.postRequest({ url: '/user/createFormData', body: formData });
+  }
+
   const refreshUsers = async () => {
     await FetchAgent.getRequest({ url: '/user/refresh' });
   };
@@ -43,6 +58,13 @@ export const UserBlock = () => {
   const deleteUSer = async (id: number) => {
     await FetchAgent.deleteRequest({ url: `user/delete/${id}`});
     setRefetch(Date.now());
+  };
+
+  const changeUserFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if(file) {
+      setFileUser(file);
+    }
   };
 
   return <>
@@ -62,6 +84,11 @@ export const UserBlock = () => {
         <span>Пароль</span>
         <input onChange={change} type={'password'} name={'password'} value={data.password} />
         <button onClick={submitUser}>Создать пользователя</button>
+        <label>
+          Фото для пользователя (через formData)
+          <input onChange={changeUserFile} type={'file'} />
+        </label>
+        <button onClick={submitUserFormData}>Создать пользователя_(через_formData)</button>
       </div>
       <button onClick={refreshUsers}>рефреш_логинов</button>
       <div className={cn.listUsers}>
