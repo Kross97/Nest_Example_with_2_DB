@@ -6,4 +6,6 @@ export const errorHandler = (response: Response) => {
   } else if(response.status === 403) {
     EventEmitterAgent.emit(EventsDictionary.unAuthorized)
   }
+
+  throw response
 };

@@ -41,8 +41,8 @@ export const UserBlock = () => {
     const formData = new FormData();
     formData.set('login', data.login);
     formData.set('password', data.password);
-    // formData.set('nameLast', data.nameLast);
-    // formData.set('nameFirst', data.nameFirst);
+    formData.set('nameLast', data.nameLast);
+    formData.set('nameFirst', data.nameFirst);
     fileUser && formData.set('file', fileUser)
     await FetchAgent.postRequest({ url: '/user/createFormData', body: formData });
   }
@@ -70,6 +70,8 @@ export const UserBlock = () => {
   return <>
     <ModalUser user={userEdit} showEditHandler={showEditHandler} />
     <div className={cn.userBlock}>
+      <h3>Модуль для работы с пользователями (Сохранение и получение из БД)</h3>
+      <h4>Работа с отношениями один-к-одному, многие-ко-многим, один-ко-многим</h4>
       <div className={cn.formUser}>
         <label>
           Поиск

@@ -59,18 +59,18 @@ class FetchService {
   }
 
   async postRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
-    return this.request<T>({ ...data, method: 'POST' });
+    return await this.request<T>({ ...data, method: 'POST' });
   }
 
   async getRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
-    return this.request<T>({ ...data, method: 'GET' });
+    return await this.request<T>({ ...data, method: 'GET' });
   }
 
   async putRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
-    return this.request<T>({ ...data, method: 'PUT' });
+    return await this.request<T>({ ...data, method: 'PUT' });
   }
   async deleteRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
-    return this.request<T>({ ...data, method: 'DELETE' });
+    return await this.request<T>({ ...data, method: 'DELETE' });
   }
 };
 

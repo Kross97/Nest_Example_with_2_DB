@@ -100,6 +100,7 @@ export const PhotoBlock = () => {
 
 
   return <div className={cn.photosBlock}>
+    <h3>Модуль для работы с медиа-материалами (Сохранение и получение медиа из БД)</h3>
     <h3>Фотографии</h3>
     <div className={cn.column}>
       <span>Закачка медиа</span>

@@ -2,53 +2,59 @@ import { Injectable } from '@nestjs/common';
 import { scrypt, randomFill, createCipheriv, scryptSync, createDecipheriv } from 'crypto';
 
 const algorithm = 'aes-192-cbc';
-const password = 'Password used to generate key';
-
-const encryptedTest = 'a987171b2035ea9f6d7679ff854e484ec0e257aefc7dfa1326c3622389b3b93d'
 
 @Injectable()
 export class CryptoService {
 
-  getCipherExampleFirstData() {
-   return new Promise((resolve) => {
-     scrypt(password, process.env.SECRET_TOKEN_KEY, 24, (err, key) => {
-       if (err) throw err;
+  private async getScrypt(): Promise<Buffer> {
+    return new Promise((resolve, reject) => {
+      scrypt(process.env.DB_MAIN_PASSWORD, process.env.SECRET_TOKEN_KEY, 24, (err, key) => {
+        if(err) reject(err);
+        resolve(key);
+      });
+    })
+  }
 
-       console.log('key =>', key);
-       // Затем мы сгенерируем случайный вектор инициализации
-       randomFill(new Uint8Array(16), (err, iv) => {
-         if (err) throw err;
+  /**
+   * Заполнение буффер массива для крипто-операций
+   * */
+  private async getRandomFill(): Promise<Uint8Array> {
+    return new Promise((resolve, reject) => {
+      randomFill(new Uint8Array(16), (err, vector) => {
+        if(err) reject(err);
+        resolve(vector);
+      })
+    });
+  }
 
-         // Получив ключ и iv, мы можем создать и использовать шифр...
-         const cipher = createCipheriv(algorithm, key, iv);
+  getCipherExampleFirstData(text: string) {
+   return new Promise(async (resolve, reject) => {
+     const scriptKey = await this.getScrypt();
+     const vector = await this.getRandomFill();
 
-         let encrypted = '';
-         cipher.setEncoding('hex');
+     // Получив ключ и iv, мы можем создать и использовать шифр...
+     const cipher = createCipheriv(algorithm, scriptKey, vector);
 
-         cipher.on('data', (chunk) => (encrypted += chunk));
-         cipher.on('end', () => {
-           resolve(encrypted);
-         });
+     let encrypted = '';
+     cipher.setEncoding('hex');
 
-         cipher.write('some clear text data');
-         cipher.end();
-       });
+     cipher.on('data', (chunk) => (encrypted += chunk));
+     cipher.on('end', () => {
+       console.log('encrypted =>', encrypted);
+       resolve(encrypted);
      });
+
+     cipher.write(text);
+     cipher.end();
    })
   }
 
-  async getDecipherExampleFirstData() {
-    return new Promise((resolve) => {
-      const algorithm = 'aes-192-cbc';
-      const password = 'Password used to generate key';
-        // Key length is dependent on the algorithm. In this case for aes192, it is
-        // 24 bytes (192 bits).
-        // Use the async `crypto.scrypt()` instead.
-      const key = scryptSync(password, 'salt', 24);
-        // The IV is usually passed along with the ciphertext.
-      const iv = Buffer.alloc(16, 0); // Initialization vector.
-
-      const decipher = createDecipheriv(algorithm, key, iv);
+  async getDecipherExampleFirstData(text: string) {
+    console.log('text =>', text);
+    return new Promise(async (resolve) => {
+      const scriptKey = await this.getScrypt();
+      const iv = await this.getRandomFill();// Buffer.alloc(16, 0); // Инициализировать вектор массив
+      const decipher = createDecipheriv(algorithm, scriptKey, iv);
 
       let decrypted = '';
       decipher.on('readable', () => {
@@ -58,14 +64,11 @@ export class CryptoService {
         }
       });
       decipher.on('end', () => {
-        console.log('decrypted', decrypted);
-        // Prints: some clear text data
+        console.log('decrypted =>', decrypted);
+        resolve(decrypted);
       });
 
-      // Encrypted with same algorithm, key and iv.
-      const encrypted =
-        'e5f79c5915c02171eec6b212d5520d44480993d7d622a7c4c2da32f6efda0ffa';
-      decipher.write(encrypted, 'hex');
+      decipher.write(text, 'hex');
       decipher.end();
     });
   }

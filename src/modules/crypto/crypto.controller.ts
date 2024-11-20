@@ -1,5 +1,6 @@
 import {
-  Controller, Get,
+  Body,
+  Controller, Get, Post,
 } from '@nestjs/common';
 import { CryptoService } from './crypto.service';
 
@@ -8,14 +9,15 @@ export class CryptoController {
   constructor(private cryptoService: CryptoService) {
   }
 
-  @Get('cipher1')
-  getCipherExampleFirstData() {
-    return this.cryptoService.getCipherExampleFirstData()
+  @Post('cipher1')
+  getCipherExampleFirstData(@Body() text: string) {
+    console.log('text =.', text);
+    return this.cryptoService.getCipherExampleFirstData(text)
   }
 
 
-  @Get('decipher1')
-  getDecipherExampleFirstData() {
-    return this.cryptoService.getDecipherExampleFirstData();
+  @Post('decipher1')
+  getDecipherExampleFirstData(@Body() text: string) {
+    return this.cryptoService.getDecipherExampleFirstData(text);
   }
 }
