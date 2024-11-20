@@ -14,6 +14,11 @@ export class CryptoService {
   constructor() {
   }
 
+  /**
+   * Мои заметки:
+   * 1. создавать экземпляры Cipher и Decipher нужно из одного и того же scriptKey и vector иначе де-шифровка происходит некорректно
+   * 2. инициализировать Cipher и Decipher нужно перед каждой операцией шифрование и де-шифрования иначе запрос падает в долгий "pending"
+   * */
   private async initCiphersInstances() {
       const scriptKey = await this.getScrypt();
       const vector = await this.getRandomFill();
