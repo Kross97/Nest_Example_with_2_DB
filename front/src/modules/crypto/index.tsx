@@ -23,11 +23,11 @@ export const CryptoBlock = () => {
     <h3>Модуль для работы с шифрованием (Crypto node.js)</h3>
     <h4>Шифрование и де-шифрование данных</h4>
     <label className={cn.column}>
-      Данные для шифрования
+      Данные для шифрования <b>(класс Cipher node)</b>
       <input type={'text'} value={search} onChange={(e) => setSearch(e.target.value)} />
     </label>
     <div className={cn.column}>
-      <span>Данные после шифрования</span>
+      <span>Данные после шифрования <b>(класс Decipher node)</b></span>
       <span>{cipherData}</span>
     </div>
     <div className={cn.column}>

@@ -1,11 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { scrypt, randomFill, createCipheriv, scryptSync, createDecipheriv } from 'crypto';
+import { scrypt, randomFill, createCipheriv, scryptSync, createDecipheriv, Cipher, Decipher } from 'crypto';
 
 const algorithm = 'aes-192-cbc';
 
 @Injectable()
 export class CryptoService {
 
+  private cipher: Cipher = null;
+
+  private deCipher: Decipher = null;
+
+
+  constructor() {
+  }
+
+  private async initCiphersInstances() {
+      const scriptKey = await this.getScrypt();
+      const vector = await this.getRandomFill();
+
+      // Получив ключ и iv, мы можем создать и использовать шифр...
+      this.cipher = createCipheriv(algorithm, scriptKey, vector);
+      this.deCipher = createDecipheriv(algorithm, scriptKey, vector);
+  }
+
+
+  /**
+   * scrypt - это функция получения ключа на основе пароля, которая спроектирована так,
+   * чтобы быть дорогой в вычислительном плане и по памяти,
+   * чтобы сделать атаки "грубой силы" невыгодными. (Документация)
+   * */
   private async getScrypt(): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       scrypt(process.env.DB_MAIN_PASSWORD, process.env.SECRET_TOKEN_KEY, 24, (err, key) => {
@@ -27,49 +50,41 @@ export class CryptoService {
     });
   }
 
-  getCipherExampleFirstData(text: string) {
-   return new Promise(async (resolve, reject) => {
-     const scriptKey = await this.getScrypt();
-     const vector = await this.getRandomFill();
-
-     // Получив ключ и iv, мы можем создать и использовать шифр...
-     const cipher = createCipheriv(algorithm, scriptKey, vector);
+  async getCipherExampleFirstData(text: string) {
+    await this.initCiphersInstances();
+    return new Promise(async (resolve, reject) => {
 
      let encrypted = '';
-     cipher.setEncoding('hex');
+     this.cipher.setEncoding('hex');
 
-     cipher.on('data', (chunk) => (encrypted += chunk));
-     cipher.on('end', () => {
+     this.cipher.on('data', (chunk) => (encrypted += chunk));
+     this.cipher.on('end', () => {
        console.log('encrypted =>', encrypted);
        resolve(encrypted);
      });
 
-     cipher.write(text);
-     cipher.end();
+     this.cipher.write(text);
+     this.cipher.end();
    })
   }
 
   async getDecipherExampleFirstData(text: string) {
     console.log('text =>', text);
     return new Promise(async (resolve) => {
-      const scriptKey = await this.getScrypt();
-      const iv = await this.getRandomFill();// Buffer.alloc(16, 0); // Инициализировать вектор массив
-      const decipher = createDecipheriv(algorithm, scriptKey, iv);
-
       let decrypted = '';
-      decipher.on('readable', () => {
+      this.deCipher.on('readable', () => {
         let chunk;
-        while (null !== (chunk = decipher.read())) {
+        while (null !== (chunk = this.deCipher.read())) {
           decrypted += chunk.toString('utf8');
         }
       });
-      decipher.on('end', () => {
+      this.deCipher.on('end', () => {
         console.log('decrypted =>', decrypted);
         resolve(decrypted);
       });
 
-      decipher.write(text, 'hex');
-      decipher.end();
+      this.deCipher.write(text, 'hex');
+      this.deCipher.end();
     });
   }
 }
