@@ -46,7 +46,7 @@ export class User {
 
   @OneToOne(() => Car, (car) => car.user, { cascade: true, nullable: true })
   // { cascade: true} - нужен для рекурсивной вставки элементов
-  @JoinColumn() // выставляет внешний ключ на этой таблице
+  @JoinColumn() // выставляет внешний ключ на этой таблице (carId)
   car: Car;
 
   @ManyToMany(() => RentCarEntity, (rentCar) => rentCar.users, { cascade: true, nullable: true })

@@ -48,7 +48,6 @@ export class AuthorizationService {
 
     if(!body.password || !body.login) {
       const error = new HTTP_ERROR_DICTIONARY.UnauthorizedException('Не указаны логин или пароль');
-      console.log('error =>', error);
       response.status(error.getStatus());
       response.end(JSON.stringify(error.getResponse()));
       return;

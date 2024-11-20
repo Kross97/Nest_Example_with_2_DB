@@ -4,6 +4,7 @@ import { PhotoBlock } from './modules/photos';
 import { UserBlock } from './modules/user';
 import { AuthBlock } from './modules/auth';
 import {  useAllContext } from './provider/AllProvider';
+import { CryptoBlock } from './modules/crypto';
 
 function App() {
   const { token, setToken } = useAllContext();
@@ -18,6 +19,7 @@ function App() {
       <div style={{ display: 'flex'}}>
         {token && <PhotoBlock />}
         {token && <UserBlock />}
+        {token && <CryptoBlock />}
         {!token && <AuthBlock />}
       </div>
     </>

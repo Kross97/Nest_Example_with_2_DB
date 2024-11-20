@@ -1,0 +1,12 @@
+.authBlock {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  background-color: #ab4165;
+  row-gap: 12px;
+  padding: 30px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}

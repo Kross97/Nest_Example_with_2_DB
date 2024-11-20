@@ -7,6 +7,7 @@ import { UserModule } from './modules/user/user.modulee';
 import { RentCarsModule } from './modules/rentCars/rentCars.modulee';
 import { MediaMaterialsModule } from './modules/media_materials/mediaMaterials.modulee';
 import { AuthorizationModule } from './modules/authorization/authorization.modulee';
+import { CryptoModule } from './modules/crypto/crypto.modulee';
 // import dbConfiguration from "./config/db.config";
 
 
@@ -27,7 +28,7 @@ import { AuthorizationModule } from './modules/authorization/authorization.modul
     migrationsTableName: 'kross97_migration_table',
     entities: ['dist/src/entities/**/*.entity.js'],
     migrations: ['dist/src/migrations/*.js'],
-  }), ConfigModule.forRoot(), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule],
+  }), ConfigModule.forRoot(), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule, CryptoModule],
   controllers: [AppController],
   providers: [AppService],
 })
