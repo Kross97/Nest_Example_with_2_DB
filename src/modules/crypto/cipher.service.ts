@@ -4,7 +4,7 @@ import { scrypt, randomFill, createCipheriv, scryptSync, createDecipheriv, Ciphe
 const algorithm = 'aes-192-cbc';
 
 @Injectable()
-export class CryptoService {
+export class CipherService {
 
   private cipher: Cipher = null;
 

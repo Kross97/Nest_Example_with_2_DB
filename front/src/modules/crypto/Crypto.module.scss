@@ -7,6 +7,15 @@
   padding: 20px;
 }
 
+.cryptoSignBlock {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+  border: 1px solid gray;
+  background-color: #5da02e;
+  padding: 20px;
+}
+
 .column {
   display: flex;
   flex-direction: column;

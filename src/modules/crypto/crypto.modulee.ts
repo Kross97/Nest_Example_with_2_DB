@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { CryptoService } from './crypto.service';
+import { CipherService } from './cipher.service';
 import { CryptoController } from './crypto.controller';
+import {SignVerifyService} from "./sign-verify.service";
 
 @Module({
   imports: [],
   controllers: [CryptoController],
-  providers: [CryptoService],
+  providers: [CipherService, SignVerifyService],
 })
 export class CryptoModule {}
