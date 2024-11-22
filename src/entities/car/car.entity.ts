@@ -1,22 +1,16 @@
 import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 
-enum Model {
-  'bmw',
-  'mercedes',
-  'opel',
-  'renault'
-}
 
 @Entity()
 export class Car {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  model: Model;
+  @Column({ default: 'vw'})
+  model: string;
 
-  @Column()
+  @Column({ nullable: true, default: 2024 })
   year: number
 
   @OneToOne(() => User, (user) => user.car)

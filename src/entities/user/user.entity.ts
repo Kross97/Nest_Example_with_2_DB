@@ -34,7 +34,7 @@ export class User {
   @Column({ nullable: true, default: 'test' })
   test: string;
 
-  @Column({ default: 'login' })
+  @Column({ default: 'login', unique: true })
   login: string;
 
   @Column({ default: 'password' })

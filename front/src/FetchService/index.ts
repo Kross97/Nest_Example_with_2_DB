@@ -54,7 +54,7 @@ class FetchService {
         return response[currentResponseType as ResponseType]();
       }
     } else {
-      errorHandler(response);
+      await errorHandler(response);
     }
   }
 

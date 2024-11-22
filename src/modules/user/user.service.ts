@@ -48,12 +48,15 @@ export class UserService {
         login: user.login,
         password: user.password,
         name: { first: user.nameFirst, last: user.nameLast },
+        mediaMaterials: user.mediaMaterials || null,
+        car: user.car || null,
+        role: user.role || null
       });
 
       return { status: 'Пользователь_сохранен', userSaved };
     }
 
-    return new HTTP_ERROR_DICTIONARY.ConflictException('Такой пользователь уже есть в базе');
+    throw new HTTP_ERROR_DICTIONARY.ConflictException('Такой пользователь уже есть в базе').getResponse();
   }
 
   async createUserWithMedia(user: User, file: Express.Multer.File) {
@@ -77,12 +80,40 @@ export class UserService {
     return `ПОЛЬЗОВАТЕЛЬ_С_ИД:${id}_УДАЛЕН`;
   }
 
+
+  /**
+   * Когда при обновлении данных которые уже есть в БД (в данном случае user) нужно прикрепить связанные данные
+   * которых еще нет в БД (в данном случае car) , нужно создать связанные данные через .save()
+   * а затем обновить главную сущность (через user -> update) с прикреплением связанных данных (car)
+   *
+   * -------------------------------------------------
+   *
+   * Если бы всех данных не было бы в БД , то метод .save() на главной сущности рекурсивно бы создал как
+   * главную сущность (user) так и связанные сущности (car)
+   * */
   async updateUser(id: string, body: IUserRequest) {
+    let newCar: Car | null = null;
+    if(body.car) {
+      const currentUser = await this.userRepository.findOneBy({ id });
+      try {
+        newCar = await this.carRepository.save({ user: currentUser, model: body.car.model });
+      } catch (err) {
+        /**
+         * Мой установленный констрэйнт на валидацию названий модели в БД
+         * CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" = 'mercedes')
+         * */
+        if(err.constraint === "model_germany_check") {
+          throw new HTTP_ERROR_DICTIONARY.ConflictException('Не прошло валидацию значения model в БД').getResponse();
+        }
+      }
+    }
+
     const updatedUSer = await this.userRepository.update(id, {
       name: { last: body.nameLast, first: body.nameFirst },
       login: body.login,
       password: body.password,
       role: body.role,
+      car: newCar,
     });
     return { status: 'Пользователь_обновлен', updatedUSer };
   }
@@ -98,7 +129,7 @@ export class UserService {
    * показывает ошибку в добавлении при связи one-to-many
    *
    * Моя заметка: обновление через update работать не будет если связанные сущности
-   * еще не были созданы в БД
+   * еще не были созданы в БД, а главная сущность (в данном случае user) уже созданна в БД
    * */
   async updatePhotos(id: string, files: Express.Multer.File[]) {
     const currentUser = await this.userRepository.findOneBy({ id });

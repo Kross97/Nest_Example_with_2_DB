@@ -45,6 +45,7 @@ export const ModalUser = ({ user, showEditHandler }: IProps) => {
         login: data?.login,
         password: data?.password,
         role: data?.role,
+        ...(data?.car? { car: { model: data.car }} : {}),
       },
       requestType: 'json',
     });
@@ -70,12 +71,17 @@ export const ModalUser = ({ user, showEditHandler }: IProps) => {
       <input onChange={change} type={'text'} name={'nameLast'} value={data?.nameLast} />
       <span>Логин</span>
       <input onChange={change} type={'text'} name={'login'} value={data?.login} />
-      <span>Фотографии</span>
+      <span>Фотографии <b>(отношение один(user)-ко-многим(media))</b></span>
+      <q>Выполняет отдельный запрос на добавление фотографий к пользователю (сразу)</q>
       <input onChange={changeFiles} type={'file'} multiple />
-      <span>Роли</span>
+      <span>Роли <b>(отношение многие(user)-к-одному(role))</b></span>
       <select onChange={changeRole}>
         {roles.map((role) => <option key={role.id} value={role.id}>{role.role}</option>)}
       </select>
+      <span>Марка автомобиля <b>(отношение один(user)-к_одному(car))</b></span>
+      <b>На бэке стоит ограничение на марку:</b>
+      <b>CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" = 'mercedes')</b>
+      <input onChange={change} type={'text'} name={'car'} value={data?.car} />
       <span>Пароль</span>
       <input onChange={change} type={'password'} name={'password'} value={data?.password} />
       <button onClick={submitUser}>Обновить пользователя</button>

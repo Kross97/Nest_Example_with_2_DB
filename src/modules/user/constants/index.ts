@@ -6,7 +6,7 @@ export const MOCK_USER = {
   login: 'login',
   password: 'password',
   test: 'test ', car: {
-    model: 1,
+    model: 'mercedes',
     year: 2001,
   },
 };

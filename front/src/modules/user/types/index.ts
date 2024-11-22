@@ -20,4 +20,5 @@ export interface IUSerRequest {
   password: string;
   role: { id: number; role: string }
   test?: string;
+  car?: string;
 }

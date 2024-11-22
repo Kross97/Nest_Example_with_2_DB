@@ -14,7 +14,7 @@ export const UserBlock = () => {
   const [search, setSearch] = useState('');
 
   // файл для создания пользователя через formData
-  const [fileUser, setFileUser] = useState<File | null>(null)
+  const [filesUser, setFilesUser] = useState<File[]>([])
 
   const [refetchUsers, setRefetch] = useState(0);
 
@@ -43,7 +43,11 @@ export const UserBlock = () => {
     formData.set('password', data.password);
     formData.set('nameLast', data.nameLast);
     formData.set('nameFirst', data.nameFirst);
-    fileUser && formData.set('file', fileUser)
+    if(filesUser.length) {
+      filesUser.forEach((file) => {
+        formData.append('file', file);
+      })
+    }
     await FetchAgent.postRequest({ url: '/user/createFormData', body: formData });
   }
 
@@ -61,9 +65,13 @@ export const UserBlock = () => {
   };
 
   const changeUserFile = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if(file) {
-      setFileUser(file);
+    const files = e.target.files;
+    if(files) {
+      const arr = [];
+      for(let i = 0; i < files.length; i++) {
+        arr.push(files[i]);
+      }
+      setFilesUser(arr);
     }
   };
 
@@ -88,7 +96,7 @@ export const UserBlock = () => {
         <button onClick={submitUser}>Создать пользователя</button>
         <label>
           Фото для пользователя (через formData)
-          <input onChange={changeUserFile} type={'file'} />
+          <input onChange={changeUserFile} type={'file'} multiple />
         </label>
         <button onClick={submitUserFormData}>Создать пользователя_(через_formData)</button>
       </div>

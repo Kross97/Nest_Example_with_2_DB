@@ -5,6 +5,7 @@ export interface IUserRequest {
   nameLast: string;
   password: string;
   login: string;
-  role: {id: number; role: string};
+  role?: {id: number; role: string};
+  car?: { model: string }
   mediaMaterials?: MediaMaterialsEntity[]
 }
