@@ -3,6 +3,7 @@
   flex-direction: column;
   border: 1px solid gray;
   background-color: #7383e5;
+  width: 50%;
 }
 
 .column {
@@ -19,4 +20,5 @@
   background-color: #ca9b9b;
   max-height: 300px;
   overflow: auto;
+  padding: 20px;
 }

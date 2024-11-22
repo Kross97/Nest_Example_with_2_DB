@@ -36,7 +36,7 @@ class FetchService {
   async request<T = any>({ url, headers = {}, body = '', method, requestType = 'none', responseType }: IUrlParams) {
     const urlHost = (this.backUrl + (url.startsWith('/') ? url : `/${url}`));
     const currentHeaders = {...headers, ...dispatcherHeaders[requestType], ...initAuthHeader()};
-    const currentUrl = method === 'GET' ? `${urlHost}?${new URLSearchParams(body).toString()}` : urlHost;
+    const currentUrl = method === 'GET' && body ? `${urlHost}?${new URLSearchParams(body).toString()}` : urlHost;
 
     const response = await fetch(currentUrl, {
       headers: currentHeaders,

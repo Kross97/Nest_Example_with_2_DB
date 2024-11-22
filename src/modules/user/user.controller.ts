@@ -34,6 +34,7 @@ export class UserController {
         return this.userService.createUserMock();
     }
 
+
     @Get('refresh')
     refresh() {
         return this.userService.refreshUserData();
@@ -104,6 +105,11 @@ export class UserController {
     getAllUsers(@Req() request: NikitaRequest, @Query() query: Record<'search', string>) {
 
         return this.userService.getUsers(query);
+    }
+
+    @Get('/:id')
+    getCurrentUser(@Param('id') id: string) {
+        return this.userService.getOneUser(id);
     }
 
 

@@ -20,6 +20,7 @@ export const AllProvider = ({ children }: { children: JSX.Element })  => {
     const unAuthHandler = () => {
       setToken(null);
       localStorage.removeItem(JWT_TOKEN_LOCAL_STORAGE);
+      window.location.reload();
     };
     EventEmitterAgent.add(EventsDictionary.unAuthorized, unAuthHandler);
     return () => {
