@@ -6,6 +6,7 @@ import { Response } from 'express';
  * */
 
 export const setCookieHandler = (response: Response, key: string, value: string) => {
-  response.appendHeader('Set-Cookie', `${key}=${value}; path=/;`);
-  response.appendHeader('Set-Cookie', `testCookie=test-cookie; path=/;`);
+  // console.log('response =>', response,  response.appendHeader)
+  // response.appendHeader('Set-Cookie', `${key}=${value}; path=/;`);
+  // response.appendHeader('Set-Cookie', `testCookie=test-cookie; path=/;`);
 };

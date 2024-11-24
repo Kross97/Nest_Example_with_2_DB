@@ -1,5 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { scrypt, randomFill, createCipheriv, scryptSync, createDecipheriv, Cipher, Decipher } from 'crypto';
+import {
+  scrypt,
+  randomFill,
+  createCipheriv,
+  scryptSync,
+  createDecipheriv,
+  Cipher,
+  Decipher,
+  randomBytes,
+} from 'crypto';
 
 const algorithm = 'aes-192-cbc';
 
@@ -10,8 +19,16 @@ export class CipherService {
 
   private deCipher: Decipher = null;
 
+  private ivPersist: Buffer = null;
+
+  private secretKeyPersist = null;
 
   constructor() {
+    /**
+     * КЛЮЧ ДОЛЖЕН СОСТОЯТЬ из 24 символов
+     * Может быть как строкой так и Buffer
+     * */
+    this.secretKeyPersist = process.env.SECRET_TOKEN_KEY; // Buffer.from(process.env.SECRET_TOKEN_KEY)
   }
 
   /**
@@ -28,6 +45,25 @@ export class CipherService {
       this.deCipher = createDecipheriv(algorithm, scriptKey, vector);
   }
 
+  private createCipherInstance(iv: Buffer) {
+    const cipher =  createCipheriv(algorithm, this.secretKeyPersist, iv); // iv - this.ivPersist Если шифру не требуется вектор инициализации, iv может быть null.
+    cipher.setEncoding('hex');
+    return cipher;
+  }
+
+  // ошибка вылетает если разные секретные ключи
+  //error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt
+  private createDeCipherInstance(iv: Buffer) {
+    return createDecipheriv(algorithm, this.secretKeyPersist, iv); // iv - this.ivPersist Если шифру не требуется вектор инициализации, iv может быть null.
+  }
+
+  // должен быть размеров 16 байтов
+  /**
+   * Если у Cipher и Decipher будут разные векторы инициализации (IV) то шифрование ломается (нужно сохранять одинаковые как секретный ключ, так и векторы)
+   * */
+  private generateInitializationVector() {
+    return randomBytes(16);
+  }
 
   /**
    * scrypt - это функция получения ключа на основе пароля, которая спроектирована так,
@@ -36,6 +72,7 @@ export class CipherService {
    * */
   private async getScrypt(): Promise<Buffer> {
     return new Promise((resolve, reject) => {
+      //  КЛЮЧ для Cipher\Decipher ДОЛЖЕН СОСТОЯТЬ из 24 символов
       scrypt(process.env.DB_MAIN_PASSWORD, process.env.SECRET_TOKEN_KEY, 24, (err, key) => {
         if(err) reject(err);
         resolve(key);
@@ -55,7 +92,7 @@ export class CipherService {
     });
   }
 
-  async getCipherExampleFirstData(text: string) {
+  async getCipherExampleOnce(text: string) {
     await this.initCiphersInstances();
     return new Promise(async (resolve, reject) => {
 
@@ -64,7 +101,6 @@ export class CipherService {
 
      this.cipher.on('data', (chunk) => (encrypted += chunk));
      this.cipher.on('end', () => {
-       console.log('encrypted =>', encrypted);
        resolve(encrypted);
      });
 
@@ -73,8 +109,7 @@ export class CipherService {
    })
   }
 
-  async getDecipherExampleFirstData(text: string) {
-    console.log('text =>', text);
+  async getDecipherExampleOnce(text: string) {
     return new Promise(async (resolve) => {
       let decrypted = '';
       this.deCipher.on('readable', () => {
@@ -84,12 +119,31 @@ export class CipherService {
         }
       });
       this.deCipher.on('end', () => {
-        console.log('decrypted =>', decrypted);
         resolve(decrypted);
       });
 
       this.deCipher.write(text, 'hex');
       this.deCipher.end();
     });
+  }
+
+
+  private IvBufferStringSeparation = '+$+';
+
+  async getCipherExamplePersist(text: string) {
+    const iv = this.generateInitializationVector();
+    const cipher = this.createCipherInstance(iv);
+    let encrypted  = cipher.update(text);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return `${iv.toString('hex')}${this.IvBufferStringSeparation}${encrypted.toString('hex')}`;
+  }
+
+  async getDeCipherExamplePersist(text: string) {
+    const [ivBufferString, currentText] = text.split(this.IvBufferStringSeparation);
+    const decipher = this.createDeCipherInstance(Buffer.from(ivBufferString, 'hex'));
+    const encryptedText = Buffer.from(currentText, 'hex');
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString('utf8');
   }
 }
