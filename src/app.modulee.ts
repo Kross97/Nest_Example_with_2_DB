@@ -8,6 +8,7 @@ import { RentCarsModule } from './modules/rentCars/rentCars.modulee';
 import { MediaMaterialsModule } from './modules/media_materials/mediaMaterials.modulee';
 import { AuthorizationModule } from './modules/authorization/authorization.modulee';
 import { CryptoModule } from './modules/crypto/crypto.modulee';
+import {ChildProcessClusterModule} from "./modules/childProcess_cluster/childProcess_cluster.modulee";
 // import dbConfiguration from "./config/db.config";
 
 
@@ -28,7 +29,7 @@ import { CryptoModule } from './modules/crypto/crypto.modulee';
     migrationsTableName: 'kross97_migration_table',
     entities: ['dist/src/entities/**/*.entity.js'],
     migrations: ['dist/src/migrations/*.js'],
-  }), ConfigModule.forRoot(), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule, CryptoModule],
+  }), ConfigModule.forRoot(), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule, CryptoModule, ChildProcessClusterModule],
   controllers: [AppController],
   providers: [AppService],
 })
