@@ -93,6 +93,8 @@ export class ChildProcessService {
          * передавать сообщения туда и обратно между родительским и дочерним процессами.
          *
          * при этом не имеет потоков stdout (в процессе родителе, а в дочернем процессе stdout пишет данные прямо в консоль)
+         *
+         * процесс обмена сообщении называется общение по IPC (inter-process communication) — обмен данными между потоками одного или разных процессов)
          * */
         const childProcess = await fork(path.resolve(__dirname, './child_process_files/fork_test.js'))
 

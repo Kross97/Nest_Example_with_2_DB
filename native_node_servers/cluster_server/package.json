@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/node": "^20.12.7"
+  },
+  "scripts": {
+    "start": "ts-node cluster_server.ts"
+  }
+}
