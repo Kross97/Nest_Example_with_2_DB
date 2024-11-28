@@ -7,7 +7,7 @@ import { useAllContext } from '../../provider/AllProvider';
 export const AuthBlock = () => {
   const [data, setUser] = useState<Record<string, string>>({});
 
-  const { setToken } = useAllContext();
+  const { setToken, setCurrentPortHandler } = useAllContext();
 
   const change = (e: ChangeEvent<HTMLInputElement>) => {
     const nameField = e.target.name;
@@ -16,8 +16,9 @@ export const AuthBlock = () => {
   };
 
   const signIn = async () => {
-     const tokenData = await FetchAgent.postRequest<{ token: string}>({ url: 'auth/signIn', requestType: 'json', body: data });
+     const tokenData = await FetchAgent.postRequest<{ token: string; currentPort: number}>({ url: 'auth/signIn', requestType: 'json', body: data });
      setToken(tokenData.token);
+     setCurrentPortHandler(tokenData.currentPort);
   };
 
   return <div className={cn.authBlock}>

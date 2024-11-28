@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Response, Request } from 'express';
 import { createJWTSignature } from '../utils/createJWTSignature';
 import { HTTP_ERROR_DICTIONARY } from '../constants/httpErrorDictionary';
+import { AuthorizationService } from '../../modules/authorization/authorization.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -27,6 +28,7 @@ export class AuthGuard implements CanActivate {
     }
     return true
   }
+
 
   canActivate(
     context: ExecutionContext,

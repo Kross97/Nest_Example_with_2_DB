@@ -1,4 +1,4 @@
-import {  getTokenJwt } from '../provider/AllProvider';
+import { getCurrentClusterPort, getTokenJwt } from '../provider/AllProvider';
 import { errorHandler } from './utils/errorHandler';
 
 interface IUrlParams {
@@ -31,10 +31,21 @@ const initAuthHeader = () => ({ 'Authorization': `Bearer ${getTokenJwt()}`})
 
 class FetchService {
 
-  private backUrl: string = process.env.BACK_HOST || 'http://localhost:3001';
+  private mainPort = process.env.MAIN_BACK_PORT || 3001
+  public backPort = getCurrentClusterPort() || this.mainPort;
+  private backUrl: () => string = () => `http://localhost:${this.backPort}`;
 
-  async request<T = any>({ url, headers = {}, body = '', method, requestType = 'none', responseType }: IUrlParams) {
-    const urlHost = (this.backUrl + (url.startsWith('/') ? url : `/${url}`));
+  public setBackPort(newPort: number) {
+    this.backPort = newPort;
+  }
+
+  public rollBackPort = () => {
+    this.backPort = this.mainPort;
+  };
+
+  //@ts-ignore
+  async request<T = any>({ url, headers = {}, body = '', method, requestType = 'none', responseType }: IUrlParams): Promise<T> {
+    const urlHost = (this.backUrl() + (url.startsWith('/') ? url : `/${url}`));
     const currentHeaders = {...headers, ...dispatcherHeaders[requestType], ...initAuthHeader()};
     const currentUrl = method === 'GET' && body ? `${urlHost}?${new URLSearchParams(body).toString()}` : urlHost;
 
@@ -45,6 +56,7 @@ class FetchService {
       credentials: 'include'
     });
 
+    console.log('response =>', response);
     if(response.ok) {
       const contentLength = Number(response.headers.get('content-length') || 0);
       const contentType = response.headers.get('content-type');

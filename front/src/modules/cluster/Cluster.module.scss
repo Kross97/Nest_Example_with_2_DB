@@ -1,0 +1,13 @@
+.clusterBlock {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+  border: 1px solid gray;
+  background-color: #d97436;
+  padding: 20px;
+  width: 100%;
+}
+
+.clusterBlock h2, .clusterBlock h3 {
+  margin: 0;
+}
