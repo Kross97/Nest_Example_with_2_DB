@@ -7,6 +7,7 @@ import { HTTP_ERROR_DICTIONARY } from '../../common/constants/httpErrorDictionar
 import { createJWTSignature } from '../../common/utils/createJWTSignature';
 import { Response } from 'express';
 import { setCookieHandler } from '../../common/utils/setCookieHandler';
+import { ClusterService } from '../childProcess_cluster/cluster.service';
 
 @Injectable()
 export class AuthorizationService {
@@ -19,6 +20,7 @@ export class AuthorizationService {
 
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private clusterService: ClusterService
     // private tokenKeyErr: string, // - раскоментить для теста ошибки "Nest can't resolve dependencies...."
   ) {
     this.headJwt = { alg: 'HS256', typ: 'jwt' };
@@ -40,7 +42,7 @@ export class AuthorizationService {
 
     const signature = createJWTSignature(head, body)
 
-    return { login: user.login, password: user.password, token: `${head}.${body}.${signature}` };
+    return { login: user.login, password: user.password, token: `${head}.${body}.${signature}`, currentPort: this.clusterService.getCurrentPort() };
   }
 
   async signIn(body: IAuthRequest, response: Response) {
@@ -67,7 +69,7 @@ export class AuthorizationService {
       setCookieHandler(response, 'role', Buffer.from(JSON.stringify(userExist.role)).toString('base64'))
       response.end(JSON.stringify(this.buildJwtToken(userExist)));
     } else {
-      const error = new HTTP_ERROR_DICTIONARY.UnauthorizedException('Данные о пользователе неккоректны');
+      const error = new HTTP_ERROR_DICTIONARY.UnauthorizedException('Данные о пользователе неккоректны. Такого пользователя нет в Базе');
       response.status(error.getStatus());
       response.end(JSON.stringify(error.getResponse()));
     }

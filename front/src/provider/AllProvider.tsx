@@ -1,25 +1,37 @@
 import React, {  useContext, useEffect, useState } from 'react';
-import { JWT_TOKEN_LOCAL_STORAGE } from './constants';
 import { EventEmitterAgent, EventsDictionary } from '../EventEmitter';
+import { AUTH_LOCAL_STORAGE_KEYS } from '../common/constants';
+import { FetchAgent } from '../FetchService';
 
 interface IAllContext {
   token: string | null;
   setToken: (token: string | null) => void;
+  setCurrentPortHandler: (newPort?: number) => void;
+  currentPort: string | number | null;
+}
+
+export interface IPortsData {
+  availablePorts: number[];
+  currentPort: number;
 }
 
 const AllContext = React.createContext<IAllContext>({
   token: null,
-  setToken: () => {}
+  setToken: () => {},
+  setCurrentPortHandler: () => {},
+  currentPort: 0,
 });
 
 
 export const AllProvider = ({ children }: { children: JSX.Element })  => {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem(JWT_TOKEN_LOCAL_STORAGE) || null);
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA) || null);
+  const [currentPort, setCurrentPort] = useState<string | number | null>(() => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA) || FetchAgent.backPort);
 
   useEffect(() => {
     const unAuthHandler = () => {
       setToken(null);
-      localStorage.removeItem(JWT_TOKEN_LOCAL_STORAGE);
+      FetchAgent.rollBackPort();
+      Object.values(AUTH_LOCAL_STORAGE_KEYS).forEach((authKey) => localStorage.removeItem(authKey))
       window.location.reload();
     };
     EventEmitterAgent.add(EventsDictionary.unAuthorized, unAuthHandler);
@@ -28,17 +40,30 @@ export const AllProvider = ({ children }: { children: JSX.Element })  => {
     };
   }, []);
 
+  const setCurrentPortHandler = async (newPort?: number) => {
+    let idPort: number = newPort || -1;
+    if(!newPort) {
+      const results = await FetchAgent.getRequest<IPortsData>({ url: '/childProcess_cluster/cluster_ports' });
+      idPort = results.currentPort;
+    }
+    setCurrentPort(idPort);
+    localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA, String(idPort));
+    FetchAgent.setBackPort(idPort);
+  }
+
   const setTokenHandler = (token: string | null) => {
-    token ? localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE, token) : localStorage.removeItem(JWT_TOKEN_LOCAL_STORAGE);
+    token ? localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA, token) : localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA);
     setToken(token);
   }
 
   return <AllContext.Provider
-    value={{ token, setToken: setTokenHandler }}>
+    value={{ token, setToken: setTokenHandler, setCurrentPortHandler,  currentPort }}>
     {children}
   </AllContext.Provider>;
 };
 
-export const getTokenJwt = () => localStorage.getItem(JWT_TOKEN_LOCAL_STORAGE);
+export const getTokenJwt = () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA);
+
+export const getCurrentClusterPort = () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA);
 
 export const useAllContext = () => useContext(AllContext);

@@ -4,6 +4,7 @@ import { ChildProcessClusterController } from './childProcess_cluster.controller
 import {ClusterService} from "./cluster.service";
 
 @Module({
+  exports: [ClusterService], // exports чтобы данные сервисы могли импортироваться (инжектится) и в других модулях импортирующих текущий модуль
   imports: [],
   controllers: [ChildProcessClusterController],
   providers: [ChildProcessService, ClusterService],
