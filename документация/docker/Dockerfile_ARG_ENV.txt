@@ -1,0 +1,36 @@
+ENV <key>=<value> [<key>=<value>...] - Инструкция ENV устанавливает переменную окружения <key>в значение <value>.
+
+ARG <name>[=<default value>] [<name>[=<default value>]...]  - Инструкция ARG определяет переменную,
+которую пользователи могут передавать во время сборки сборщику с помощью docker build
+команды, использующей --build-arg <varname>=<value> флаг.
+
+Пример:
+
+ENV MY_NAME="John Doe"
+ENV MY_DOG=Rex\ The\ Dog
+ENV MY_CAT=fluffy
+
+или
+
+ENV MY_NAME="John Doe" MY_DOG=Rex\ The\ Dog \
+    MY_CAT=fluffy
+
+Использование:
+
+Вы можете использовать инструкцию ARG или ENV для указания переменных, которые доступны инструкции RUN.
+Переменные среды, определенные с помощью ENV инструкции, всегда переопределяют ARG инструкцию с тем же именем.
+
+Отличие ARG от ENV:
+
+1. В отличие от ARG инструкции, ENV значения всегда сохраняются в собранном образе.
+2. ARG переменные используются только на этапе сборки
+
+Пример взаимодействия ARG и ENV:
+
+FROM ubuntu
+ARG CONT_IMG_VER
+ENV CONT_IMG_VER=${CONT_IMG_VER:-v1.0.0} - (переменной ENV присваивается переменная ARG с теме же именем)
+RUN echo $CONT_IMG_VER
+
+запуск командой docker build --build-arg CONT_IMG_VER=v2.0.1 . - передаст переменную ARG (CONT_IMG_VER=v2.0.1)
+из консоли. Итого ENV CONT_IMG_VER будет равнятся v2.0.1
