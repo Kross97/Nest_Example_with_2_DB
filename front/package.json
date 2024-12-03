@@ -20,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docker_img": "docker run -v ./volumeHost:/build --name front_nest -p 8005:3000 0b75eeacaa3d"
   },
   "eslintConfig": {
     "extends": [
