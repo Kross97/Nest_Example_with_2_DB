@@ -1,0 +1,7 @@
+node_modules
+pgdata
+документация
+dist
+front
+nginx
+native_node_servers
