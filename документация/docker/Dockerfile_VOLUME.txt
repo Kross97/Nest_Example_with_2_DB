@@ -6,10 +6,64 @@
 
  Для монтирования с локальным контекстом хоста нужно использовать cli (-v, --volume)
 
- docker run -v $(pwd)/volume:/volume IMAGE
+ docker run -v $pwd/volume:/volume IMAGE
  docker run -v ./volume:/volume IMAGE
 
 =================================================================================================
+
+#2 VOLUME vol1 vol2 (в Dockerfile) - создаст тома Type: 'volume'
+   при docker container inspect CONTAINER будет раздел:
+
+    "Volumes": {
+                   "vol1": {},
+                   "vol2": {}
+               },
+    "Mounts": [     {
+                               "Type": "volume",
+                               "Name": "cc06db4093fb200bbd5df907671af13e2bd4ed0bada313443d19c64c7b28ca91",
+                               "Source": "/var/lib/docker/volumes/cc06db4093fb200bbd5df907671af13e2bd4ed0bada313443d19c64c7b28ca91/_data",
+                               "Destination": "vol1",
+                               "Driver": "local",
+                               "Mode": "",
+                               "RW": true, - разрешить запись\чтение в том (:ro (readonly) в конце -v | --volume поставит флаг на false)
+                               "Propagation": ""
+                           },
+                           {
+                               "Type": "volume",
+                               "Name": "ee89febf970c8f7d7399a04c70cbbbca8608eacc62e53619e1fa8f4318942994",
+                               "Source": "/var/lib/docker/volumes/ee89febf970c8f7d7399a04c70cbbbca8608eacc62e53619e1fa8f4318942994/_data",
+                               "Destination": "vol2",
+                               "Driver": "local",
+                               "Mode": "",
+                               "RW": true, - разрешить запись\чтение в том (:ro (readonly) в конце -v | --volume поставит флаг на false)
+                               "Propagation": ""
+                           }
+                       ]
+
+    # 2.1 при монтировании через CLI (docker run -v) на локальную файловую систему хоста при inspect будет иметь ввывод:
+
+          docker run -v host_volume:container_volume:ro (:ro - запрещает запись в том, только чтение)
+
+     "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "D:\\Practics\\Мой_гит\\Nest_Example_with_2__Db\\Nest_Example_with_2_DB\\front/front_build",
+                    "Destination": "/app/build",
+                    "Mode": "",
+                    "RW": true,  - разрешить запись\чтение в том (:ro (readonly) в конце -v | --volume поставит флаг на false)
+                    "Propagation": "rprivate"
+                },
+                {
+                    "Type": "bind",
+                    "Source": "D:\\Practics\\Мой_гит\\Nest_Example_with_2__Db\\Nest_Example_with_2_DB\\front/inside_volume",
+                    "Destination": "/app/inside_volume",
+                    "Mode": "",
+                    "RW": true, - разрешить запись\чтение в том (:ro (readonly) в конце -v | --volume поставит флаг на false)
+                    "Propagation": "rprivate"
+                }
+                ]
+
+==============================================================================================================================
 
 # Если вы запускаете контейнер с томом, который еще не существует, Docker создает том для вас.
   При дальнейших запусках он будет использовать уже существующий том
@@ -28,6 +82,9 @@
   По этой причине вы не можете смонтировать каталог хоста из Dockerfile.
 
 
-POWER_SHELL: docker run -v $pwd/volumehost4:/build --name test_front4 -p 8008:3000 0b75eeacaa3d
+ПРИМЕР (power_shell):
+POWER_SHELL: docker run -v $pwd/front_build_outside_volume:/app/build -v $pwd/inside_volume:/app/inside_volume --name front_nest -p 8005:3000 IMAGE
+$pwd - для power_shell показывает текущую директорию
+//$(PWD) - для cmd в Windows показывает текущую директорию
 
 https://stackoverflow.com/questions/41935435/understanding-volume-instruction-in-dockerfile - о Dockefile VOLUME
