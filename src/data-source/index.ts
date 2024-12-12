@@ -1,12 +1,16 @@
 import { DataSource } from "typeorm";
 
+// пакет для маппинга переменных с .env в process.env
+// без него process.env.DB_TYPE в конфиге не заработает
+import 'dotenv/config';
+
 const AppDataSource = new DataSource({
-    type: "postgres",
-    host: 'localhost',
-    port: 5430,
-    username: 'postgres_kross97',
-    password: 'postgres_kross97',
-    database: 'postgres_db_keross97',
+    type: process.env.DB_TYPE as 'postgres',
+    host: process.env.DB_MAIN_HOST,
+    port: +process.env.DB_MAIN_PORT,
+    username: process.env.DB_MAIN_USER,
+    password: process.env.DB_MAIN_PASSWORD,
+    database: process.env.DB_MAIN_DATABASE,
     synchronize: false,
     migrationsRun: false,
     migrationsTableName: "kross97_migration_table",
