@@ -15,7 +15,7 @@ function App() {
   const exitHandler = () => {
     EventEmitterAgent.emit(EventsDictionary.unAuthorized);
   };
-
+  console.log('START_IN_DOCKER_COMPOSE =>', process.env.START_IN_DOCKER_COMPOSE);
   return (
     <>
       {token && <button onClick={exitHandler} style={{ position: 'fixed', top: '50px', right: '50px'}}>exit</button>}

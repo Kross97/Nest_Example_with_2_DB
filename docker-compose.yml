@@ -1,4 +1,4 @@
-version: '3.9'
+# version: '3.9'
 
 services:
   postgres:
@@ -11,6 +11,8 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5430:5432"
+    expose:
+      - 5432
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
     deploy:
@@ -34,17 +36,76 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    networks:
+      - nest-network
     restart: unless-stopped
     tty: true
     stdin_open: true
 
-
-  adminer:
-    image: adminer
-    restart: always
+  backend_service:
+    container_name: backend_nest_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      TEST_COMPOSE_BACK_ENV: TEST_COMPOSE_BACK_ENV_SUCCESS
+    volumes:
+    - ./.env:/app/.env:ro # ro - read_only
+    - ./src:/app/src
+    networks:
+       nest-network:
+        aliases:
+            - my_backend_nest
+            - test_backend_nest_alias
+    expose:
+      - 3001
+    restart: unless-stopped
+    working_dir: /app
     ports:
-      - 8080:8080
+    - 3001:3001
 
+  frontend_service:
+    container_name: frontend_container
+    build:
+      context: ./front
+    networks:
+      nest-network:
+        aliases:
+            - my_frontend_nest
+            - test_frontend_net_alias
+    environment:
+       START_IN_DOCKER_COMPOSE: "true"
+       TEST_COMPOSE_FRONT_ENV: TEST_COMPOSE_FRONT_ENV_SUCCESS
+    volumes:
+    - ./front/src:/app/src
+    - ./front/.env:/app/.env
+    expose:
+      - 3000
+    ports:
+    - 3010:3000
+    working_dir: /app
+    restart: unless-stopped
+
+  nginx_front_service:
+    container_name: nginx_front_container
+    image: nginx
+    networks:
+      - nest-network
+    volumes:
+    - ./nginx/certs:/certs
+    - ./nginx/conf/nginx.conf:/conf/nginx.conf
+    - ./front/build:/frontBuild
+    expose:
+      - 443 # https server
+      - 8005 # http server
+      - 8010 # мой прокси
+    ports:
+    - 3020:443
+    - 3021:8005
+
+networks:
+  nest-network:
+    driver: bridge
 
 volumes:
   pgdata:
