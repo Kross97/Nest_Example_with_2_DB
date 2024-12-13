@@ -17,6 +17,7 @@ export const AuthBlock = () => {
 
   const signIn = async () => {
      const tokenData = await FetchAgent.postRequest<{ token: string; currentPort: number}>({ url: 'auth/signIn', requestType: 'json', body: data });
+     console.log('tokenData =>', tokenData)
      setToken(tokenData.token);
      setCurrentPortHandler(tokenData.currentPort);
   };

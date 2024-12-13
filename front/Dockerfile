@@ -176,6 +176,6 @@ RUN ["npm", "run", "build"]
 #           "Propagation": ""
 #          }]
 
-VOLUME vol1 vol2
+# VOLUME vol1 vol2
 EXPOSE 3000
 CMD ["npm", "run", "start"]

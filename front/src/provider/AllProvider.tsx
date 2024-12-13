@@ -32,7 +32,7 @@ export const AllProvider = ({ children }: { children: JSX.Element })  => {
       setToken(null);
       FetchAgent.rollBackPort();
       Object.values(AUTH_LOCAL_STORAGE_KEYS).forEach((authKey) => localStorage.removeItem(authKey))
-      window.location.reload();
+      // window.location.reload();
     };
     EventEmitterAgent.add(EventsDictionary.unAuthorized, unAuthHandler);
     return () => {
@@ -48,7 +48,8 @@ export const AllProvider = ({ children }: { children: JSX.Element })  => {
     }
     setCurrentPort(idPort);
     localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA, String(idPort));
-    FetchAgent.setBackPort(idPort);window.location.reload();
+    FetchAgent.setBackPort(idPort);
+    // window.location.reload();
   }
 
   const setTokenHandler = (token: string | null) => {

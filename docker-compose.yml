@@ -61,8 +61,8 @@ services:
       - 3001
     restart: unless-stopped
     working_dir: /app
-    ports:
-    - 3001:3001
+#    ports:
+#    - 3001:3001
 
   frontend_service:
     container_name: frontend_container
@@ -93,7 +93,7 @@ services:
       - nest-network
     volumes:
     - ./nginx/certs:/certs
-    - ./nginx/conf/nginx.conf:/conf/nginx.conf
+    - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
     - ./front/build:/frontBuild
     expose:
       - 443 # https server
@@ -102,6 +102,7 @@ services:
     ports:
     - 3020:443
     - 3021:8005
+    - 3022:8010
 
 networks:
   nest-network:
