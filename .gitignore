@@ -3,11 +3,8 @@
 **/node_modules
 /build
 
-nginx/frontBuild
 
 # Logs
-logs
-*.log
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
@@ -50,9 +47,10 @@ lerna-debug.log*
 
 # Runtime data
 pids
-*.pid
+
 *.seed
 *.pid.lock
+
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
