@@ -8,3 +8,5 @@
 2024/12/12 22:03:23 [notice] 20804#3064: signal process started
 2024/12/12 22:04:48 [emerg] 20920#5712: CreateDirectory() "D:\Practics\Мой_гит\Nest_Example_with_2__Db\Nest_Example_with_2_DB\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
 2024/12/13 10:11:35 [emerg] 12668#7528: CreateDirectory() "D:\Practics\Мой_гит\Nest_Example_with_2__Db\Nest_Example_with_2_DB\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2024/12/13 10:21:51 [emerg] 5612#20576: host not found in upstream "front" in D:\Practics\Мой_гит\Nest_Example_with_2__Db\Nest_Example_with_2_DB\nginx/conf/nginx.conf:61
+2024/12/13 10:22:11 [notice] 8760#6412: signal process started
