@@ -32,7 +32,7 @@ const initAuthHeader = () => ({ 'Authorization': `Bearer ${getTokenJwt()}`})
 class FetchService {
 
   constructor() {
-    console.log('process.env.MAIN_BACK_PORT 2222ss =>', process.env.MAIN_BACK_PORT);
+    console.log('process.env.MAIN_BACK_PORT SUCCESS =>', process.env.MAIN_BACK_PORT);
   }
   private mainPort = process.env.MAIN_BACK_PORT || 3001;
   public backPort = getCurrentClusterPort() || this.mainPort;
