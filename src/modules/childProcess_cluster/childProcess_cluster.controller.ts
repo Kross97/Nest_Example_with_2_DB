@@ -10,6 +10,17 @@ export class ChildProcessClusterController {
   constructor(private childProcessService: ChildProcessService, private clusterService: ClusterService) {
   }
 
+  //Не работает!
+  @Get('exec_docker')
+  getExecDocker() {
+    return this.childProcessService.enterInDockerContainer();
+  }
+
+  @Get('exec_busy_ports')
+  getBusyPorts(@Res() response) {
+    return this.childProcessService.getBusySystemPorts(response);
+  }
+
   @Get('child_process_exec')
   getChildProcessExec() {
     return this.childProcessService.getChildProcessExec();

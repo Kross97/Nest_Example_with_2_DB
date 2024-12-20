@@ -1,10 +1,36 @@
 import {Injectable} from '@nestjs/common';
-import {exec, fork, spawn} from "child_process";
+import { exec, fork, spawn } from 'child_process';
 import * as path from "path";
+import { Response } from 'express';
 
 @Injectable()
 export class ChildProcessService {
     constructor() {
+    }
+
+    async enterInDockerContainer() {
+      const execProcess = exec('docker exec -it postgres_container bash')
+
+      execProcess.stdout.on('data', (data) => {
+          console.log("DATA", data);
+      })
+    };
+
+    async getBusySystemPorts(response: Response) {
+        const execPortsProcess = exec('netstat');
+
+        execPortsProcess.stdout.on('data', (data) => {
+            try {
+                const ports = data.split(/\s+/)[2].match(/:\d+/)?.[0];
+                response.write(ports ? ports : 'null');
+            } catch {
+                response.write('')
+            }
+        });
+
+        execPortsProcess.stdout.on('end', () => {
+           response.end();
+        });
     }
 
     async getChildProcessExec() {
@@ -78,9 +104,6 @@ export class ChildProcessService {
                 resolve(`'Данные полученные от файла spawn_test.js:', ${Buffer.from(Buffer.concat(spawnData)).toString('utf8')}`)
             });
         });
-
-        // console.log('STDIN', childProcess.stdin);
-        // console.log('SPAWN_ARGS', childProcess.spawnargs);
 
         return Promise.all([promiseFirst, promiseSecond]);
     }

@@ -30,7 +30,7 @@ const dispatcherResponses: Record<string, string> = {
 const initAuthHeader = () => ({ 'Authorization': `Bearer ${getTokenJwt()}`})
 
 class FetchService {
-  private mainPort = process.env.MAIN_BACK_PORT || 3022;
+  private mainPort = process.env.MAIN_BACK_PORT || 3001;
   public backPort = getCurrentClusterPort() || this.mainPort;
   private backUrl: () => string = () => `http://localhost:${this.mainPort}`;
 
@@ -55,17 +55,18 @@ class FetchService {
       credentials: 'include'
     });
 
-    console.log('response =>', response, response.ok);
+
     if(response.ok) {
       const contentLength = Number(response.headers.get('content-length') || 0);
-      console.log('contentLength =>', contentLength);
       const contentType = response.headers.get('content-type');
       const dispatcherType = contentType ? dispatcherResponses[contentType.split(';')[0]] : null;
       const currentResponseType = responseType ? responseType : dispatcherType ? dispatcherType : 'text';
-      if (contentLength) {
-        console.log("REREREWRWER", response.clone()[currentResponseType as ResponseType]())
+      try {
         return response[currentResponseType as ResponseType]();
+      } catch (err) {
+            console.log('Проблема при парсинге тела')
       }
+
     } else {
       await errorHandler(response);
     }

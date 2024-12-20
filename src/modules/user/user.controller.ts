@@ -63,6 +63,7 @@ export class UserController {
         const parsedBody = await parsingFormData<Omit<IUserRequest, 'role' | 'mediaMaterials' | 'car'> & {
             file: { fileName: string; mimeType: string; buffer: Buffer }[]
         }>(req);
+
         return await this.userService.createUser({
             nameFirst: parsedBody.nameFirst,
             nameLast: parsedBody.nameLast,
