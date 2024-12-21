@@ -9,6 +9,7 @@ import {MediaMaterialsModule} from './modules/media_materials/mediaMaterials.mod
 import {AuthorizationModule} from './modules/authorization/authorization.modulee';
 import {CryptoModule} from './modules/crypto/crypto.modulee';
 import {ChildProcessClusterModule} from './modules/childProcess_cluster/childProcess_cluster.modulee';
+import { StreamsModule } from './modules/streams/streams.modulee';
 // import dbConfiguration from "./config/db.config";
 
 // способ 1
@@ -41,7 +42,7 @@ import {ChildProcessClusterModule} from './modules/childProcess_cluster/childPro
     }), ConfigModule.forRoot({
         envFilePath: '.env', // по умолчанию
         cache: true,
-    }), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule, CryptoModule, ChildProcessClusterModule],
+    }), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule, CryptoModule, ChildProcessClusterModule, StreamsModule],
     controllers: [AppController],
     providers: [AppService],
 })
