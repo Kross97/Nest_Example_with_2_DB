@@ -22,6 +22,8 @@ import { Writable } from 'node:stream';
  * */
 
 /**
+ * все методы принимающие callback должны его вызвать пустым или с ошибкой (чтобы поддерживать совместимость и работу)
+ *
  *  _construct(callback) -
  *
  *  _write(chunk, encoding, callback) - callback должен обязательно вызываться (иначе итерации записи не пойдут дальше)

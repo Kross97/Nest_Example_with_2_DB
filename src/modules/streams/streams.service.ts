@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { MyWritableStream } from './custom_streams/Writable_stream';
 import { MyReadableStream } from './custom_streams/Readable_stream';
+import { MyDuplexStream } from './custom_streams/Duplex_stream';
+import { Response } from 'express';
+import { MyTransformStream } from './custom_streams/Transform_stream';
 
 @Injectable()
 export class StreamsService {
@@ -31,6 +34,16 @@ export class StreamsService {
     return readable;
   }
 
+  private buildCustomDuplexStream() {
+    const duplex = new MyDuplexStream(undefined);
+    return duplex;
+  }
+
+
+  private buildCustomTransformStream() {
+    const transform = new MyTransformStream(undefined);
+    return transform;
+  }
 
   /**
    * Данный пример показывает что если использовать два способа чтения в потоке (readable и data)
@@ -76,9 +89,52 @@ export class StreamsService {
       }, 10000)
   }
 
-  getExampleFirst() {
-   const readableStream = this.buildCustomReadableStream();
-   const writableStream = this.buildCustomWritableStream();
-   this.exampleCorkUnCork();
+  private exampleDuplexWork(response: Response) {
+    const duplex = this.buildCustomDuplexStream();
+    response.setHeader('content-type', 'text/plain; charset=utf-8');
+
+    duplex.setEncoding('utf8');
+    const idInterval = setInterval(() => {
+      duplex.write(`рандомнные_данные_за_${new Date().toLocaleString()}`, 'utf8');
+    }, 1000);
+
+    duplex.on('data', (data) => {
+      response.write(data);
+    });
+
+    setTimeout(() => {
+      clearInterval(idInterval);
+      duplex.destroy();
+      response.end('конец', 'utf8');
+    }, 10000);
+  }
+
+  private exampleTransformStream(response: Response) {
+    const transform = this.buildCustomTransformStream();
+
+    response.setHeader('content-type', 'text/plain; charset=utf-8');
+
+    const idInterval = setInterval(() => {
+      transform.write(`данные_для_записи_${Math.random()}`);
+    }, 1000);
+
+
+    transform.on('data', (data) => {
+      console.log("Event чтение", data)
+      response.write(data);
+    });
+
+    setTimeout(() => {
+         clearInterval(idInterval);
+         transform.destroy();
+         response.end('конец записи Transform потока')
+    }, 10000);
+  }
+
+  getExampleFirst(response: Response) {
+   //const readableStream = this.buildCustomReadableStream();
+   //const writableStream = this.buildCustomWritableStream();
+
+   this.exampleTransformStream(response)
   }
 }

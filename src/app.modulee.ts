@@ -19,7 +19,8 @@ import { StreamsModule } from './modules/streams/streams.modulee';
 @Module({
     // чтобы использовать переменные process.env в TypeOrmModule конфигурации нужно делать конфигурацию в forRootAsync useFactory
     // т.к ConfigModule.forRoot считывающий .env идет в этом же модуле (после TypeOrmModule)
-    imports: [TypeOrmModule.forRootAsync({
+    imports: [
+      TypeOrmModule.forRootAsync({
         // imports: [ConfigModule],
         useFactory: (/* configService: ConfigService */) => {
           return {
@@ -39,7 +40,8 @@ import { StreamsModule } from './modules/streams/streams.modulee';
           }
         },
         // inject: [ConfigService],
-    }), ConfigModule.forRoot({
+    }),
+      ConfigModule.forRoot({
         envFilePath: '.env', // по умолчанию
         cache: true,
     }), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule, CryptoModule, ChildProcessClusterModule, StreamsModule],

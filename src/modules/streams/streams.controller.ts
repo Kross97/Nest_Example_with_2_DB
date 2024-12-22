@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
 import { StreamsService } from './streams.service';
 
 
@@ -7,7 +7,7 @@ export class StreamsController {
   constructor(private readonly streamsService: StreamsService) {}
 
   @Get('example_1')
-  async getExampleFirst() {
-   return this.streamsService.getExampleFirst();
+  async getExampleFirst(@Res() response) {
+   return this.streamsService.getExampleFirst(response);
   }
 }
