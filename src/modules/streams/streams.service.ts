@@ -4,6 +4,7 @@ import { MyReadableStream } from './custom_streams/Readable_stream';
 import { MyDuplexStream } from './custom_streams/Duplex_stream';
 import { Response } from 'express';
 import { MyTransformStream } from './custom_streams/Transform_stream';
+import { duplexPair } from 'stream';
 
 @Injectable()
 export class StreamsService {
@@ -134,7 +135,6 @@ export class StreamsService {
   getExampleFirst(response: Response) {
    //const readableStream = this.buildCustomReadableStream();
    //const writableStream = this.buildCustomWritableStream();
-
    this.exampleTransformStream(response)
   }
 }

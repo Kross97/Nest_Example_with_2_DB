@@ -20,6 +20,8 @@ import { Transform, TransformCallback } from 'stream';
  *
  *  1. transform <Function> Реализация метода stream._transform().
     2. flush <Function> Реализация для метода stream._flush().
+
+    можно создавать так new stream.Transform([options]);
  * */
 
 /**
