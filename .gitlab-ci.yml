@@ -9,6 +9,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker -v
     - ls -la
     - whoami
+    - echo ${CI_PROJECT_DIR}
     - cat /etc/*-release
     - docker compose down
     - docker compose build
