@@ -61,8 +61,8 @@ services:
       - 3001
     restart: unless-stopped
     working_dir: /app
-#    ports:
-#    - 3001:3001
+    ports:
+      - 3001:3001
 
   frontend_service:
     container_name: frontend_container
