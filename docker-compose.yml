@@ -49,8 +49,8 @@ services:
       dockerfile: Dockerfile
     environment:
       TEST_COMPOSE_BACK_ENV: TEST_COMPOSE_BACK_ENV_SUCCESS
-#    volumes:
-#    - ./.env:/app/.env:ro # ro - read_only
+    volumes:
+    - ./.env:/app/.env:ro # ro - read_only
 #    - ./src:/app/src
     networks:
        nest-network:
@@ -76,9 +76,9 @@ services:
     environment:
        START_IN_DOCKER_COMPOSE: "true"
        TEST_COMPOSE_FRONT_ENV: TEST_COMPOSE_FRONT_ENV_SUCCESS
-#    volumes:
+    volumes:
 #    - ./front/src:/app/src
-#    - ./front/.env:/app/.env
+    - ./front/.env:/app/.env
     expose:
       - 3000
     ports:
