@@ -102,7 +102,7 @@ export class UserController {
     }
 
     @Get('all')
-    @Roles(['admin'])
+    // @Roles(['admin'])
     getAllUsers(@Req() request: NikitaRequest, @Query() query: Record<'search', string>) {
 
         return this.userService.getUsers(query);
