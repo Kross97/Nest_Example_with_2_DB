@@ -20,13 +20,13 @@ export const getNativeRequest = ({ url, body = '', headers = {}, method = 'GET'}
       });
 
       response.addListener('end', () => {
-        resolve(JSON.parse(Buffer.from(Buffer.concat(allData)).toString('utf8')));
+        const responseBuffer = Buffer.from(Buffer.concat(allData)).toString('utf8');
+        resolve(response.headers['content-type']?.includes('application/json') ? JSON.parse(responseBuffer):  responseBuffer);
       });
     });
 
     if(body) {
       const buffer = Buffer.from(JSON.stringify(body), 'utf8');
-      console.log("BUFFER", buffer);
       usersRequestClient.end(buffer);
     } else {
       usersRequestClient.end();
