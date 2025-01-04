@@ -3,7 +3,12 @@
  * Данный конфиг после вызова команды jest --init
  *
  * Также нужно устанавливать сразу одной командой npm install --save-dev jest typescript ts-jest @types/jest (для корректных версий)
- * (после указать  preset: "ts-jest") для работы typescript вместе с модулями import
+ *
+ *   (данная настройка помогает работать как с ts c правильным import-ом модулей так и с tsx React файлами)
+ *
+ *   transform: {
+        "^.+.tsx?$": ["ts-jest",{}],
+      }
  * */
 export default {
   // All imported modules in your tests should be mocked automatically
@@ -73,14 +78,14 @@ export default {
   // ],
 
   // An array of file extensions your modules use
-  // moduleFileExtensions: [
-  //   "js",
-  //   "jsx",
-  //   "ts",
-  //   "tsx",
-  //   "json",
-  //   "node"
-  // ],
+  moduleFileExtensions: [
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    // "json",
+    // "node"
+  ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
@@ -95,7 +100,9 @@ export default {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-   preset: "ts-jest",
+  // preset: "ts-jest",
+
+  prettierPath: require.resolve('prettier-2'),
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -130,7 +137,7 @@ export default {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
+   setupFilesAfterEnv: ["<rootDir>/tests/setupTests.js"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -174,7 +181,10 @@ export default {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  transform: {
+    "^.+.tsx?$": ["ts-jest",{}],
+    ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform"
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
