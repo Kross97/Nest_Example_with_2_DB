@@ -55,7 +55,6 @@ class FetchService {
       credentials: 'include'
     });
 
-
     if(response.ok) {
       const contentLength = Number(response.headers.get('content-length') || 0);
       const contentType = response.headers.get('content-type');
@@ -76,7 +75,7 @@ class FetchService {
     return await this.request<T>({ ...data, method: 'POST' });
   }
 
-  async getRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
+  async getRequest<T = any>(data: Omit<IUrlParams, 'method' | 'body'>) {
     return await this.request<T>({ ...data, method: 'GET' });
   }
 

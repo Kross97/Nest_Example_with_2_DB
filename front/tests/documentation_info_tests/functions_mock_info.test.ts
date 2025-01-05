@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { forEach } from '../common/testUtils'
 import { fakeModule } from '../common/testUtils/fake/fake_module';
-
+import { TestFakeApi } from '../common/testUtils/fake/use_fake_module';
 //@ts-ignore
 const mockCallback = jest.fn((x) => 42 + x);
 
@@ -10,10 +10,6 @@ const mockCallback = jest.fn((x) => 42 + x);
  * */
 jest.mock('../common/testUtils/fake/fake_module');
 
-/**
- * Но TestFakeApi будет оригинальный потому что импортируется через jest.requireActual
- * */
-const { TestFakeApi } = jest.requireActual('../common/testUtils/fake/fake_module')
 
 /**
  * Проверка обьекта mock для jest.fn

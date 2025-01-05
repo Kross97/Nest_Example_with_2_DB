@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Тестирование снапшотами блока Cluster Тест первый 1`] = `
+<div
+  className="clusterBlock"
+>
+  <h2>
+    Работа с кластеризацией сервера (Cluster модуль node)
+  </h2>
+  <h3>
+    Состояние кластеризации: Включена
+  </h3>
+  <h3>
+    Текущий порт: 0
+  </h3>
+  <div>
+    <span>
+      Доступные порты:
+    </span>
+    <span>
+      <span
+        onClick={[Function]}
+        style={
+          {
+            "color": "blue",
+            "cursor": "pointer",
+          }
+        }
+      >
+        3002
+      </span>
+      <span>
+         , 
+      </span>
+      <span
+        onClick={[Function]}
+        style={
+          {
+            "color": "blue",
+            "cursor": "pointer",
+          }
+        }
+      >
+        3003
+      </span>
+      <span>
+         , 
+      </span>
+    </span>
+  </div>
+  <div>
+    <button
+      disabled={false}
+      onClick={[Function]}
+    >
+      Выбрать новый порт сервера
+    </button>
+    <button
+      disabled={true}
+      onClick={[Function]}
+    >
+      Включить кластеризацию
+    </button>
+    <button
+      disabled={false}
+      onClick={[Function]}
+    >
+      Отключить кластеризацию
+    </button>
+  </div>
+</div>
+`;

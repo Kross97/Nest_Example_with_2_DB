@@ -5,4 +5,7 @@ const localStorageMock = {
   clear: jest.fn(),
 };
 
-global.localStorage = localStorageMock;
+Object.defineProperty(global, 'localStorage', {
+  writable: true,
+  value: localStorageMock,
+})
