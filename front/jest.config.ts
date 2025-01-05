@@ -74,7 +74,9 @@ export default {
 
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
-  //   "node_modules"
+  //   "node_modules",
+  //   "test-utils",
+  //   __dirname
   // ],
 
   // An array of file extensions your modules use
@@ -137,7 +139,7 @@ export default {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-   setupFilesAfterEnv: ["<rootDir>/tests/setupTests.ts"],
+   setupFilesAfterEnv: ["<rootDir>/tests/setup_env/setupTests.ts"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -146,7 +148,7 @@ export default {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // testEnvironment: "jest-environment-node",
+  testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},

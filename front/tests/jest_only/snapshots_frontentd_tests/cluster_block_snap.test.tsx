@@ -17,9 +17,9 @@
 // });
 
 
-import { ClusterBlock } from '../../src/modules/cluster'
+import { ClusterBlock } from '../../../src/modules/cluster'
 import { create, act } from 'react-test-renderer';
-import { FetchAgent } from '../../src/FetchService';
+import { FetchAgent } from '../../../src/FetchService';
 import React from 'react';
 import Mock = jest.Mock;
 

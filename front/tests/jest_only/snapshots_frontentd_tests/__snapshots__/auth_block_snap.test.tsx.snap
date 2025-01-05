@@ -4,7 +4,9 @@ exports[`Тестирование снапшотами блока Auth Снап�
 <div
   className="authBlock"
 >
-  <h3>
+  <h3
+    data-testid="auth_header"
+  >
     Авторизация (после CI\\CD)
   </h3>
   <span>

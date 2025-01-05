@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { FetchAgent } from '../../src/FetchService';
+import { FetchAgent } from '../../../src/FetchService';
 import Mock = jest.Mock;
 
 declare const fetch: Mock;

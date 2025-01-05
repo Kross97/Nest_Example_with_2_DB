@@ -1,3 +1,8 @@
+/**
+ * @jest-environment node
+ */
+
+
 import { getNativeRequest } from '../common/testUtils/native_http_requests';
 import { API_URL } from '../common/constants';
 import { IUser } from '../common/interfaces/api';

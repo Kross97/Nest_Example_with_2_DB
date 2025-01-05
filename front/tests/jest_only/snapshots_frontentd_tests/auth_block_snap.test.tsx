@@ -1,4 +1,5 @@
-import { AuthBlock } from '../../src/modules/auth';
+import React from 'react';
+import { AuthBlock } from '../../../src/modules/auth';
 import renderer from 'react-test-renderer';
 
 describe('Тестирование снапшотами блока Auth', () => {
@@ -9,7 +10,9 @@ describe('Тестирование снапшотами блока Auth', () => 
             <div
               className="authBlock"
             >
-              <h3>
+              <h3
+                data-testid="auth_header"
+              >
                 Авторизация (после CI\\CD)
               </h3>
               <span>

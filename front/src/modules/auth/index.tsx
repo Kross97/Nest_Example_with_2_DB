@@ -22,7 +22,7 @@ export const AuthBlock = () => {
   };
 
   return <div className={cn.authBlock}>
-    <h3>Авторизация (после CI\CD)</h3>
+    <h3 data-testid="auth_header">Авторизация (после CI\CD)</h3>
     <span>Логин</span>
     <input onChange={change} type={'text'} name={'login'} value={data.login}/>
     <span>Пароль</span>

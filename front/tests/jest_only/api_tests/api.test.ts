@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 //@ts-nocheck
 import { getNativeRequest } from '../common/testUtils/native_http_requests';
 import { IRole, IUser } from '../common/interfaces/api';
