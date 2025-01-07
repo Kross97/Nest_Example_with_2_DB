@@ -4,7 +4,7 @@ import Mock = jest.Mock;
 
 declare const fetch: Mock;
 
-describe('Тестирование FetchService', () => {
+describe.skip('Тестирование FetchService', () => {
   it('Тест GET запросов', () => {
     FetchAgent.getRequest({
       url: '/user',

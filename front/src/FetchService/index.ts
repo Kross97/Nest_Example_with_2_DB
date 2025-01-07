@@ -27,11 +27,13 @@ const dispatcherResponses: Record<string, string> = {
   'text/html': 'text',
 };
 
+
 const initAuthHeader = () => ({ 'Authorization': `Bearer ${getTokenJwt()}`})
 
 class FetchService {
   private mainPort = process.env.MAIN_BACK_PORT || 3001;
-  public backPort = getCurrentClusterPort() || this.mainPort;
+
+  public backPort = this.mainPort; // getCurrentClusterPort() || this.mainPort;
   private backUrl: () => string = () => `http://localhost:${this.mainPort}`;
 
   public setBackPort(newPort: number) {
@@ -75,7 +77,7 @@ class FetchService {
     return await this.request<T>({ ...data, method: 'POST' });
   }
 
-  async getRequest<T = any>(data: Omit<IUrlParams, 'method' | 'body'>) {
+  async getRequest<T = any>(data: Omit<IUrlParams, 'method'>) {
     return await this.request<T>({ ...data, method: 'GET' });
   }
 

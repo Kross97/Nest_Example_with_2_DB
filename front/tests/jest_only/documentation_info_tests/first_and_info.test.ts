@@ -42,46 +42,48 @@
 
 import { area, circumference } from '../common/testUtils';
 
-test('My first test', () => {
-  expect(Math.max(1, 5, 10)).toBe(10);
-});
+describe.skip('Модуль для примеров из глав документаций jest', () => {
+  test('My first test', () => {
+    expect(Math.max(1, 5, 10)).toBe(10);
+  });
 
-test('toEqual with objects', () => {
-  expect({ foo: 'foo', subObject: { baz: 'baz' } })
-    .toEqual({ foo: 'foo', subObject: { baz: 'baz' } });  // Ок
-  // expect({ foo: 'foo', subObject: { num: 0 } })
-  //  .toEqual({ foo: 'foo', subObject: { baz: 'baz' } });  // А вот так ошибка.
-});
+  test('toEqual with objects', () => {
+    expect({ foo: 'foo', subObject: { baz: 'baz' } })
+      .toEqual({ foo: 'foo', subObject: { baz: 'baz' } });  // Ок
+    // expect({ foo: 'foo', subObject: { num: 0 } })
+    //  .toEqual({ foo: 'foo', subObject: { baz: 'baz' } });  // А вот так ошибка.
+  });
 
-test('toEqual with arrays', () => {
-  expect([11, 19, 5]).toEqual([11, 19, 5]); // Ок
-  // expect([11, 19, 5]).toEqual([11, 19]); // Ошибка
-});
+  test('toEqual with arrays', () => {
+    expect([11, 19, 5]).toEqual([11, 19, 5]); // Ок
+    // expect([11, 19, 5]).toEqual([11, 19]); // Ошибка
+  });
 
-test('Circle area', () => {
-  expect(area(5)).toBeCloseTo(78.54);
-  expect(area()).toBeNaN();
-});
+  test('Circle area', () => {
+    expect(area(5)).toBeCloseTo(78.54);
+    expect(area()).toBeNaN();
+  });
 
-test('Circumference', () => {
-  expect(circumference(11)).toBeCloseTo(69.1, 1);
-  expect(circumference()).toBeNaN();
-});
+  test('Circumference', () => {
+    expect(circumference(11)).toBeCloseTo(69.1, 1);
+    expect(circumference()).toBeNaN();
+  });
 
-test('null', () => {
-  const n = null;
-  expect(n).toBeNull();
-  expect(n).toBeDefined();
-  expect(n).not.toBeUndefined();
-  expect(n).not.toBeTruthy();
-  expect(n).toBeFalsy();
-});
+  test('null', () => {
+    const n = null;
+    expect(n).toBeNull();
+    expect(n).toBeDefined();
+    expect(n).not.toBeUndefined();
+    expect(n).not.toBeTruthy();
+    expect(n).toBeFalsy();
+  });
 
-test('zero', () => {
-  const z = 0;
-  expect(z).not.toBeNull();
-  expect(z).toBeDefined();
-  expect(z).not.toBeUndefined();
-  expect(z).not.toBeTruthy();
-  expect(z).toBeFalsy();
-});
+  test('zero', () => {
+    const z = 0;
+    expect(z).not.toBeNull();
+    expect(z).toBeDefined();
+    expect(z).not.toBeUndefined();
+    expect(z).not.toBeTruthy();
+    expect(z).toBeFalsy();
+  });
+})

@@ -7,12 +7,7 @@ import { getNativeRequest } from '../common/testUtils/native_http_requests';
 import { IRole, IUser } from '../common/interfaces/api';
 import { API_URL } from '../common/constants';
 
-
-it.only('mock1', () => {
-  expect(true).toBeTruthy()
-});
-
-describe('Тестирование апи от бэка', () => {
+describe.skip('Тестирование апи от бэка', () => {
   let users: IUser[] = [];
   let roles: IRole[] = [];
   beforeAll(async () => {

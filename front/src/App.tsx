@@ -9,13 +9,13 @@ import { ClusterBlock } from './modules/cluster';
 import { CryptoBlock } from './modules/crypto';
 import { EventEmitterAgent, EventsDictionary } from './EventEmitter';
 
-function App() {
+export function FullApp() {
   const { token } = useAllContext();
-
+  console.log('token =>', token);
   const exitHandler = () => {
     EventEmitterAgent.emit(EventsDictionary.unAuthorized);
   };
-  console.log('START_IN_DOCKER_COMPOSE =>', process.env.START_IN_DOCKER_COMPOSE);
+
   return (
     <>
       {token && <button onClick={exitHandler} style={{ position: 'fixed', top: '50px', right: '50px'}}>exit</button>}
@@ -32,4 +32,3 @@ function App() {
   );
 }
 
-export default App;

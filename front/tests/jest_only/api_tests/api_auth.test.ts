@@ -15,11 +15,8 @@ const mockUser = {
   login: 'test_user_login',
 }
 
-it.only('mock2', () => {
-  expect(true).toBeTruthy()
-});
 
-describe('Тестирование апи регистрации', () => {
+describe.skip('Тестирование апи регистрации', () => {
   let user: null | { status: string, userSaved: IUser } = null;
   let userId: number | null = null;
 

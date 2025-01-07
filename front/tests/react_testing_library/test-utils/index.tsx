@@ -1,16 +1,18 @@
+//@ts-nocheck
 import React from 'react'
 import { render } from '@testing-library/react'
+import { AllProvider } from '../../../src/provider/AllProvider';
 
 /**
  * Будущие провайдеры (к примеру Redux, Router и т.д)
  * */
 const AllTheProviders = ({children}) => {
   return (
-    <>
+    <AllProvider>
       <>
         {children}
       </>
-    </>
+    </AllProvider>
   )
 }
 
