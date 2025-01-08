@@ -15,14 +15,22 @@ describe('Тестирование снапшотами блока Auth', () => 
               >
                 Авторизация (после CI\\CD)
               </h3>
-              <span>
+              <label
+                style={
+                  {
+                    "display": "flex",
+                    "flexDirection": "column",
+                  }
+                }
+              >
                 Логин
-              </span>
-              <input
-                name="login"
-                onChange={[Function]}
-                type="text"
-              />
+                <input
+                  name="login"
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                />
+              </label>
               <span>
                 Пароль
               </span>
@@ -30,9 +38,11 @@ describe('Тестирование снапшотами блока Auth', () => 
                 name="password"
                 onChange={[Function]}
                 type="password"
+                value=""
               />
               <button
                 onClick={[Function]}
+                role="button"
               >
                 Войти
               </button>

@@ -23,7 +23,7 @@ const dataDeCipher = 'Данные после де-шифрования (deciphe
 const signData = 'Данные для подписи';
 
 describe('Тестирование модуля Crypto с помощью user-events', () => {
-  test.skip('Тестирование работы Шифрования (Cipher)', async () => {
+  test('Тестирование работы Шифрования (Cipher)', async () => {
     render(<CryptoBlock />)
 
     const inputCipher = screen.getByLabelText(dataForCipher, {
@@ -40,7 +40,7 @@ describe('Тестирование модуля Crypto с помощью user-ev
     expect(screen.getByTestId('cipher-field')).toHaveTextContent(dataCipher);
   });
 
-  test.skip('Тестирование Де-шифрования (Decipher)', async () => {
+  test('Тестирование Де-шифрования (Decipher)', async () => {
     render(<CryptoBlock />)
 
     const input = screen.getByLabelText(dataForDecipher, {
