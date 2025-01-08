@@ -42,7 +42,7 @@
 
 import { area, circumference } from '../common/testUtils';
 
-describe.skip('Модуль для примеров из глав документаций jest', () => {
+describe('Модуль для примеров из глав документаций jest', () => {
   test('My first test', () => {
     expect(Math.max(1, 5, 10)).toBe(10);
   });

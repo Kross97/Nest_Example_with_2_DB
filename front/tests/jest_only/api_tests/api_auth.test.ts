@@ -16,7 +16,7 @@ const mockUser = {
 }
 
 
-describe.skip('Тестирование апи регистрации', () => {
+describe('Тестирование апи регистрации', () => {
   let user: null | { status: string, userSaved: IUser } = null;
   let userId: number | null = null;
 

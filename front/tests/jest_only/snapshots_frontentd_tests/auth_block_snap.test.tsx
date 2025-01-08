@@ -2,7 +2,7 @@ import React from 'react';
 import { AuthBlock } from '../../../src/modules/auth';
 import renderer from 'react-test-renderer';
 
-describe.skip('Тестирование снапшотами блока Auth', () => {
+describe('Тестирование снапшотами блока Auth', () => {
     it('Снапшот компонента модалки ', () => {
         const tree = renderer.create(<AuthBlock></AuthBlock>).toJSON();
         expect(tree).toMatchSnapshot();

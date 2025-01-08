@@ -54,7 +54,7 @@ afterAll(() => {
   reactUseState.mockRestore();
 });
 
-describe.skip('Тестирование снапшотами блока Cluster', () => {
+describe('Тестирование снапшотами блока Cluster', () => {
   test('Тест первый',  () => {
         const mockGetRequest = FetchAgent.getRequest as Mock;
 

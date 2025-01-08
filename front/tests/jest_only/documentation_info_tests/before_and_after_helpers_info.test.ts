@@ -4,9 +4,9 @@ afterAll(() => console.log('1 (глобальный) - afterAll'));
 beforeEach(() => console.log('1 (глобальный) - beforeEach'));
 afterEach(() => console.log('1 (глобальный) - afterEach'));
 
-test.skip('', () => console.log('1 (глобальный) - test'));
+test('', () => console.log('1 (глобальный) - test'));
 
-describe.skip('Тест для демонстрации порядка вывода хелперов beforeAll, afterAll, beforeEach, afterEach', () => {
+describe('Тест для демонстрации порядка вывода хелперов beforeAll, afterAll, beforeEach, afterEach', () => {
   beforeAll(() => console.log('2 (внутренний) - beforeAll'));
   afterAll(() => console.log('2 (внутренний) - afterAll'));
   beforeEach(() => console.log('2 (внутренний) - beforeEach'));
