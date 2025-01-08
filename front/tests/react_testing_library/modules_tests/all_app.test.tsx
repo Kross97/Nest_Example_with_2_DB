@@ -8,7 +8,7 @@ import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 const headerClusterBlock = 'Работа с кластеризацией сервера (Cluster модуль node)'
 
 beforeAll(() => {
-   console.log('all', FetchAgent.postRequest);
+   // console.log('all', FetchAgent.postRequest);
 });
 
 test('Тестирование авторизации, смена страниц', async () => {
@@ -66,7 +66,7 @@ test('Тестирование авторизации, смена страниц
    let i = 1;
    await waitFor(() => {
        const authHeader = screen.queryByTestId('auth_header');
-       console.log(`попытки waitFor ${i++}`);
+       // console.log(`попытки waitFor ${i++}`);
        if(!authHeader) {
           expect(authHeader).not.toBeInTheDocument();
        } else {

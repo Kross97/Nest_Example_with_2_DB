@@ -27,7 +27,6 @@ export const AllProvider = ({ children }: { children: JSX.Element })  => {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA) || null);
   const [currentPort, setCurrentPort] = useState<string | number | null>(() => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA) || FetchAgent.backPort);
 
-  console.log("Provider token", token);
   useEffect(() => {
     const unAuthHandler = () => {
       setToken(null);
@@ -54,7 +53,6 @@ export const AllProvider = ({ children }: { children: JSX.Element })  => {
   }
 
   const setTokenHandler = (token: string | null) => {
-    console.log('provider', token);
     token ? localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA, token) : localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA);
     setToken(token);
   }

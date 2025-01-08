@@ -2,6 +2,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { AllProvider } from '../../../src/provider/AllProvider';
+import '@testing-library/jest-dom';
 
 /**
  * Будущие провайдеры (к примеру Redux, Router и т.д)

@@ -21,14 +21,13 @@ export const AuthBlock = () => {
       requestType: 'json',
       body: data,
     });
-    console.log('tokenData =>', tokenData);
     setToken(tokenData.token);
     setCurrentPortHandler(tokenData.currentPort);
   };
 
   return <div className={cn.authBlock}>
     <h3 data-testid='auth_header'>Авторизация (после CI\CD)</h3>
-    <label>
+    <label style={{ display: 'flex', flexDirection: 'column'}}>
       Логин
       <input onChange={change} type={'text'} name={'login'} value={data.login} />
     </label>

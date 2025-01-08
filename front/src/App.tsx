@@ -11,7 +11,7 @@ import { EventEmitterAgent, EventsDictionary } from './EventEmitter';
 
 export function FullApp() {
   const { token } = useAllContext();
-  console.log('token =>', token);
+
   const exitHandler = () => {
     EventEmitterAgent.emit(EventsDictionary.unAuthorized);
   };

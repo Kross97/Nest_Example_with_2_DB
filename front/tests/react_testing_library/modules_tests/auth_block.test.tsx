@@ -28,7 +28,7 @@ import Mock = jest.Mock;
 
 
 beforeAll(() => {
-  console.log('auth', FetchAgent.postRequest);
+  // console.log('auth', FetchAgent.postRequest);
 });
 
 test('Тестирование Auth модуля чер React_test_library', async () => {
