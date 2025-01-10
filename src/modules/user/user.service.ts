@@ -90,7 +90,7 @@ export class UserService {
             .leftJoinAndSelect('user.rentCars', 'rentCars')
             .where(`user.nameFirst LIKE '%${query.search || ''}%'`)
             .orWhere(`user.login LIKE '%${query.search || ''}%'`)
-            .orWhere(`user.nameLast LIKE '%${query.search || ''}%'`).getMany();
+            .orWhere(`user.nameLast LIKE '%${query.search || ''}%'`).cache(10_000).getMany();
     }
 
     async deleteUser(id: string) {
@@ -137,7 +137,7 @@ export class UserService {
     }
 
     async getAllRoles() {
-        return this.roleEntityRepository.find();
+        return this.roleEntityRepository.find({ cache: 10_000 });
     }
 
     /**

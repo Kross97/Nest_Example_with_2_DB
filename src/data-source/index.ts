@@ -16,6 +16,18 @@ const AppDataSource = new DataSource({
     migrationsTableName: "kross97_migration_table",
     entities: ['dist/src/entities/**/*.entity.js'],
     migrations: ['dist/src/migrations/*.js'],
+    cache: {
+        // настройка для простого кэша в таблице в БД
+        // type: "database",
+        // tableName: "configurable-table-query-result-cache,
+        type: 'redis',
+        options: {
+            socket: {
+                host: 'localhost', // host берется из docker-compose
+                port: 6379
+            },
+        }
+    },
 })
 
 AppDataSource.initialize()
