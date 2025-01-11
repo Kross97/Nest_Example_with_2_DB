@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Тестирование модуля Crypto с помощью user-events Тестирование Снапшотом 1`] = `
+<div>
+  <div
+    style="display: flex; column-gap: 10px; white-space: wrap; word-break: break-all;"
+  >
+    <div
+      class="cryptoBlock"
+    >
+      <h3>
+        Модуль для работы с шифрованием (Crypto node.js)
+      </h3>
+      <h4>
+        Шифрование и де-шифрование данных
+      </h4>
+      <div
+        class="blockInfo"
+      >
+        <span>
+          <b>
+            1. "+$+"
+          </b>
+           - в шифрованном тексте является разделителем между вектором инициализации 
+          <b>
+            (iv)
+          </b>
+           и шифруемыми данными
+        </span>
+        <span>
+          <b>
+            2. iv (вектор инициализации)
+          </b>
+           - участвует в шифровании данных, при каждом новом шифровании 
+          <b>
+            (Cipher)
+          </b>
+           возвращаемый шифр будет отличаться т.к создается новый экземпляр iv (вектора инициализации)
+        </span>
+        <span>
+          <b>
+            3. iv берется из шифра по разделителю
+          </b>
+           - при каждой де-шифрации, что гарантирует корректную работу де-шифрации 
+          <b>
+            (Decipher)
+          </b>
+        </span>
+      </div>
+      <label
+        class="column"
+      >
+        Данные для шифрования 
+        <b>
+          (класс Cipher node)
+        </b>
+        <input
+          type="text"
+          value="Данные для шифрования"
+        />
+      </label>
+      <div
+        class="column"
+      >
+        <span>
+          Данные после шифрования 
+          <b>
+            (класс Decipher node)
+          </b>
+        </span>
+        <span
+          data-testid="cipher-field"
+        >
+          Данные для де-шифрования
+        </span>
+      </div>
+      <label
+        class="column"
+      >
+        Данные для де-шифрования (hex - строка) 
+        <b>
+          (класс Decipher node)
+        </b>
+        <input
+          type="text"
+          value="Данные для де-шифрования"
+        />
+      </label>
+      <div
+        class="column"
+      >
+        <span>
+          Данные после де-шифрования
+        </span>
+        <span
+          data-testid="decipher-field"
+        />
+      </div>
+      <button
+        data-testid="cipher-button"
+      >
+        шифровать
+      </button>
+      <button
+        data-testid="decipher-button"
+      >
+        де-шифровать
+      </button>
+    </div>
+    <div
+      class="cryptoSignBlock"
+    >
+      <h3>
+        Модуль для работы с подписями (Sign, Verify node.js)
+      </h3>
+      <h4>
+        Подпись и проверка данных
+      </h4>
+      <label
+        class="column"
+      >
+        Данные для подписи 
+        <b>
+          (класс Sign, Verify node)
+        </b>
+        <input
+          type="text"
+          value="Данные для подписи"
+        />
+      </label>
+      <button>
+        тест подписи
+      </button>
+    </div>
+  </div>
+</div>
+`;

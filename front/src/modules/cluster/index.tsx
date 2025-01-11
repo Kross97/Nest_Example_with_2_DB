@@ -41,10 +41,10 @@ export const ClusterBlock = () => {
     <h3>{`Текущий порт: ${currentPort}`}</h3>
     <div>
       <span>Доступные порты:</span>
-      <span>{currentPorts.map((currentPort) => <>
+      <span>{currentPorts.map((currentPort) => <React.Fragment key={currentPort}>
         <span style={{ cursor: 'pointer', color: 'blue' }} onClick={() => setCurrentPortHandler(currentPort)}>{currentPort}</span>
         <span>{` , `}</span>
-      </>)}
+      </React.Fragment>)}
       </span>
     </div>
     <div>

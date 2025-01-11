@@ -30,6 +30,7 @@ export class MediaMaterialsService {
   async getAll(query: Record<'search', string>) {
     const allPhotosData = await this.mediaMaterialsRepository.createQueryBuilder('media')
       .where(`media.name LIKE '%${query.search}%'`)
+      .cache(10_000)
       .getMany();
     return allPhotosData
   }

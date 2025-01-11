@@ -1,0 +1,70 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  GLOB_VARIABLE: 'glob_variable' # глобальные переменные для job's (${VARIABLE} - вызов)
+
+# .tests:  # специально пример для extends
+#   stage: test
+#   image: ruby:3.0
+
+# info_comment_job:
+#    stage: .pre  # .pre - запустить перед всеми job's
+#    stage: .post # .post - запустить после всех job's
+
+# Если конвейер содержит только задания на этапах .pre или .post, он не запускается.
+#    extends: .tests  # extends - Используйте extends для повторного использования разделов конфигурации.
+
+#    Используйте services для указания дополнительных образов Docker, которые требуются вашим скриптам для успешного выполнения.
+#    services:
+#      - name: my-postgres:11.7
+#        alias: db-postgres
+#        entrypoint: [ "/usr/local/bin/db-postgres" ]
+#        command: [ "start" ]
+
+build-job:
+  stage: build
+  variables:
+    LOCAL_JOB_VARIABLE: 'local_job_variable' # локальные переменные для job's (${VARIABLE} - вызов)
+  script:
+    - docker -v
+    - ls -la
+    - whoami
+    - echo ${LOCAL_JOB_VARIABLE}
+    - echo ${CI_PROJECT_DIR} # переменная которая прокидывается по умол. гитлаб (показывает директорию проекта)
+    - cat /etc/*-release
+    - docker compose down
+    - docker compose build
+  only:
+    - main
+  manual_confirmation: 'Вы уверены в запуске?' # определения пользовательского сообщения подтверждения для ручных заданий. (when: manual)
+  when: manual # when - настройка условий запуска заданий (по умолчанию — when: on_success)
+               # on_success -  Запускать задание только в том случае, если ни одно задание на более ранних этапах не завершилось неудачей.
+               # manual - запускать этот job вручную
+
+unit-test-artifacts:
+  stage: test
+  script:
+    - mkdir build
+    - touch /build/test.sh
+    - echo 'echo "Start artifacts"' >> /build/test.sh
+    - cat /build/test.sh
+
+  artifacts: # артефакты сборки , затем можно скачать в гитлаб (сюда попадут данные из script выще)
+    paths:
+      - build/
+  allow_failure: true # разрешает падать job (не останавливая pipeline)
+
+
+deploy-job:
+  stage: deploy
+  environment: production
+  script:
+    - ls -la
+    - docker compose up -d
+  only:
+    - main
+  manual_confirmation: 'Вы уверены в запуске?' # определения пользовательского сообщения подтверждения для ручных заданий. (when: manual)
+  when: manual

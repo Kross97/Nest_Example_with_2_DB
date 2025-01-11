@@ -51,6 +51,10 @@ export class UserService {
 
 
     async createUser(user: IUserRequest) {
+        if(!user.login || !user.password || !user.nameFirst || !user.nameLast) {
+            throw new HTTP_ERROR_DICTIONARY.ConflictException(`Обязательный данные у пользователя отсуствуют, данные: ${JSON.stringify(user)}`).getResponse();
+        }
+
         const userExist = await this.userRepository.count({
             where: {
                 login: user.login,
@@ -67,7 +71,7 @@ export class UserService {
                 role: user.role || null
             });
 
-            return {status: 'Пользователь_сохранен', userSaved};
+            return { status: 'Пользователь_сохранен', userSaved };
         }
 
         throw new HTTP_ERROR_DICTIONARY.ConflictException('Такой пользователь уже есть в базе').getResponse();
@@ -84,9 +88,9 @@ export class UserService {
         return this.userRepository.createQueryBuilder('user')
             .leftJoinAndSelect('user.role', 'role')
             .leftJoinAndSelect('user.rentCars', 'rentCars')
-            .where(`user.nameFirst LIKE '%${query.search}%'`)
-            .orWhere(`user.login LIKE '%${query.search}%'`)
-            .orWhere(`user.nameLast LIKE '%${query.search}%'`).getMany();
+            .where(`user.nameFirst LIKE '%${query.search || ''}%'`)
+            .orWhere(`user.login LIKE '%${query.search || ''}%'`)
+            .orWhere(`user.nameLast LIKE '%${query.search || ''}%'`).cache(10_000).getMany();
     }
 
     async deleteUser(id: string) {
@@ -133,7 +137,7 @@ export class UserService {
     }
 
     async getAllRoles() {
-        return this.roleEntityRepository.find();
+        return this.roleEntityRepository.find({ cache: 10_000 });
     }
 
     /**

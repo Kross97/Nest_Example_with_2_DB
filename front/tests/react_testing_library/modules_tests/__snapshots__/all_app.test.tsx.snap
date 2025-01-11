@@ -1,0 +1,337 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Тестирование авторизации, смена страниц 1`] = `
+<body>
+  <div>
+    <button
+      style="position: fixed; top: 50px; right: 50px;"
+    >
+      exit
+    </button>
+    <div
+      style="display: flex; flex-wrap: wrap;"
+    >
+      <div
+        class="clusterBlock"
+      >
+        <h2>
+          Работа с кластеризацией сервера (Cluster модуль node)
+        </h2>
+        <h3>
+          Состояние кластеризации: Включена
+        </h3>
+        <h3>
+          Текущий порт: 3001
+        </h3>
+        <div>
+          <span>
+            Доступные порты:
+          </span>
+          <span />
+        </div>
+        <div>
+          <button>
+            Выбрать новый порт сервера
+          </button>
+          <button
+            disabled=""
+          >
+            Включить кластеризацию
+          </button>
+          <button>
+            Отключить кластеризацию
+          </button>
+        </div>
+      </div>
+      <div
+        style="display: flex;"
+      >
+        <div
+          class="photosBlock"
+        >
+          <h3>
+            Модуль для работы с медиа-материалами (Сохранение и получение медиа из БД)
+          </h3>
+          <h3>
+            Фотографии
+          </h3>
+          <div
+            class="column"
+          >
+            <span>
+              Закачка медиа
+            </span>
+            <input
+              type="file"
+            />
+          </div>
+          <div
+            class="column"
+          >
+            <span>
+              Закачка медиа (множественное)
+            </span>
+            <input
+              multiple=""
+              type="file"
+            />
+          </div>
+          <div
+            class="column"
+            style="align-items: flex-start;"
+          >
+            <span>
+              Установка пользователя вместе с фотографией
+            </span>
+            <input
+              type="file"
+            />
+          </div>
+          <label
+            style="display: flex; flex-direction: column; row-gap: 10px;"
+          >
+            <b>
+              Поиск
+            </b>
+            <input
+              type="text"
+            />
+          </label>
+          <div
+            class="listFiles"
+          />
+        </div>
+        <div
+          class="userBlock"
+        >
+          <button
+            style="margin-bottom: 10px;"
+          >
+            рефреш_логинов
+          </button>
+          <div
+            style="padding: 10px; border: 2px solid black; margin-bottom: 14px;"
+          >
+            <h3>
+              Модуль для работы с пользователями (Сохранение и получение из БД)
+            </h3>
+            <h4>
+              Работа с отношениями 
+              <br />
+              1.один-к-одному, 
+              <br />
+              2.многие-ко-многим, 
+              <br />
+              3.один-ко-многим
+            </h4>
+            <div
+              class="formUser"
+            >
+              <span>
+                Name
+              </span>
+              <input
+                name="nameFirst"
+                type="text"
+                value=""
+              />
+              <span>
+                LastName
+              </span>
+              <input
+                name="nameLast"
+                type="text"
+                value=""
+              />
+              <span>
+                Логин
+              </span>
+              <input
+                name="login"
+                type="text"
+                value=""
+              />
+              <span>
+                Пароль
+              </span>
+              <input
+                name="password"
+                type="password"
+                value=""
+              />
+              <div
+                style="border: 1px solid black; padding: 10px; display: flex; flex-direction: column; align-items: center; row-gap: 16px; text-align: center; margin-bottom: 14px;"
+              >
+                <b>
+                  Данный блок задействует создание 
+                  <u>
+                    user
+                  </u>
+                   полностью через FormData 
+                  <u>
+                    (и его кастомный парсинг на бэке)
+                  </u>
+                </b>
+                <b>
+                  вместе с множеством прикрепляемых фотографтий
+                </b>
+                <label>
+                  Фото для пользователя (через formData)
+                  <input
+                    multiple=""
+                    type="file"
+                  />
+                </label>
+                <button>
+                  Создать пользователя_(через_formData)
+                </button>
+              </div>
+              <button>
+                Создать пользователя_(через_json)
+              </button>
+            </div>
+          </div>
+          <label>
+            Поиск
+            <input
+              type="text"
+            />
+          </label>
+          <div
+            class="listUsers"
+          />
+        </div>
+      </div>
+      <div
+        style="display: flex; column-gap: 10px; white-space: wrap; word-break: break-all;"
+      >
+        <div
+          class="cryptoBlock"
+        >
+          <h3>
+            Модуль для работы с шифрованием (Crypto node.js)
+          </h3>
+          <h4>
+            Шифрование и де-шифрование данных
+          </h4>
+          <div
+            class="blockInfo"
+          >
+            <span>
+              <b>
+                1. "+$+"
+              </b>
+               - в шифрованном тексте является разделителем между вектором инициализации 
+              <b>
+                (iv)
+              </b>
+               и шифруемыми данными
+            </span>
+            <span>
+              <b>
+                2. iv (вектор инициализации)
+              </b>
+               - участвует в шифровании данных, при каждом новом шифровании 
+              <b>
+                (Cipher)
+              </b>
+               возвращаемый шифр будет отличаться т.к создается новый экземпляр iv (вектора инициализации)
+            </span>
+            <span>
+              <b>
+                3. iv берется из шифра по разделителю
+              </b>
+               - при каждой де-шифрации, что гарантирует корректную работу де-шифрации 
+              <b>
+                (Decipher)
+              </b>
+            </span>
+          </div>
+          <label
+            class="column"
+          >
+            Данные для шифрования 
+            <b>
+              (класс Cipher node)
+            </b>
+            <input
+              type="text"
+              value=""
+            />
+          </label>
+          <div
+            class="column"
+          >
+            <span>
+              Данные после шифрования 
+              <b>
+                (класс Decipher node)
+              </b>
+            </span>
+            <span
+              data-testid="cipher-field"
+            />
+          </div>
+          <label
+            class="column"
+          >
+            Данные для де-шифрования (hex - строка) 
+            <b>
+              (класс Decipher node)
+            </b>
+            <input
+              type="text"
+              value=""
+            />
+          </label>
+          <div
+            class="column"
+          >
+            <span>
+              Данные после де-шифрования
+            </span>
+            <span
+              data-testid="decipher-field"
+            />
+          </div>
+          <button
+            data-testid="cipher-button"
+          >
+            шифровать
+          </button>
+          <button
+            data-testid="decipher-button"
+          >
+            де-шифровать
+          </button>
+        </div>
+        <div
+          class="cryptoSignBlock"
+        >
+          <h3>
+            Модуль для работы с подписями (Sign, Verify node.js)
+          </h3>
+          <h4>
+            Подпись и проверка данных
+          </h4>
+          <label
+            class="column"
+          >
+            Данные для подписи 
+            <b>
+              (класс Sign, Verify node)
+            </b>
+            <input
+              type="text"
+              value=""
+            />
+          </label>
+          <button>
+            тест подписи
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

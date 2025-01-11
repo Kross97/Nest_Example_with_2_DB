@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import { FullApp } from './App';
 import { AllProvider } from './provider/AllProvider';
 import './FetchService/index';
 
@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AllProvider>
-      <App />
+      <FullApp />
     </AllProvider>
   </React.StrictMode>
 );

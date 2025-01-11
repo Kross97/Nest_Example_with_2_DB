@@ -14,7 +14,7 @@ export const PhotoBlock = () => {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        FetchAgent.getRequest({url: '/media/all', body: {search}}).then((results) => {
+        FetchAgent.getRequest({url: '/media/all', body: { search }}).then((results) => {
             setFiles(results || []);
         });
     }, [search]);

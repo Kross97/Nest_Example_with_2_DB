@@ -43,7 +43,7 @@ export const CryptoBlock = () => {
       </label>
       <div className={cn.column}>
         <span>Данные после шифрования <b>(класс Decipher node)</b></span>
-        <span>{cipherData}</span>
+        <span data-testid={'cipher-field'}>{cipherData}</span>
       </div>
       <label className={cn.column}>
         Данные для де-шифрования (hex - строка) <b>(класс Decipher node)</b>
@@ -51,10 +51,10 @@ export const CryptoBlock = () => {
       </label>
       <div className={cn.column}>
         <span>Данные после де-шифрования</span>
-        <span>{deCipherData}</span>
+        <span data-testid={'decipher-field'}>{deCipherData}</span>
       </div>
-      <button onClick={cipherHandler}>шифровать</button>
-      <button onClick={deCipherHandler}>де-шифровать</button>
+      <button data-testid={'cipher-button'} onClick={cipherHandler}>шифровать</button>
+      <button data-testid={'decipher-button'} onClick={deCipherHandler}>де-шифровать</button>
     </div>
     <div className={cn.cryptoSignBlock}>
       <h3>Модуль для работы с подписями (Sign, Verify node.js)</h3>

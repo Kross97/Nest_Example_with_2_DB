@@ -102,15 +102,16 @@ export class UserController {
     }
 
     @Get('all')
-    @Roles(['admin'])
+    // @Roles(['admin'])
     getAllUsers(@Req() request: NikitaRequest, @Query() query: Record<'search', string>) {
 
         return this.userService.getUsers(query);
     }
 
     @Get('/:id')
-    getCurrentUser(@Param('id') id: string) {
-        return this.userService.getOneUser(id);
+    async getCurrentUser(@Param('id') id: string) {
+        const oneUser = await this.userService.getOneUser(id);
+        return oneUser;
     }
 
 
