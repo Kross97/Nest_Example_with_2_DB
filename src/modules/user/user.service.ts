@@ -42,16 +42,16 @@ export class UserService {
                 id
             },
             relations: {
-              role: true,
-              car: true,
-              mediaMaterials: true,
+                role: true,
+                car: true,
+                mediaMaterials: true,
             },
         });
     }
 
 
     async createUser(user: IUserRequest) {
-        if(!user.login || !user.password || !user.nameFirst || !user.nameLast) {
+        if (!user.login || !user.password || !user.nameFirst || !user.nameLast) {
             throw new HTTP_ERROR_DICTIONARY.ConflictException(`Обязательный данные у пользователя отсуствуют, данные: ${JSON.stringify(user)}`).getResponse();
         }
 
@@ -71,7 +71,7 @@ export class UserService {
                 role: user.role || null
             });
 
-            return { status: 'Пользователь_сохранен', userSaved };
+            return {status: 'Пользователь_сохранен', userSaved};
         }
 
         throw new HTTP_ERROR_DICTIONARY.ConflictException('Такой пользователь уже есть в базе').getResponse();
@@ -93,9 +93,16 @@ export class UserService {
             .orWhere(`user.nameLast LIKE '%${query.search || ''}%'`).cache(10_000).getMany();
     }
 
-    async deleteUser(id: string) {
-        await this.userRepository.delete(id);
-        return `ПОЛЬЗОВАТЕЛЬ_С_ИД:${id}_УДАЛЕН`;
+
+    async deleteUser(idOrLogin: string) {
+        await this.userRepository.createQueryBuilder()
+            .delete()
+            .from(User)
+            // id должен передаваться только число иначе падает ошибкой при запросе к БД
+            .where('id = :id', { id: Number(idOrLogin) ? idOrLogin : -1 })
+            .orWhere('login = :login', { login: idOrLogin })
+            .execute();
+        return `ПОЛЬЗОВАТЕЛЬ_С_ИД:${idOrLogin}_УДАЛЕН`;
     }
 
 
@@ -137,7 +144,7 @@ export class UserService {
     }
 
     async getAllRoles() {
-        return this.roleEntityRepository.find({ cache: 10_000 });
+        return this.roleEntityRepository.find({cache: 10_000});
     }
 
     /**
