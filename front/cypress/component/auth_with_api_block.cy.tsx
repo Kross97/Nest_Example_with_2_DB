@@ -18,12 +18,15 @@ after(() => {
 
 describe('Тестирование блока Auth вместе с реальным апи', () => {
     it('Тестирование авторизации', () => {
+        // mount команда обьявленна в - support/commands.tsx
         cy.mount(<AuthBlock/>);
 
-        cy.stub(FetchAgent, 'postRequest').as('postMock').callsFake(() => Promise.resolve({
+       const stubPost = cy.stub(FetchAgent, 'postRequest').as('postMock').callsFake(() => Promise.resolve({
             token: 'test_token',
             currentPort: 3001,
         }));
+
+       console.log('entries', Object.entries(stubPost))
 
         cy.get('[name="login"]').type(user.login);
         cy.get('[name="password"]').type(user.password);
@@ -38,7 +41,14 @@ describe('Тестирование блока Auth вместе с реальн�
                 password: user.password
             },
         })
-        cy.wait(200)
-        cy.get('@postMock').should('have.returned', { token: 'test_token', currentPort: 3001 });
+
+        // TODO нужно разобраться как тестировать возвращаемый Promise
+        cy.get('@postMock').then(async (res) => {
+            const result = await res();
+            expect(result).to.be.eql({ token: 'test_token', currentPort: 3001 })
+        })
+
+        // TODO нужно разобраться как тестировать возвращаемый Promise
+        // cy.get('@postMock').should('have.returned', Promise.resolve({ token: 'test_token', currentPort: 3001 }));
     })
 });

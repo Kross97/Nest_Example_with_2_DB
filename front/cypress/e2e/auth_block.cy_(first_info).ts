@@ -41,6 +41,9 @@ describe('Тестирование прохождение авторизации
         cy.get('[name="login"]').type('Kross_test_user');
         cy.get('[name="password"]').type('1_2_3_4_5');
 
+        /**
+         * Перехват трафика , и возврат заглушки в req.reply (не дает дойти до реального запроса на бэк, т.е мок апи)
+         * */
         cy.intercept({
             method: 'POST',
             path: '/auth/signIn'
