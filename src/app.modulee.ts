@@ -10,9 +10,10 @@ import {AuthorizationModule} from './modules/authorization/authorization.modulee
 import {CryptoModule} from './modules/crypto/crypto.modulee';
 import {ChildProcessClusterModule} from './modules/childProcess_cluster/childProcess_cluster.modulee';
 import { StreamsModule } from './modules/streams/streams.modulee';
+import {createMongoDbService, MARK_MONGO_PROVIDER} from "./mongodb.service";
 // import dbConfiguration from "./config/db.config";
 
-// способ 1
+// способ orm_config 1
 // https://stackoverflow.com/questions/59913475/configure-typeorm-with-one-configuration-for-cli-and-nestjs-application
 
 
@@ -56,9 +57,22 @@ import { StreamsModule } from './modules/streams/streams.modulee';
       ConfigModule.forRoot({
         envFilePath: '.env', // по умолчанию
         cache: true,
-    }), UserModule, RentCarsModule, MediaMaterialsModule, AuthorizationModule, CryptoModule, ChildProcessClusterModule, StreamsModule],
+    }),
+      UserModule,
+      RentCarsModule,
+      MediaMaterialsModule,
+      AuthorizationModule,
+      CryptoModule,
+      ChildProcessClusterModule,
+      StreamsModule
+    ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, {
+      provide: MARK_MONGO_PROVIDER,
+      useFactory: async () => {
+        return await createMongoDbService();
+      },
+    }],
 })
 export class AppModule {
 }

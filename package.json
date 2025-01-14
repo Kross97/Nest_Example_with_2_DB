@@ -20,7 +20,7 @@
     "g1": "npm run typeorm migration:generate ./src/migrations/create -- -d ./src/data-source/",
     "r1": "npm run typeorm migration:run -- -d ./src/data-source/",
     "rv1": "npm run typeorm migration:revert -- -d ./src/data-source/",
-    "docker-start": "docker compose up -d redis_service postgres_service"
+    "docker-start": "docker compose up -d redis_service postgres_service mongo_service"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -29,6 +29,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.2",
     "dotenv": "^16.4.7",
+    "mongodb": "6.12",
     "pg": "^8.13.1",
     "redis": "^4.7.0",
     "reflect-metadata": "^0.2.0",
