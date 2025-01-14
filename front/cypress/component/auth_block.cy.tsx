@@ -20,6 +20,10 @@ describe('Компонентное тестирование блока Auth', ()
         cy.get('[name="password"]').type('1_2_3_4_5');
 
         cy.get('button').contains('Войти').click();
+
+        /**
+         * Проверка что функция была вызвана и с какими параметрами
+         * */
         cy.get('@post_stub').should('have.been.called')
         cy.get('@post_stub').should('have.been.calledWith', {
             url: 'auth/signIn',

@@ -33,3 +33,12 @@ declare class Animal {
 
   sleep(): void;
 }
+
+// Глобальное обьявление
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            mount: Function
+        }
+    }
+}

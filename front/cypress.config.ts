@@ -13,6 +13,9 @@ export default defineConfig({
 
   screenshotsFolder: './cypress/my_screenshots',
 
+  // папка для подкачки фикстур (fixtures папка идет по умолчанию)
+  fixturesFolder: './cypress/fixtures',
+
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

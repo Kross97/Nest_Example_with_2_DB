@@ -27,7 +27,7 @@ export const CryptoBlock = () => {
   };
 
   return  <div style={{ display: 'flex', columnGap: '10px', whiteSpace: 'wrap', wordBreak: 'break-all'}}>
-    <div className={cn.cryptoBlock}>
+    <div data-cyid={'crypto_block'} className={cn.cryptoBlock}>
       <h3>Модуль для работы с шифрованием (Crypto node.js)</h3>
       <h4>Шифрование и де-шифрование данных</h4>
       <div className={cn.blockInfo}>

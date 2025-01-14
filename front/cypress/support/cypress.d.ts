@@ -8,7 +8,9 @@ import { mount } from 'cypress/react'
 declare global {
     namespace Cypress {
         interface Chainable {
-            mount: typeof mount
+            mount: typeof mount;
+            // декларация кастомной команды для теста
+            Kross_97: () => void;
         }
     }
 }
