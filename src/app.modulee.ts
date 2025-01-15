@@ -1,4 +1,4 @@
-import {Module} from '@nestjs/common';
+import {Global, Module} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm';
@@ -17,6 +17,7 @@ import {createMongoDbService, MARK_MONGO_PROVIDER} from "./mongodb.service";
 // https://stackoverflow.com/questions/59913475/configure-typeorm-with-one-configuration-for-cli-and-nestjs-application
 
 
+@Global()
 @Module({
     // чтобы использовать переменные process.env в TypeOrmModule конфигурации нужно делать конфигурацию в forRootAsync useFactory
     // т.к ConfigModule.forRoot считывающий .env идет в этом же модуле (после TypeOrmModule)

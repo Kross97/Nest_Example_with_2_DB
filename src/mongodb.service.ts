@@ -8,6 +8,7 @@ export class MongodbService {
 
     constructor(client: MongoClient) {
         this.db = client.db(this.dbName);
+
     }
 
     getMongoCollection(collectionName: string) {
@@ -16,7 +17,12 @@ export class MongodbService {
 };
 
 export const createMongoDbService = async () => {
-    const urlConnect = 'mongodb://localhost:27017';
+    /**
+     * Логин и пароль указываются в строке подключения
+     *
+     * для подключение к БД через CLI используется команда mongosh
+     * */
+    const urlConnect = 'mongodb://Kross97:Kross97_password@localhost:27017';
     const client = new MongoClient(urlConnect);
 
     await client.connect();

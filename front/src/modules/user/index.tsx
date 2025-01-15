@@ -37,7 +37,7 @@ export const UserBlock = () => {
     };
 
     const submitUser = async () => {
-        await FetchAgent.postRequest({url: '/user/create', body: data, requestType: 'json'});
+        await FetchAgent.postRequest({url: '/user/create?mongo=true', body: data, requestType: 'json'});
     };
 
     const submitUserFormData = async () => {

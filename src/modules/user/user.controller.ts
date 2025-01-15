@@ -21,12 +21,13 @@ import {RolesGuard} from '../../common/guards/roles.guard';
 import {parsingFormData} from "../../common/utils/parsingFormData";
 import {MediaMaterialsEntity} from "../../entities/media_materials/MediaMaterials.entity";
 import {MediaBufferEntity} from "../../entities/media_materials/MediaBuffer.entity";
+import {UserMongoService} from "./user.mongo.service";
 
 
 @Controller('user')
 @UseGuards(RolesGuard)
 export class UserController {
-    constructor(private readonly userService: UserService) {
+    constructor(private readonly userService: UserService, private readonly userMongoService: UserMongoService) {
     }
 
     @Get()
@@ -46,7 +47,10 @@ export class UserController {
     }
 
     @Post('create')
-    createUser(@Body() body: IUserRequest) {
+    createUser(@Body() body: IUserRequest, @Query() query: Record<'mongo', string>) {
+        if(query.mongo) {
+            return this.userMongoService.create(body);
+        }
         return this.userService.createUser(body);
     };
 

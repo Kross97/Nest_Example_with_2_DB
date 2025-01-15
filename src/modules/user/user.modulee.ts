@@ -1,15 +1,23 @@
-import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../../entities/user/user.entity';
-import { Car } from '../../entities/car/car.entity';
-import { RoleEntity } from '../../entities/user/role.entity';
-import { MediaMaterialsEntity } from '../../entities/media_materials/MediaMaterials.entity';
+import {Module} from '@nestjs/common';
+import {UserService} from './user.service';
+import {UserController} from './user.controller';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {User} from '../../entities/user/user.entity';
+import {Car} from '../../entities/car/car.entity';
+import {RoleEntity} from '../../entities/user/role.entity';
+import {MediaMaterialsEntity} from '../../entities/media_materials/MediaMaterials.entity';
+import {UserMongoService} from "./user.mongo.service";
+import {createMongoDbService, MARK_MONGO_PROVIDER} from "../../mongodb.service";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Car, RoleEntity, MediaMaterialsEntity])],
-  controllers: [UserController],
-  providers: [UserService],
+    imports: [TypeOrmModule.forFeature([User, Car, RoleEntity, MediaMaterialsEntity])],
+    controllers: [UserController],
+    providers: [UserService, UserMongoService, {
+        provide: MARK_MONGO_PROVIDER,
+        useFactory: async () => {
+            return await createMongoDbService();
+        },
+    }],
 })
-export class UserModule {}
+export class UserModule {
+}
