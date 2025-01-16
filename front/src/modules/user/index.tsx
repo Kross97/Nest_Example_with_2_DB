@@ -25,7 +25,7 @@ export const UserBlock = () => {
 
 
     useEffect(() => {
-        FetchAgent.getRequest({url: '/user/all', body: {search}}).then((results) => {
+        FetchAgent.getRequest({url: '/user/all', body: {search, db: 'mongo'}}).then((results) => {
             setUsers(results || []);
         });
     }, [search, refetchUsers]);
@@ -37,7 +37,7 @@ export const UserBlock = () => {
     };
 
     const submitUser = async () => {
-        await FetchAgent.postRequest({url: '/user/create?mongo=true', body: data, requestType: 'json'});
+        await FetchAgent.postRequest({url: '/user/create?db=mongo', body: data, requestType: 'json'});
     };
 
     const submitUserFormData = async () => {

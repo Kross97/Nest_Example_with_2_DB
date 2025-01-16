@@ -20,7 +20,13 @@ async function bootstrap(port: number) {
     rawBody: true,
     logger: typedCluster.isPrimary ? undefined : false,
   });
-  // console.log("PROCESS_ENV", process.env);
+
+
+  /**
+   * для включения хуков жизненного цикла  onModuleDestroy(), beforeApplicationShutdown() и onApplicationShutdown()
+   * */
+  app.enableShutdownHooks();
+
   app.enableCors({
     origin: true, // ['http://localhost:3000'],
     methods: ['POST', 'DELETE', 'PUT', 'PATCH'],

@@ -68,12 +68,7 @@ import {createMongoDbService, MARK_MONGO_PROVIDER} from "./mongodb.service";
       StreamsModule
     ],
     controllers: [AppController],
-    providers: [AppService, {
-      provide: MARK_MONGO_PROVIDER,
-      useFactory: async () => {
-        return await createMongoDbService();
-      },
-    }],
+    providers: [AppService],
 })
 export class AppModule {
 }
