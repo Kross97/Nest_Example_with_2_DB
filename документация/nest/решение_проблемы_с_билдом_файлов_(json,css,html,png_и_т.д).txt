@@ -1,0 +1,27 @@
+Ресурсные файлы не попадают в dist после билда по умолчанию
+добавление в nest-cli.json это конфигурации включает билд ресурсных файлов:
+
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "assets - здесь нужен чтобы указать какие еще расширения (кроме ts, js) должны попадать в dist"
+      },
+      {
+        "include": "**/*.html",
+        "watchAssets": true
+      },
+      {
+        "include": "**/*.png",
+        "watchAssets": true
+      },
+      {
+        "include": "**/*.PNG",
+        "watchAssets": true
+      },
+      {
+        "include": "**/*.css",
+        "watchAssets": true
+      }
+    ]
+  }
