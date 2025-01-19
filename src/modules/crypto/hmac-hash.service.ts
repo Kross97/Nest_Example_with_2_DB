@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { createHash, createHmac } from 'crypto';
+import { Injectable } from "@nestjs/common";
+import { createHash, createHmac } from "crypto";
 
 /**
  * Класс Hash - это утилита для создания хэш-дайджестов данных (Расширяет: {stream.Transform})
@@ -31,11 +31,10 @@ import { createHash, createHmac } from 'crypto';
 @Injectable()
 export class HmacHashService {
   generateHash() {
-    const hash = createHash('sha256');
-    hash.update('некоторые данные для хэширования');
-    return hash.digest('hex');
+    const hash = createHash("sha256");
+    hash.update("некоторые данные для хэширования");
+    return hash.digest("hex");
   }
-
 
   /**
    * 1. hmac.update(data[, inputEncoding]) -
@@ -62,11 +61,10 @@ export class HmacHashService {
    * при получении данных их можно пропустить через HMAC с локальным секретным ключом и проверить соответсвие (ЗАЩИТА ОТ ПОДДЕЛКИ)
    * */
   generateHmac() {
-    const hmac = createHmac('sha256', 'секрет');
+    const hmac = createHmac("sha256", "секрет");
 
-
-    hmac.update('некоторые данные для хэширования');
-    const hmacDigest = hmac.digest('hex');
+    hmac.update("некоторые данные для хэширования");
+    const hmacDigest = hmac.digest("hex");
     return hmacDigest;
   }
-};
+}

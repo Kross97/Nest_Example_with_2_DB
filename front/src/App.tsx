@@ -1,16 +1,16 @@
-import React from 'react';
-import './App.css';
-import { PhotoBlock } from './modules/photos';
-import { UserBlock } from './modules/user';
-import { AuthBlock } from './modules/auth';
-import {  useAllContext } from './provider/AllProvider';
-import { ClusterBlock } from './modules/cluster';
-//@ts-ignore
-import { CryptoBlock } from './modules/crypto';
-import { EventEmitterAgent, EventsDictionary } from './EventEmitter';
+import React from "react";
+import "./App.css";
+import { PhotoBlock } from "./modules/photos";
+import { UserBlock } from "./modules/user";
+import { AuthBlock } from "./modules/auth";
+import { useAllContext } from "./provider/AllProvider";
+import { ClusterBlock } from "./modules/cluster";
+// @ts-ignore
+import { CryptoBlock } from "./modules/crypto";
+import { EventEmitterAgent, EventsDictionary } from "./EventEmitter";
 
 export function FullApp() {
-  const { token } = useAllContext();
+  const { token, typeDb, setTypeDbHandler } = useAllContext();
 
   const exitHandler = () => {
     EventEmitterAgent.emit(EventsDictionary.unAuthorized);
@@ -18,10 +18,25 @@ export function FullApp() {
 
   return (
     <>
-      {token && <button onClick={exitHandler} style={{ position: 'fixed', top: '50px', right: '50px'}}>exit</button>}
-      <div style={{ display: 'flex', flexWrap: 'wrap'}}>
-        {token && <ClusterBlock /> }
-        <div style={{ display: 'flex'}}>
+      {token && (
+        <button onClick={exitHandler} style={{ position: "fixed", top: "50px", right: "50px" }}>
+          exit
+        </button>
+      )}
+      {token && (
+        <select
+          onChange={(e) => {
+            setTypeDbHandler(e.target.value as "postgres" | "mongo");
+          }}
+        >
+          <option value="postgres">postgres</option>
+          <option value="mongo">mongo</option>
+        </select>
+      )}
+      {/* для размонтирования и запросов на указанную базу данных */}
+      <div key={typeDb} style={{ display: "flex", flexWrap: "wrap" }}>
+        {token && <ClusterBlock />}
+        <div style={{ display: "flex" }}>
           {token && <PhotoBlock />}
           {token && <UserBlock />}
         </div>
@@ -31,4 +46,3 @@ export function FullApp() {
     </>
   );
 }
-

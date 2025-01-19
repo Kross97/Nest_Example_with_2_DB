@@ -1,9 +1,9 @@
-import { Request as RequestExpress } from 'express';
+import { Request as RequestExpress } from "express";
 
-declare module 'express' {
+declare module "express" {
   type NikitaRequest = RequestExpress & {
-    cookiesDictionary: Record<string, string>
-  }
+    cookiesDictionary: Record<string, string>;
+  };
 
   const testDefault: Record<string, string>;
   export { NikitaRequest };
@@ -14,10 +14,10 @@ declare module 'express' {
 declare const dataLayer: any[];
 
 /*
-* Объявление ресурсов. Например, если нужно использовать в коде PNG-файлы, можно создать следующее объявление:
-* */
+ * Объявление ресурсов. Например, если нужно использовать в коде PNG-файлы, можно создать следующее объявление:
+ * */
 
-declare module '*.png' {
+declare module "*.png" {
   const src: string;
   export default src;
 }

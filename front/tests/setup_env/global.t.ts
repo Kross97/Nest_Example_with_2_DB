@@ -1,3 +1,3 @@
-declare module 'test-utils' {
-  export * from '@testing-library/react';
-};
+declare module "test-utils" {
+  export * from "@testing-library/react";
+}

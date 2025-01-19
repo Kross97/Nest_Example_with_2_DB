@@ -1,4 +1,4 @@
-import { Writable } from 'node:stream';
+import { Writable } from "node:stream";
 
 /**
  * options данные которые можно передать в конструктор:
@@ -36,36 +36,46 @@ import { Writable } from 'node:stream';
  *  _destroy(err, callback) -
  * */
 
-
 export class MyWritableStream extends Writable {
   constructor(options) {
     super(options);
   }
 
-  _construct(callback: (error?: (Error | null)) => void) {
-    console.log('_construct callback', callback, 'ЕСТЬ ЛИ _construct у Writable', super._construct);
+  _construct(callback: (error?: Error | null) => void) {
+    console.log("_construct callback", callback, "ЕСТЬ ЛИ _construct у Writable", super._construct);
     // super._construct(callback);
-   callback();
-  }
-
-  _destroy(error: Error | null, callback: (error?: (Error | null)) => void) {
-    console.log('_destroy', error, callback, 'ЕСТЬ ЛИ МЕТОД у родетиля', super._destroy);
     callback();
   }
 
-  _final(callback: (error?: (Error | null)) => void) {
-    console.log('_final', callback, 'ЕСТЬ ЛИ МЕТОД У родителя', super._final);
+  _destroy(error: Error | null, callback: (error?: Error | null) => void) {
+    console.log("_destroy", error, callback, "ЕСТЬ ЛИ МЕТОД у родетиля", super._destroy);
     callback();
   }
 
-  _write(chunk: any, encoding: BufferEncoding, callback: (error?: (Error | null)) => void) {
-    console.log('_write', chunk, 'encoding', encoding, 'callback', callback, 'ЕСТЬ ЛИ МЕТОД у родетиля', super._write);
+  _final(callback: (error?: Error | null) => void) {
+    console.log("_final", callback, "ЕСТЬ ЛИ МЕТОД У родителя", super._final);
     callback();
   }
 
-  _writev(chunks: Array<{ chunk: any; encoding: BufferEncoding }>, callback: (error?: (Error | null)) => void) {
-    console.log('_writev', chunks, 'callback', callback, 'ЕСТЬ ЛИ МЕТОД у родетиля', super._writev);
+  _write(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
+    console.log(
+      "_write",
+      chunk,
+      "encoding",
+      encoding,
+      "callback",
+      callback,
+      "ЕСТЬ ЛИ МЕТОД у родетиля",
+      super._write
+    );
     callback();
   }
-};
 
+  _writev(
+    chunks: Array<{ chunk: any; encoding: BufferEncoding }>,
+    callback: (error?: Error | null) => void
+  ) {
+    console.log("_writev", chunks, "callback", callback, "ЕСТЬ ЛИ МЕТОД у родетиля", super._writev);
+    callback();
+  }
+}

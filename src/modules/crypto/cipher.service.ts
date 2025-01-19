@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import {
   scrypt,
   randomFill,
@@ -8,13 +8,12 @@ import {
   Cipher,
   Decipher,
   randomBytes,
-} from 'crypto';
+} from "crypto";
 
-const algorithm = 'aes-192-cbc';
+const algorithm = "aes-192-cbc";
 
 @Injectable()
 export class CipherService {
-
   private cipher: Cipher = null;
 
   private deCipher: Decipher = null;
@@ -37,22 +36,22 @@ export class CipherService {
    * 2. инициализировать Cipher и Decipher нужно перед каждой операцией шифрование и де-шифрования иначе запрос падает в долгий "pending"
    * */
   private async initCiphersInstances() {
-      const scriptKey = await this.getScrypt();
-      const vector = await this.getRandomFill();
+    const scriptKey = await this.getScrypt();
+    const vector = await this.getRandomFill();
 
-      // Получив ключ и iv, мы можем создать и использовать шифр...
-      this.cipher = createCipheriv(algorithm, scriptKey, vector);
-      this.deCipher = createDecipheriv(algorithm, scriptKey, vector);
+    // Получив ключ и iv, мы можем создать и использовать шифр...
+    this.cipher = createCipheriv(algorithm, scriptKey, vector);
+    this.deCipher = createDecipheriv(algorithm, scriptKey, vector);
   }
 
   private createCipherInstance(iv: Buffer) {
-    const cipher =  createCipheriv(algorithm, this.secretKeyPersist, iv); // iv - this.ivPersist Если шифру не требуется вектор инициализации, iv может быть null.
-    cipher.setEncoding('hex');
+    const cipher = createCipheriv(algorithm, this.secretKeyPersist, iv); // iv - this.ivPersist Если шифру не требуется вектор инициализации, iv может быть null.
+    cipher.setEncoding("hex");
     return cipher;
   }
 
   // ошибка вылетает если разные секретные ключи
-  //error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt
+  // error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt
   private createDeCipherInstance(iv: Buffer) {
     return createDecipheriv(algorithm, this.secretKeyPersist, iv); // iv - this.ivPersist Если шифру не требуется вектор инициализации, iv может быть null.
   }
@@ -74,10 +73,10 @@ export class CipherService {
     return new Promise((resolve, reject) => {
       //  КЛЮЧ для Cipher\Decipher ДОЛЖЕН СОСТОЯТЬ из 24 символов
       scrypt(process.env.DB_MAIN_PASSWORD, process.env.SECRET_TOKEN_KEY, 24, (err, key) => {
-        if(err) reject(err);
+        if (err) reject(err);
         resolve(key);
       });
-    })
+    });
   }
 
   /**
@@ -86,64 +85,62 @@ export class CipherService {
   private async getRandomFill(): Promise<Uint8Array> {
     return new Promise((resolve, reject) => {
       randomFill(new Uint8Array(16), (err, vector) => {
-        if(err) reject(err);
+        if (err) reject(err);
         resolve(vector);
-      })
+      });
     });
   }
 
   async getCipherExampleOnce(text: string) {
     await this.initCiphersInstances();
     return new Promise(async (resolve, reject) => {
+      let encrypted = "";
+      this.cipher.setEncoding("hex");
 
-     let encrypted = '';
-     this.cipher.setEncoding('hex');
+      this.cipher.on("data", (chunk) => (encrypted += chunk));
+      this.cipher.on("end", () => {
+        resolve(encrypted);
+      });
 
-     this.cipher.on('data', (chunk) => (encrypted += chunk));
-     this.cipher.on('end', () => {
-       resolve(encrypted);
-     });
-
-     this.cipher.write(text);
-     this.cipher.end();
-   })
+      this.cipher.write(text);
+      this.cipher.end();
+    });
   }
 
   async getDecipherExampleOnce(text: string) {
     return new Promise(async (resolve) => {
-      let decrypted = '';
-      this.deCipher.on('readable', () => {
+      let decrypted = "";
+      this.deCipher.on("readable", () => {
         let chunk;
-        while (null !== (chunk = this.deCipher.read())) {
-          decrypted += chunk.toString('utf8');
+        while ((chunk = this.deCipher.read()) !== null) {
+          decrypted += chunk.toString("utf8");
         }
       });
-      this.deCipher.on('end', () => {
+      this.deCipher.on("end", () => {
         resolve(decrypted);
       });
 
-      this.deCipher.write(text, 'hex');
+      this.deCipher.write(text, "hex");
       this.deCipher.end();
     });
   }
 
-
-  private IvBufferStringSeparation = '+$+';
+  private IvBufferStringSeparation = "+$+";
 
   async getCipherExamplePersist(text: string) {
     const iv = this.generateInitializationVector();
     const cipher = this.createCipherInstance(iv);
-    let encrypted  = cipher.update(text);
+    let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return `${iv.toString('hex')}${this.IvBufferStringSeparation}${encrypted.toString('hex')}`;
+    return `${iv.toString("hex")}${this.IvBufferStringSeparation}${encrypted.toString("hex")}`;
   }
 
   async getDeCipherExamplePersist(text: string) {
     const [ivBufferString, currentText] = text.split(this.IvBufferStringSeparation);
-    const decipher = this.createDeCipherInstance(Buffer.from(ivBufferString, 'hex'));
-    const encryptedText = Buffer.from(currentText, 'hex');
+    const decipher = this.createDeCipherInstance(Buffer.from(ivBufferString, "hex"));
+    const encryptedText = Buffer.from(currentText, "hex");
     let decrypted = decipher.update(encryptedText);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
-    return decrypted.toString('utf8');
+    return decrypted.toString("utf8");
   }
 }

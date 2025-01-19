@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 /**
  * 1. toBe() — подходит, если нам надо сравнивать примитивные значения или является ли переданное значение ссылкой на тот же объект,
  * что указан как ожидаемое значение. Сравниваются значения при помощи Object.is(). В отличие от === это
@@ -40,36 +40,35 @@
  *
  * */
 
-import { area, circumference } from '../common/testUtils';
+import { area, circumference } from "../common/testUtils";
 
-describe('Модуль для примеров из глав документаций jest', () => {
-  test('My first test', () => {
+describe("Модуль для примеров из глав документаций jest", () => {
+  test("My first test", () => {
     expect(Math.max(1, 5, 10)).toBe(10);
   });
 
-  test('toEqual with objects', () => {
-    expect({ foo: 'foo', subObject: { baz: 'baz' } })
-      .toEqual({ foo: 'foo', subObject: { baz: 'baz' } });  // Ок
+  test("toEqual with objects", () => {
+    expect({ foo: "foo", subObject: { baz: "baz" } }).toEqual({ foo: "foo", subObject: { baz: "baz" } }); // Ок
     // expect({ foo: 'foo', subObject: { num: 0 } })
     //  .toEqual({ foo: 'foo', subObject: { baz: 'baz' } });  // А вот так ошибка.
   });
 
-  test('toEqual with arrays', () => {
+  test("toEqual with arrays", () => {
     expect([11, 19, 5]).toEqual([11, 19, 5]); // Ок
     // expect([11, 19, 5]).toEqual([11, 19]); // Ошибка
   });
 
-  test('Circle area', () => {
+  test("Circle area", () => {
     expect(area(5)).toBeCloseTo(78.54);
     expect(area()).toBeNaN();
   });
 
-  test('Circumference', () => {
+  test("Circumference", () => {
     expect(circumference(11)).toBeCloseTo(69.1, 1);
     expect(circumference()).toBeNaN();
   });
 
-  test('null', () => {
+  test("null", () => {
     const n = null;
     expect(n).toBeNull();
     expect(n).toBeDefined();
@@ -78,7 +77,7 @@ describe('Модуль для примеров из глав документа�
     expect(n).toBeFalsy();
   });
 
-  test('zero', () => {
+  test("zero", () => {
     const z = 0;
     expect(z).not.toBeNull();
     expect(z).toBeDefined();
@@ -86,4 +85,4 @@ describe('Модуль для примеров из глав документа�
     expect(z).not.toBeTruthy();
     expect(z).toBeFalsy();
   });
-})
+});

@@ -1,5 +1,4 @@
-import { Duplex } from 'stream';
-
+import { Duplex } from "stream";
 
 /**
  * options помимо параметров передаваемых в Readable и Writable, имеет доп. параметры:
@@ -28,7 +27,6 @@ import { Duplex } from 'stream';
  * Методы в классе для создания кастомного потока могут быть как из Readable так и из Writable
  * */
 
-
 /**
  * В Duplex внутренние буфферы для чтения и записи действую независимо друг от друга
  *  (в данном примере идет связывание работы буффера записи с буффером чтения)
@@ -43,37 +41,39 @@ export class MyDuplexStream extends Duplex {
     super(options);
   }
 
-  _construct(callback: (error?: (Error | null)) => void) {
-    console.log('Создание Duplex потока');
+  _construct(callback: (error?: Error | null) => void) {
+    console.log("Создание Duplex потока");
     callback();
   }
 
-  _write(chunk: any, encoding: BufferEncoding, callback: (error?: (Error | null)) => void) {
-     console.log('_write в Duplex потоке', chunk, 'encoding', encoding);
-     this.push(chunk, encoding);
-     callback();
+  _write(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
+    console.log("_write в Duplex потоке", chunk, "encoding", encoding);
+    this.push(chunk, encoding);
+    callback();
   }
 
-  _writev(chunks: Array<{ chunk: any; encoding: BufferEncoding }>, callback: (error?: (Error | null)) => void) {
-    console.log('_writev в Duplex потоке', chunks);
+  _writev(
+    chunks: Array<{ chunk: any; encoding: BufferEncoding }>,
+    callback: (error?: Error | null) => void
+  ) {
+    console.log("_writev в Duplex потоке", chunks);
     chunks.forEach((chunk) => {
       this.push(chunk.chunk, chunk.encoding); // Связывание работы буффера записи с буффером чтения
-    })
+    });
     callback();
   }
 
   _read(size: number) {
-    console.log('Чтение в Duplex потоке, size:', size, 'Возможно ли чтение:', this.readable);
+    console.log("Чтение в Duplex потоке, size:", size, "Возможно ли чтение:", this.readable);
   }
 
-  _destroy(error: Error | null, callback: (error?: (Error | null)) => void) {
-    console.log('_destroy в Duplex потоке', error);
+  _destroy(error: Error | null, callback: (error?: Error | null) => void) {
+    console.log("_destroy в Duplex потоке", error);
     callback();
   }
 
-  _final(callback: (error?: (Error | null)) => void) {
-    console.log('_final в Duplex потоке');
+  _final(callback: (error?: Error | null) => void) {
+    console.log("_final в Duplex потоке");
     callback();
   }
-
 }

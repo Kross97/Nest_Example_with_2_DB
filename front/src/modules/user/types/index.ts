@@ -5,11 +5,11 @@ export interface IUser {
   name: {
     first: string;
     last: string;
-  }
+  };
   password: string;
   role: { id: number; role: string };
   test: string;
-  rentCars: any[]
+  rentCars: any[];
 }
 
 export interface IUSerRequest {
@@ -18,7 +18,7 @@ export interface IUSerRequest {
   nameFirst: string;
   nameLast: string;
   password: string;
-  role: { id: number; role: string }
+  role: { id: number; role: string };
   test?: string;
   car?: string;
 }

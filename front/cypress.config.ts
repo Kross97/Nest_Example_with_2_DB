@@ -11,10 +11,10 @@ export default defineConfig({
   //   openMode: 2,
   // },               // для указания разного количества для разных режимов
 
-  screenshotsFolder: './cypress/my_screenshots',
+  screenshotsFolder: "./cypress/my_screenshots",
 
   // папка для подкачки фикстур (fixtures папка идет по умолчанию)
-  fixturesFolder: './cypress/fixtures',
+  fixturesFolder: "./cypress/fixtures",
 
   e2e: {
     setupNodeEvents(on, config) {

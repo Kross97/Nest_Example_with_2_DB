@@ -1,4 +1,4 @@
-import { Readable } from 'stream';
+import { Readable } from "stream";
 
 /**
  * options:
@@ -45,23 +45,24 @@ export class MyReadableStream extends Readable {
     super(options);
   }
 
-  _construct(callback: (error?: (Error | null)) => void) {
-    console.log("Инициализация_Readable_Потока!")
+  _construct(callback: (error?: Error | null) => void) {
+    console.log("Инициализация_Readable_Потока!");
     callback();
   }
 
   _read(size: number) {
-    console.log('Чтение размер', size, "Возможна ли запись в поток", this.readable);
-    setTimeout(() =>  {
-      const flag = this.push(`рандомные_данные_${Math.random()}_${Math.random()}`, 'utf8');
-      if(!flag) {
-        console.log('Запись во внутренний буффер читаемого потока больше невозможна (буффер полон)');
+    console.log("Чтение размер", size, "Возможна ли запись в поток", this.readable);
+    setTimeout(() => {
+      const flag = this.push(`рандомные_данные_${Math.random()}_${Math.random()}`, "utf8");
+      if (!flag) {
+        console.log(
+          "Запись во внутренний буффер читаемого потока больше невозможна (буффер полон)"
+        );
       }
-      }, 2000)
+    }, 2000);
   }
 
-  _destroy(error: Error | null, callback: (error?: (Error | null)) => void) {
-    callback(error)
+  _destroy(error: Error | null, callback: (error?: Error | null) => void) {
+    callback(error);
   }
-
 }

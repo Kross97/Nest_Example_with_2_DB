@@ -5,22 +5,13 @@ module.exports = {
     browser: true,
     jest: true,
   },
-  globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly",
-  },
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    warnOnUnsupportedTypeScriptVersion: false,
     project: "tsconfig.json",
-    jsx: true,
     tsconfigRootDir: __dirname,
     sourceType: "module",
-    ecmaVersion: 2020,
-    jsxPragma: "React",
-    createDefaultProgram: true,
   },
-  plugins: ["import", "react-hooks", "react", "prettier", "@typescript-eslint/eslint-plugin"],
+  plugins: ["import", "react", "prettier", "@typescript-eslint/eslint-plugin"],
 
   /**
    * eslint-plugin-prettier — помогает совместной работе ESLint и Prettier.
@@ -29,22 +20,11 @@ module.exports = {
   extends: [
     "airbnb",
     "plugin:jest/recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
   ],
   ignorePatterns: [".eslintrc.js"],
   rules: {
-    "id-blacklist": [
-      "error",
-      "any",
-      "Number",
-      "String",
-      "string",
-      "Boolean",
-      "boolean",
-      "undefined",
-    ],
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -68,18 +48,12 @@ module.exports = {
     "react/require-default-props": "off", // airbnb использует уведомление об ошибке
     "react/forbid-prop-types": "off", // airbnb использует уведомление об ошибке
     "react/jsx-filename-extension": ["error", { extensions: [".js"] }], // airbnb использует .jsx
-    "import/prefer-default-export": "off",
+
     "prefer-destructuring": "off",
-    "import/extensions": "off",
-    "import/no-unresolved": "off",
+
     "react/no-find-dom-node": "off", // Я этого не знаю
     "react/no-did-mount-set-state": "off",
     "react/no-unused-prop-types": "off", // Это всё ещё работает нестабильно
     "react/jsx-one-expression-per-line": "off",
-  },
-  settings: {
-    react: {
-      version: "detect",
-    },
   },
 };

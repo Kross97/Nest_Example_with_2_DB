@@ -1,8 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
-import { RentCarsService } from './rentCars.service';
+import { Controller, Get } from "@nestjs/common";
+import { RentCarsService } from "./rentCars.service";
 
-
-@Controller('rentCars')
+@Controller("rentCars")
 export class RentCarsController {
   constructor(private readonly rentCarsService: RentCarsService) {}
 
@@ -11,8 +10,8 @@ export class RentCarsController {
     return this.rentCarsService.createUser();
   }
 
-  @Get('all')
+  @Get("all")
   getRentCars() {
-    return this.rentCarsService.getRentCars()
+    return this.rentCarsService.getRentCars();
   }
 }

@@ -1,17 +1,23 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { User } from '../user/user.entity';
-
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import { User } from "../user/user.entity";
 
 @Entity()
 export class Car {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: 'vw'})
+  @Column({ default: "vw" })
   model: string;
 
   @Column({ nullable: true, default: 2024 })
-  year: number
+  year: number;
 
   @OneToOne(() => User, (user) => user.car)
   user: User;

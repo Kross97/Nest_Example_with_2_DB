@@ -3,9 +3,13 @@ import { ServerResponse } from "http";
 
 export class ReadableBufferOnResponse extends Readable {
   private buffer: Buffer;
+
   private start = 0;
+
   private stepBytes = 1000;
+
   private isReadable = true;
+
   constructor(buffer: Buffer) {
     super();
     this.buffer = buffer;
@@ -21,7 +25,9 @@ export class ReadableBufferOnResponse extends Readable {
     const end = endFlag ? this.buffer.length : currentStep;
 
     if (this.isReadable) {
-      this.push(this.buffer.subarray(this.start, end >= this.buffer.length ? this.buffer.length : end));
+      this.push(
+        this.buffer.subarray(this.start, end >= this.buffer.length ? this.buffer.length : end)
+      );
       this.start = end;
     }
 
