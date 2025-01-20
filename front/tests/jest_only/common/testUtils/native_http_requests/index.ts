@@ -8,7 +8,12 @@ interface IRequest {
   headers?: any;
 }
 
-export const getNativeRequest = ({ url, body = "", headers = {}, method = "GET" }: IRequest): Promise<any> => {
+export const getNativeRequest = ({
+  url,
+  body = "",
+  headers = {},
+  method = "GET",
+}: IRequest): Promise<any> => {
   return new Promise((resolve, reject) => {
     const allData = [];
     const usersRequestClient = http.request(url, { method, headers: { ...headers } });
@@ -21,7 +26,9 @@ export const getNativeRequest = ({ url, body = "", headers = {}, method = "GET" 
       response.addListener("end", () => {
         const responseBuffer = Buffer.from(Buffer.concat(allData)).toString("utf8");
         resolve(
-          response.headers["content-type"]?.includes("application/json") ? JSON.parse(responseBuffer) : responseBuffer
+          response.headers["content-type"]?.includes("application/json")
+            ? JSON.parse(responseBuffer)
+            : responseBuffer
         );
       });
     });

@@ -37,6 +37,12 @@ export class UserController {
     return this.userService.call("refreshUserData");
   }
 
+  /**
+   *  tsconfig.json
+   *  "target": "ESNext"
+   *
+   *  убирает ошибку которая всплывает в указании путей в декораторах
+   * */
   @Get("allRoles")
   getAllRoles() {
     return this.userService.call("getAllRoles");

@@ -52,7 +52,9 @@ export function AllProvider({ children }: { children: JSX.Element }) {
   const setCurrentPortHandler = async (newPort?: number) => {
     let idPort: number = newPort || -1;
     if (!newPort) {
-      const results = await FetchAgent.getRequest<IPortsData>({ url: "/childProcess_cluster/cluster_ports" });
+      const results = await FetchAgent.getRequest<IPortsData>({
+        url: "/childProcess_cluster/cluster_ports",
+      });
       idPort = results.currentPort;
     }
     setCurrentPort(idPort);
@@ -75,7 +77,14 @@ export function AllProvider({ children }: { children: JSX.Element }) {
 
   return (
     <AllContext.Provider
-      value={{ token, setToken: setTokenHandler, setCurrentPortHandler, currentPort, setTypeDbHandler, typeDb }}
+      value={{
+        token,
+        setToken: setTokenHandler,
+        setCurrentPortHandler,
+        currentPort,
+        setTypeDbHandler,
+        typeDb,
+      }}
     >
       {children}
     </AllContext.Provider>
@@ -84,6 +93,7 @@ export function AllProvider({ children }: { children: JSX.Element }) {
 
 export const getTokenJwt = () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA);
 
-export const getCurrentClusterPort = () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA);
+export const getCurrentClusterPort = () =>
+  localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA);
 
 export const useAllContext = () => useContext(AllContext);

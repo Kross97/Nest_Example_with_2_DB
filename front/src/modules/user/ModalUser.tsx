@@ -90,7 +90,10 @@ export function ModalUser({ user, showEditHandler }: IProps) {
           Марка автомобиля <b>(отношение один(user)-к_одному(car))</b>
         </span>
         <b>На бэке стоит ограничение на марку:</b>
-        <b>CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" = 'mercedes')</b>
+        <b>
+          CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" =
+          'mercedes')
+        </b>
         <input onChange={change} type="text" name="car" value={data?.car} />
         <span>Пароль</span>
         <input onChange={change} type="password" name="password" value={data?.password} />

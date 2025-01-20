@@ -28,7 +28,6 @@
   "lint-staged": {
     "*.(js|jsx|ts|tsx)": [
       "npm run prettier",
-      "npm run lint:fix",
       "git add"
     ]
   },

@@ -41,14 +41,19 @@ describe("Тестирование апи регистрации", () => {
   });
 
   it("Проверка наличия пользователя в БД", async () => {
-    const userExist: null | IUser = await getNativeRequest({ url: `${API_URL}/user/${user?.userSaved?.id}` });
+    const userExist: null | IUser = await getNativeRequest({
+      url: `${API_URL}/user/${user?.userSaved?.id}`,
+    });
     expect(userExist).toBeTruthy();
     expect(userExist?.login).toBe(mockUser.login);
     expect(userExist?.password).toBe(mockUser.password);
   });
 
   it("Удаление пользователя", async () => {
-    const stringResponse = await getNativeRequest({ url: `${API_URL}/user/delete/${userId}`, method: "DELETE" });
+    const stringResponse = await getNativeRequest({
+      url: `${API_URL}/user/delete/${userId}`,
+      method: "DELETE",
+    });
     expect(stringResponse).toBe(`ПОЛЬЗОВАТЕЛЬ_С_ИД:${userId}_УДАЛЕН`);
     const userCheck = await getNativeRequest({ url: `${API_URL}/user/${userId}` });
     expect(userCheck).toBeFalsy();

@@ -30,10 +30,12 @@ class EventEmitter {
 
   emit(event: TEvents) {
     if (event in this.eventsHandlersDispatcher) {
-      this.eventsHandlersDispatcher[event] = this.eventsHandlersDispatcher[event].filter((handlerObj) => {
-        handlerObj.handler();
-        return !handlerObj.once;
-      });
+      this.eventsHandlersDispatcher[event] = this.eventsHandlersDispatcher[event].filter(
+        (handlerObj) => {
+          handlerObj.handler();
+          return !handlerObj.once;
+        }
+      );
     }
   }
 }

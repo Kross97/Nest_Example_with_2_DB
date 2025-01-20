@@ -48,7 +48,10 @@ describe("Модуль для примеров из глав документа�
   });
 
   test("toEqual with objects", () => {
-    expect({ foo: "foo", subObject: { baz: "baz" } }).toEqual({ foo: "foo", subObject: { baz: "baz" } }); // Ок
+    expect({ foo: "foo", subObject: { baz: "baz" } }).toEqual({
+      foo: "foo",
+      subObject: { baz: "baz" },
+    }); // Ок
     // expect({ foo: 'foo', subObject: { num: 0 } })
     //  .toEqual({ foo: 'foo', subObject: { baz: 'baz' } });  // А вот так ошибка.
   });
