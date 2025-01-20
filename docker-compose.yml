@@ -20,6 +20,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: Kross97
       MONGO_INITDB_ROOT_PASSWORD: Kross97_password
+    volumes:
+    - ./mongodata:/data/db
 
   postgres_service:
     image: postgres:latest
