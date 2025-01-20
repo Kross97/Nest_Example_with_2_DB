@@ -2,7 +2,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Collection, ObjectId } from "mongodb";
 import { IUserRequest } from "../types";
-import { MARK_MONGO_PROVIDER, MongodbService } from "../../../mongodb.service";
+import { MARK_MONGO_PROVIDER, MongodbConnector } from "../../../mongodb.connector";
 import { HTTP_ERROR_DICTIONARY } from "../../../common/constants/httpErrorDictionary";
 import { replaceMongoIdField } from "../../../common/utils/replaceMongoIdField";
 
@@ -18,7 +18,7 @@ export interface IUserMongo {
 export class UserMongoService {
   private userCollection: Collection<IUserMongo>;
 
-  constructor(@Inject(MARK_MONGO_PROVIDER) private mongoDbService: MongodbService) {
+  constructor(@Inject(MARK_MONGO_PROVIDER) private mongoDbService: MongodbConnector) {
     this.userCollection = this.mongoDbService.getMongoCollection<IUserMongo>("users");
   }
 
@@ -35,9 +35,7 @@ export class UserMongoService {
       const result = await this.userCollection.insertOne(user as IUserMongo);
       return result;
     }
-    throw new HTTP_ERROR_DICTIONARY.ConflictException(
-      "Такой пользователь уже есть в базе"
-    ).getResponse();
+    throw new HTTP_ERROR_DICTIONARY.ConflictException("Такой пользователь уже есть в базе").getResponse();
   }
 
   async updateUser(id: string, body: IUserRequest) {

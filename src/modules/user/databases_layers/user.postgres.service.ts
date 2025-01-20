@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+// @ts-ignore
 import { Repository } from "typeorm";
 import { User } from "../../../entities/user/user.entity";
 import { Car } from "../../../entities/car/car.entity";
@@ -78,9 +79,7 @@ export class UserPostgresService {
       return { status: "Пользователь_сохранен", userSaved };
     }
 
-    throw new HTTP_ERROR_DICTIONARY.ConflictException(
-      "Такой пользователь уже есть в базе"
-    ).getResponse();
+    throw new HTTP_ERROR_DICTIONARY.ConflictException("Такой пользователь уже есть в базе").getResponse();
   }
 
   async createUserWithMedia(user: User, file: Express.Multer.File) {
@@ -136,9 +135,7 @@ export class UserPostgresService {
          * CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" = 'mercedes')
          * */
         if (err.constraint === "model_germany_check") {
-          throw new HTTP_ERROR_DICTIONARY.ConflictException(
-            "Не прошло валидацию значения model в БД"
-          ).getResponse();
+          throw new HTTP_ERROR_DICTIONARY.ConflictException("Не прошло валидацию значения model в БД").getResponse();
         }
       }
     }

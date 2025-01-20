@@ -44,9 +44,7 @@ export function ModalShowUser({ id, onClose }: IProps) {
           <div style={{ maxHeight: "70vh", overflow: "auto" }}>
             {user?.mediaMaterials?.map((media) => (
               <div
-                onClick={() =>
-                  window.open(`http://localhost:3001/media/download/second/${media.id}`, "_blank")
-                }
+                onClick={() => window.open(`http://localhost:3001/media/download/second/${media.id}`, "_blank")}
                 style={{
                   display: "flex",
                   cursor: "pointer",
@@ -55,11 +53,7 @@ export function ModalShowUser({ id, onClose }: IProps) {
                 }}
               >
                 <b>{media.name}</b>
-                <img
-                  width={100}
-                  height={100}
-                  src={`http://localhost:3001/media/download/second/${media.id}`}
-                />
+                <img width={100} height={100} src={`http://localhost:3001/media/download/second/${media.id}`} />
               </div>
             ))}
           </div>

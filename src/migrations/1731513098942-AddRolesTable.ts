@@ -25,9 +25,7 @@ export class AddRolesTable1731513098942 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`ALTER TABLE "user" DROP CONSTRAINT "FK_c28e52f758e7bbc53828db92194"`);
     await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "roleId"`);
-    await queryRunner.query(
-      `ALTER TABLE "user" ADD "roleId" character varying NOT NULL DEFAULT 'manager'`
-    );
+    await queryRunner.query(`ALTER TABLE "user" ADD "roleId" character varying NOT NULL DEFAULT 'manager'`);
     await queryRunner.query(`ALTER TABLE "user" ALTER COLUMN "test" SET DEFAULT 'test_alter'`);
     await queryRunner.query(`DROP TABLE "role_entity"`);
     await queryRunner.query(`ALTER TABLE "user" RENAME COLUMN "roleId" TO "role"`);

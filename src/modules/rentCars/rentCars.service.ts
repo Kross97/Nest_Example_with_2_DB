@@ -5,9 +5,7 @@ import { RentCarEntity } from "../../entities/rentCar/rent-car.entity";
 
 @Injectable()
 export class RentCarsService {
-  constructor(
-    @InjectRepository(RentCarEntity) private rentCarsRepository: Repository<RentCarEntity>
-  ) {}
+  constructor(@InjectRepository(RentCarEntity) private rentCarsRepository: Repository<RentCarEntity>) {}
 
   async createUser() {
     const rentCars = await this.rentCarsRepository.save({

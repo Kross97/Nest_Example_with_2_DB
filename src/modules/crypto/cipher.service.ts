@@ -1,14 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import {
-  scrypt,
-  randomFill,
-  createCipheriv,
-  scryptSync,
-  createDecipheriv,
-  Cipher,
-  Decipher,
-  randomBytes,
-} from "crypto";
+import { scrypt, randomFill, createCipheriv, scryptSync, createDecipheriv, Cipher, Decipher, randomBytes } from "crypto";
 
 const algorithm = "aes-192-cbc";
 

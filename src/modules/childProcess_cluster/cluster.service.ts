@@ -20,9 +20,7 @@ const initWorkerEvents = async (worker: Worker) => {
      * */
 
     worker.on("disconnect", () => {
-      console.log(
-        `disconnect событие worker ${worker.id} - Выдается после отключения IPC-канала рабочего`
-      );
+      console.log(`disconnect событие worker ${worker.id} - Выдается после отключения IPC-канала рабочего`);
     });
 
     worker.on("error", (err) => {
@@ -44,9 +42,7 @@ const initWorkerEvents = async (worker: Worker) => {
      * */
     worker.on("listening", (address) => {
       console.log(
-        `listening событие  worker ${
-          worker.id
-        } - старт запуска прослушивания в процессе по адресу: ${JSON.stringify(
+        `listening событие  worker ${worker.id} - старт запуска прослушивания в процессе по адресу: ${JSON.stringify(
           address,
           undefined,
           2
@@ -72,23 +68,15 @@ const initClusterEvents = () => {
     console.log("message Основного процесса принятое сообщение от процесса форка", data);
   });
   typedCluster.on("exit", (worker, code, signal) => {
-    console.log(
-      `exit Основного процесса - Форк #${worker.id} перестал работать. code -> ${code}, signal -> ${signal}`
-    );
-    ClusterService.availablePorts = ClusterService.availablePorts.filter(
-      (portData) => portData.id !== worker.id
-    );
+    console.log(`exit Основного процесса - Форк #${worker.id} перестал работать. code -> ${code}, signal -> ${signal}`);
+    ClusterService.availablePorts = ClusterService.availablePorts.filter((portData) => portData.id !== worker.id);
     // typedCluster.fork(); // возможность для рестарта форка кластера
   });
   typedCluster.on("disconnect", (worker) => {
-    console.log(
-      `disconnect Основного процесса - Форк #${worker.id} отключился от канала IPC (обмен сообщениями)`
-    );
+    console.log(`disconnect Основного процесса - Форк #${worker.id} отключился от канала IPC (обмен сообщениями)`);
   });
   typedCluster.on("listening", (worker, address) => {
-    console.log(
-      `listening Основного процесса - Форк #${worker.id} начал прослушиваться на порту ${address.port}`
-    );
+    console.log(`listening Основного процесса - Форк #${worker.id} начал прослушиваться на порту ${address.port}`);
     ClusterService.availablePorts.push({ id: worker.id, port: address.port });
   });
   typedCluster.on("online", (worker) => {
@@ -124,9 +112,7 @@ export class ClusterService {
             id: ${typedCluster.worker.id},\n
             isConnected: ${typedCluster.worker.isConnected()} // true, если форк подключен к своему основному через его IPC-канал,\n
             isDead: ${typedCluster.worker.isDead()} // true, если процесс рабочего завершился (из-за выхода, из-за получения сигнала),\n
-            exitedAfterDisconnect: ${
-              typedCluster.worker.exitedAfterDisconnect
-            } // true, если рабочий вышел через .disconnect().\n
+            exitedAfterDisconnect: ${typedCluster.worker.exitedAfterDisconnect} // true, если рабочий вышел через .disconnect().\n
             Если рабочий вышел другим способом, оно равно false. Если рабочий не вышел, то не определено. \n
            `);
     }
@@ -152,17 +138,12 @@ export class ClusterService {
 
       response.end(JSON.stringify(result));
     } else if (typedCluster.isWorker) {
-      response.redirect(
-        301,
-        `http://localhost:${ClusterService.mainPort}/childProcess_cluster/cluster_exit`
-      );
+      response.redirect(301, `http://localhost:${ClusterService.mainPort}/childProcess_cluster/cluster_exit`);
     }
   }
 
   getCurrentPort() {
-    return ClusterService.availablePorts[
-      randomIntFromInterval(0, ClusterService.availablePorts.length - 1)
-    ].port;
+    return ClusterService.availablePorts[randomIntFromInterval(0, ClusterService.availablePorts.length - 1)].port;
   }
 
   getClustersPortData(response: Response) {
@@ -175,10 +156,7 @@ export class ClusterService {
         })
       );
     } else if (typedCluster.isWorker) {
-      response.redirect(
-        301,
-        `http://localhost:${ClusterService.mainPort}/childProcess_cluster/cluster_ports`
-      );
+      response.redirect(301, `http://localhost:${ClusterService.mainPort}/childProcess_cluster/cluster_ports`);
     }
   }
 }

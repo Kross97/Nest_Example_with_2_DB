@@ -8,11 +8,7 @@ import { IUserRequest } from "./types";
 import { MediaMaterialsEntity } from "../../entities/media_materials/MediaMaterials.entity";
 import { MediaBufferEntity } from "../../entities/media_materials/MediaBuffer.entity";
 
-type MyInstanceType<T extends new (...args: any[]) => any> = T extends new (
-  ...args: any[]
-) => infer R
-  ? R
-  : any;
+type MyInstanceType<T extends new (...args: any[]) => any> = T extends new (...args: any[]) => infer R ? R : any;
 type TDispatcherServices = Record<"postgres" | "mongo", MyInstanceType<typeof UserPostgresService>>;
 
 export type TQueryDb = Record<"db", "mongo" | "postgres">;
@@ -21,10 +17,7 @@ export type TQueryDb = Record<"db", "mongo" | "postgres">;
 export class UserService {
   private dispatcherServices = {} as TDispatcherServices;
 
-  constructor(
-    private userPostgresService: UserPostgresService,
-    private userMongoService: UserMongoService
-  ) {
+  constructor(private userPostgresService: UserPostgresService, private userMongoService: UserMongoService) {
     this.dispatcherServices = {
       postgres: this.userPostgresService,
       mongo: this.userMongoService,

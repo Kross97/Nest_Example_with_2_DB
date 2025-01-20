@@ -52,10 +52,7 @@ export class MyDuplexStream extends Duplex {
     callback();
   }
 
-  _writev(
-    chunks: Array<{ chunk: any; encoding: BufferEncoding }>,
-    callback: (error?: Error | null) => void
-  ) {
+  _writev(chunks: Array<{ chunk: any; encoding: BufferEncoding }>, callback: (error?: Error | null) => void) {
     console.log("_writev в Duplex потоке", chunks);
     chunks.forEach((chunk) => {
       this.push(chunk.chunk, chunk.encoding); // Связывание работы буффера записи с буффером чтения

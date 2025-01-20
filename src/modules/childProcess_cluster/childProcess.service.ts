@@ -57,9 +57,7 @@ export class ChildProcessService {
     });
 
     const promiseThird = new Promise((resolve) => {
-      const childProcessThird = exec(
-        `node ${path.resolve(__dirname, "./child_process_files/exec_test.js")}`
-      );
+      const childProcessThird = exec(`node ${path.resolve(__dirname, "./child_process_files/exec_test.js")}`);
       childProcessThird.stdout.on("data", (data) => {
         console.log("Данные файла exec_test.ts", data);
         resolve(`"Данные файла exec_test.js", ${data}`);
@@ -87,9 +85,7 @@ export class ChildProcessService {
       });
     });
 
-    const childProcess2 = await spawn("node", [
-      path.resolve(__dirname, "./child_process_files/spawn_test.js"),
-    ]);
+    const childProcess2 = await spawn("node", [path.resolve(__dirname, "./child_process_files/spawn_test.js")]);
 
     console.log("Есть ли stdout у childProcess.spawn()", !!childProcess2.stdout);
     console.log("Есть ли channel у childProcess.spawn()", !!childProcess2.channel);
@@ -102,15 +98,8 @@ export class ChildProcessService {
 
     const promiseSecond = new Promise((resolve) => {
       childProcess2.stdout.on("end", () => {
-        console.log(
-          "Данные полученные от файла spawn_test.js:",
-          Buffer.from(Buffer.concat(spawnData)).toString("utf8")
-        );
-        resolve(
-          `'Данные полученные от файла spawn_test.js:', ${Buffer.from(
-            Buffer.concat(spawnData)
-          ).toString("utf8")}`
-        );
+        console.log("Данные полученные от файла spawn_test.js:", Buffer.from(Buffer.concat(spawnData)).toString("utf8"));
+        resolve(`'Данные полученные от файла spawn_test.js:', ${Buffer.from(Buffer.concat(spawnData)).toString("utf8")}`);
       });
     });
 

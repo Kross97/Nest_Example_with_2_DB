@@ -22,20 +22,16 @@ class EventEmitter {
 
   remove(event: TEvents, handler: () => void) {
     if (event in this.eventsHandlersDispatcher) {
-      this.eventsHandlersDispatcher[event] = this.eventsHandlersDispatcher[event].filter(
-        (handlerObj) => handlerObj.handler !== handler
-      );
+      this.eventsHandlersDispatcher[event] = this.eventsHandlersDispatcher[event].filter((handlerObj) => handlerObj.handler !== handler);
     }
   }
 
   emit(event: TEvents) {
     if (event in this.eventsHandlersDispatcher) {
-      this.eventsHandlersDispatcher[event] = this.eventsHandlersDispatcher[event].filter(
-        (handlerObj) => {
-          handlerObj.handler();
-          return !handlerObj.once;
-        }
-      );
+      this.eventsHandlersDispatcher[event] = this.eventsHandlersDispatcher[event].filter((handlerObj) => {
+        handlerObj.handler();
+        return !handlerObj.once;
+      });
     }
   }
 }

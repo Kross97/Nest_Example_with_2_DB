@@ -29,9 +29,7 @@ describe("Тестирование модуля Crypto с помощью user-ev
       exact: false,
     });
 
-    const mockPost = jest
-      .spyOn(FetchAgent, "postRequest")
-      .mockImplementation(() => Promise.resolve(dataCipher));
+    const mockPost = jest.spyOn(FetchAgent, "postRequest").mockImplementation(() => Promise.resolve(dataCipher));
 
     await userEvent.type(inputCipher, dataForCipher);
     await userEvent.click(screen.getByTestId("cipher-button"));
@@ -48,9 +46,7 @@ describe("Тестирование модуля Crypto с помощью user-ev
       exact: false,
     });
 
-    const mockPost = jest
-      .spyOn(FetchAgent, "postRequest")
-      .mockImplementation(() => Promise.resolve(dataDeCipher));
+    const mockPost = jest.spyOn(FetchAgent, "postRequest").mockImplementation(() => Promise.resolve(dataDeCipher));
 
     await userEvent.type(input, dataForDecipher);
     await userEvent.click(screen.getByTestId("decipher-button"));

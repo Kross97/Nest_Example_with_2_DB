@@ -5,10 +5,7 @@ import { ClusterService } from "./cluster.service";
 
 @Controller("childProcess_cluster")
 export class ChildProcessClusterController {
-  constructor(
-    private childProcessService: ChildProcessService,
-    private clusterService: ClusterService
-  ) {}
+  constructor(private childProcessService: ChildProcessService, private clusterService: ClusterService) {}
 
   // Не работает!
   @Get("exec_docker")

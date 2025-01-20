@@ -47,9 +47,7 @@ class FetchService {
   };
 
   private buildQueryDbType(currentUrl: string) {
-    return currentUrl.includes("?")
-      ? `${currentUrl}&db=${this.typeDb}`
-      : `${currentUrl}?db=${this.typeDb}`;
+    return currentUrl.includes("?") ? `${currentUrl}&db=${this.typeDb}` : `${currentUrl}?db=${this.typeDb}`;
   }
 
   async request<T = any>({
@@ -63,8 +61,7 @@ class FetchService {
   IUrlParams): Promise<T> {
     const urlHost = this.backUrl() + (url.startsWith("/") ? url : `/${url}`);
     const currentHeaders = { ...headers, ...dispatcherHeaders[requestType], ...initAuthHeader() };
-    const currentUrl =
-      method === "GET" && body ? `${urlHost}?${new URLSearchParams(body).toString()}` : urlHost;
+    const currentUrl = method === "GET" && body ? `${urlHost}?${new URLSearchParams(body).toString()}` : urlHost;
 
     const response = await fetch(this.buildQueryDbType(currentUrl), {
       headers: currentHeaders,

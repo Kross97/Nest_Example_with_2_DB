@@ -48,11 +48,7 @@ async function bootstrap(port: number) {
   const setPortHandler = async (app: NestExpressApplication<any>, currentPort: number) => {
     try {
       await app.listen(currentPort);
-      console.log(
-        `${
-          currentPort === mainPort ? "Основной" : "Форк кластер"
-        } сервер прослушивается на порту ${currentPort}`
-      );
+      console.log(`${currentPort === mainPort ? "Основной" : "Форк кластер"} сервер прослушивается на порту ${currentPort}`);
       return currentPort;
     } catch (err) {
       if (err.code === "EADDRINUSE") {

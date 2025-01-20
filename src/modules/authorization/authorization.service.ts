@@ -72,16 +72,10 @@ export class AuthorizationService {
     });
 
     if (userExist) {
-      setCookieHandler(
-        response,
-        "role",
-        Buffer.from(JSON.stringify(userExist.role)).toString("base64")
-      );
+      setCookieHandler(response, "role", Buffer.from(JSON.stringify(userExist.role)).toString("base64"));
       response.end(JSON.stringify(this.buildJwtToken(userExist)));
     } else {
-      const error = new HTTP_ERROR_DICTIONARY.UnauthorizedException(
-        "Данные о пользователе неккоректны. Такого пользователя нет в Базе"
-      );
+      const error = new HTTP_ERROR_DICTIONARY.UnauthorizedException("Данные о пользователе неккоректны. Такого пользователя нет в Базе");
       response.status(error.getStatus());
       response.end(JSON.stringify(error.getResponse()));
     }

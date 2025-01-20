@@ -5,11 +5,11 @@ import { Response } from "express";
 import { createReadStream } from "fs";
 import { writeFile, rm } from "fs/promises";
 import { resolve } from "path";
-import { MediaMaterialsEntity } from "../../entities/media_materials/MediaMaterials.entity";
-import { fileToMediaEntity } from "../../common/utils/fileToMediaEntity";
+import { MediaMaterialsEntity } from "../../../entities/media_materials/MediaMaterials.entity";
+import { fileToMediaEntity } from "../../../common/utils/fileToMediaEntity";
 
 @Injectable()
-export class MediaMaterialsService {
+export class MediaMaterialsPostgresService {
   constructor(
     @InjectRepository(MediaMaterialsEntity)
     private mediaMaterialsRepository: Repository<MediaMaterialsEntity>

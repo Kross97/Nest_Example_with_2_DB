@@ -14,9 +14,7 @@ export class StreamsService {
     const writable = new MyWritableStream(undefined);
     writable.on("close", () => console.log("close: закрытие пишущего потока"));
     writable.on("drain", () => console.log("drain: поток вновь готов для записи"));
-    writable.on("pipe", (readable) =>
-      console.log("pipe: поток чтения подсоединен для передачи в поток записи", readable.toString())
-    );
+    writable.on("pipe", (readable) => console.log("pipe: поток чтения подсоединен для передачи в поток записи", readable.toString()));
     writable.on("error", (err) => console.log("error: ошибка в пишущем потоке", err));
     writable.on("finish", () => console.log("finish: end() закрытие потока"));
 
@@ -28,16 +26,10 @@ export class StreamsService {
     readable.setEncoding("utf8"); // если не указать будет возвращен Buffer, при указании данные будут приходит в строковом виде
 
     readable.on("close", () => console.log("close: закрытие читающего потока"));
-    readable.on("end", () =>
-      console.log(
-        "end: читающего потока происходит, когда больше нет данных для потребления из потока."
-      )
-    );
+    readable.on("end", () => console.log("end: читающего потока происходит, когда больше нет данных для потребления из потока."));
     readable.on("error", (err) => console.log("error: ошибка читающего потока", err));
     readable.on("pause", () => console.log("pause: читающий поток приостановлен"));
-    readable.on("resume", () =>
-      console.log("resume: читающий поток возобновил работу после паузы")
-    );
+    readable.on("resume", () => console.log("resume: читающий поток возобновил работу после паузы"));
     return readable;
   }
 

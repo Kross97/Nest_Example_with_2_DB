@@ -13,9 +13,7 @@ export class RolesGuard implements CanActivate {
     const cookiesDictionary = parseCookie(cookie);
     const rolesSet = new Set(roles);
     if (cookiesDictionary.role) {
-      const currentRole = JSON.parse(
-        Buffer.from(cookiesDictionary.role, "base64").toString("utf8")
-      );
+      const currentRole = JSON.parse(Buffer.from(cookiesDictionary.role, "base64").toString("utf8"));
       if (rolesSet.has(currentRole.role)) {
         return true;
       }

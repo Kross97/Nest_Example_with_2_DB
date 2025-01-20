@@ -48,10 +48,7 @@ export function ClusterBlock() {
         <span>
           {currentPorts.map((currentPort) => (
             <React.Fragment key={currentPort}>
-              <span
-                style={{ cursor: "pointer", color: "blue" }}
-                onClick={() => setCurrentPortHandler(currentPort)}
-              >
+              <span style={{ cursor: "pointer", color: "blue" }} onClick={() => setCurrentPortHandler(currentPort)}>
                 {currentPort}
               </span>
               <span>{` , `}</span>

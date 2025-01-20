@@ -87,10 +87,7 @@ export class MyTransformStream extends Transform {
     // callback();
   }
 
-  _writev(
-    chunks: Array<{ chunk: any; encoding: BufferEncoding }>,
-    callback: (error?: Error | null) => void
-  ) {
+  _writev(chunks: Array<{ chunk: any; encoding: BufferEncoding }>, callback: (error?: Error | null) => void) {
     console.log("_writev Transform потока", chunks);
     chunks.forEach((chunk) => {
       this._transform(chunk.chunk, chunk.encoding, callback);

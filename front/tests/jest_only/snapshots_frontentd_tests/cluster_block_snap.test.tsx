@@ -26,14 +26,12 @@ import Mock = jest.Mock;
  * Второй способ переписать внутренню логику метода
  * */
 
-const getRequestMock = jest
-  .spyOn<typeof FetchAgent, "getRequest", undefined>(FetchAgent, "getRequest")
-  .mockImplementation(() =>
-    Promise.resolve({
-      availablePorts: [3002, 3003],
-      currentPort: 3001,
-    })
-  );
+const getRequestMock = jest.spyOn<typeof FetchAgent, "getRequest", undefined>(FetchAgent, "getRequest").mockImplementation(() =>
+  Promise.resolve({
+    availablePorts: [3002, 3003],
+    currentPort: 3001,
+  })
+);
 
 /**
  * Делаем имитацию useState, чтобы не было пере-рендера в компоненте из за useEffecta
@@ -44,9 +42,7 @@ const setStateMock = jest.fn();
  * Моковые данные для корректного снапшота с данными
  * */
 const useSateMock = () => [[3002, 3003], setStateMock];
-const reactUseState = jest
-  .spyOn<typeof React, "useState", undefined>(React, "useState")
-  .mockImplementation(useSateMock);
+const reactUseState = jest.spyOn<typeof React, "useState", undefined>(React, "useState").mockImplementation(useSateMock);
 
 afterAll(() => {
   /**

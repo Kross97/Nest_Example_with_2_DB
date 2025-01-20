@@ -10,7 +10,7 @@ import { AuthorizationModule } from "./modules/authorization/authorization.modul
 import { CryptoModule } from "./modules/crypto/crypto.modulee";
 import { ChildProcessClusterModule } from "./modules/childProcess_cluster/childProcess_cluster.modulee";
 import { StreamsModule } from "./modules/streams/streams.modulee";
-import { createMongoDbService, MARK_MONGO_PROVIDER } from "./mongodb.service";
+import { MongoNestConnector } from "./mongodb.connector";
 // import dbConfiguration from "./config/db.config";
 
 // способ orm_config 1
@@ -54,6 +54,7 @@ import { createMongoDbService, MARK_MONGO_PROVIDER } from "./mongodb.service";
       },
       // inject: [ConfigService],
     }),
+    MongoNestConnector.register(),
     ConfigModule.forRoot({
       envFilePath: ".env", // по умолчанию
       cache: true,

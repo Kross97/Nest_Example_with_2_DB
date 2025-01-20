@@ -14,9 +14,7 @@ export class PhotoRefactorToMediaMaterials1731404165628 implements MigrationInte
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "media_materials_entity" DROP CONSTRAINT "FK_db0d8e2d27a2880eda822c317b1"`
-    );
+    await queryRunner.query(`ALTER TABLE "media_materials_entity" DROP CONSTRAINT "FK_db0d8e2d27a2880eda822c317b1"`);
     await queryRunner.query(`DROP TABLE "media_materials_entity"`);
   }
 }

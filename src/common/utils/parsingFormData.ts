@@ -83,14 +83,9 @@ export async function parsingFormData<T>(req: http.IncomingMessage): T {
           // isBuffer - Если часть содержит файл, сохраняем его в формате Buffer
 
           if (formData[keyRecord] instanceof Array) {
-            formData[keyRecord].push(
-              isBuffer ? buildBufferData(record[keyRecord]) : record[keyRecord]
-            );
+            formData[keyRecord].push(isBuffer ? buildBufferData(record[keyRecord]) : record[keyRecord]);
           } else if (formData[keyRecord]) {
-            formData[keyRecord] = [
-              formData[keyRecord],
-              isBuffer ? buildBufferData(record[keyRecord]) : record[keyRecord],
-            ];
+            formData[keyRecord] = [formData[keyRecord], isBuffer ? buildBufferData(record[keyRecord]) : record[keyRecord]];
           } else {
             formData[keyRecord] = isBuffer ? buildBufferData(record[keyRecord]) : record[keyRecord];
           }

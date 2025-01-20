@@ -34,10 +34,7 @@ describe("Тестирование Crypto блока без подключени
     cy.get("@rootCrypto").first();
     cy.get("@rootCrypto").last();
     cy.get("@rootCrypto").children();
-    cy.get("@rootCrypto")
-      .get("h4")
-      .prev()
-      .should("have.html", "Модуль для работы с шифрованием (Crypto node.js)");
+    cy.get("@rootCrypto").get("h4").prev().should("have.html", "Модуль для работы с шифрованием (Crypto node.js)");
     cy.get("@rootCrypto").get("h4").next();
     cy.get("@rootCrypto").siblings();
     cy.get("@rootCrypto").root();

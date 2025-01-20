@@ -55,9 +55,7 @@ export class MyReadableStream extends Readable {
     setTimeout(() => {
       const flag = this.push(`рандомные_данные_${Math.random()}_${Math.random()}`, "utf8");
       if (!flag) {
-        console.log(
-          "Запись во внутренний буффер читаемого потока больше невозможна (буффер полон)"
-        );
+        console.log("Запись во внутренний буффер читаемого потока больше невозможна (буффер полон)");
       }
     }, 2000);
   }

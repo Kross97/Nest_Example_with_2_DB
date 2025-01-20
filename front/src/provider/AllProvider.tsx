@@ -29,9 +29,7 @@ const AllContext = React.createContext<IAllContext>({
 
 export function AllProvider({ children }: { children: JSX.Element }) {
   const [typeDb, setTypeDb] = useState<IAllContext["typeDb"]>("postgres");
-  const [token, setToken] = useState<string | null>(
-    () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA) || null
-  );
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA) || null);
   const [currentPort, setCurrentPort] = useState<string | number | null>(
     () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA) || FetchAgent.backPort
   );
@@ -93,7 +91,6 @@ export function AllProvider({ children }: { children: JSX.Element }) {
 
 export const getTokenJwt = () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA);
 
-export const getCurrentClusterPort = () =>
-  localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA);
+export const getCurrentClusterPort = () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA);
 
 export const useAllContext = () => useContext(AllContext);

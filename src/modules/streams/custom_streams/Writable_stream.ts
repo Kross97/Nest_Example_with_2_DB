@@ -58,23 +58,11 @@ export class MyWritableStream extends Writable {
   }
 
   _write(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
-    console.log(
-      "_write",
-      chunk,
-      "encoding",
-      encoding,
-      "callback",
-      callback,
-      "ЕСТЬ ЛИ МЕТОД у родетиля",
-      super._write
-    );
+    console.log("_write", chunk, "encoding", encoding, "callback", callback, "ЕСТЬ ЛИ МЕТОД у родетиля", super._write);
     callback();
   }
 
-  _writev(
-    chunks: Array<{ chunk: any; encoding: BufferEncoding }>,
-    callback: (error?: Error | null) => void
-  ) {
+  _writev(chunks: Array<{ chunk: any; encoding: BufferEncoding }>, callback: (error?: Error | null) => void) {
     console.log("_writev", chunks, "callback", callback, "ЕСТЬ ЛИ МЕТОД у родетиля", super._writev);
     callback();
   }
