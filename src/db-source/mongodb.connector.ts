@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { Collection, MongoClient } from "mongodb";
 import { DynamicModule, Module } from "@nestjs/common";
 import { MongodbService } from "./mongodb.service";
 
@@ -26,6 +26,26 @@ const createMongoDbService = async () => {
  * */
 @Module({})
 export class MongoNestConnector {
+  private static modifyCollectionsWithDatesMark() {
+    // type TInsertOne = typeof Collection.prototype.insertOne;
+    // const nativeInsertOne: TInsertOne = Collection.prototype.insertOne;
+
+    console.log("method", Collection.prototype.insertOne.toString());
+    // Collection.prototype.insertOne = function insertWithDates(...args: Parameters<TInsertOne>) {
+    //   const [entity, options] = args;
+    //   console.log("entity, options =>", entity, options);
+    //   return nativeInsertOne.call(
+    //     Collection.prototype,
+    //     {
+    //       ...entity,
+    //       createdAt: new Date().toLocaleString(),
+    //       updatedAt: new Date().toLocaleString(),
+    //     },
+    //     options || {}
+    //   );
+    // };
+  }
+
   private static MongodbService: MongodbService;
 
   private static getModuleData(): DynamicModule {
@@ -50,8 +70,13 @@ export class MongoNestConnector {
     };
   }
 
-  static async register(): Promise<DynamicModule> {
+  static async register({ datesMark }: { datesMark?: boolean } = { datesMark: true }): Promise<DynamicModule> {
     const currentMongoDbService = await createMongoDbService();
+
+    if (datesMark) {
+      this.modifyCollectionsWithDatesMark();
+    }
+
     this.MongodbService = currentMongoDbService;
     return this.getModuleData();
   }

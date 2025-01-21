@@ -7,13 +7,17 @@ import { fileToMediaEntityMongo } from "../../../common/utils/fileToMediaEntity"
 
 @Injectable()
 export class MediaMaterialsMongoService {
+  static mediaMaterialsCollections = "mediaMaterials";
+
+  static mediaMaterialsBufferCollections = "mediaMaterialsBuffer";
+
   private mediaMaterialsCollection: Collection<any>;
 
   private mediaMaterialsBufferCollection: Collection<any>;
 
   constructor(@Inject(MARK_MONGO_PROVIDER) private mongoService: MongodbService) {
-    this.mediaMaterialsCollection = this.mongoService.getMongoCollection("mediaMaterials");
-    this.mediaMaterialsBufferCollection = this.mongoService.getMongoCollection("mediaMaterialsBuffer");
+    this.mediaMaterialsCollection = this.mongoService.getMongoCollection(MediaMaterialsMongoService.mediaMaterialsCollections);
+    this.mediaMaterialsBufferCollection = this.mongoService.getMongoCollection(MediaMaterialsMongoService.mediaMaterialsBufferCollections);
   }
 
   async createMedia(file: Express.Multer.File) {
@@ -25,7 +29,54 @@ export class MediaMaterialsMongoService {
   }
 
   getAll(query: Record<"search", string>) {
-    const mediaCursor = this.mediaMaterialsCollection.find();
+    const mediaCursor = this.mediaMaterialsCollection.aggregate([
+      {
+        $set: {
+          id: "$_id",
+        },
+      },
+      {
+        $unset: ["bufferId", "_id"],
+      },
+    ]);
     return mediaCursor.toArray();
+  }
+
+  private async getPhotoBuffer(id: string, response: Response) {
+    const buffer = await this.mediaMaterialsCollection.aggregate([
+      {
+        $match: {
+          _id: new ObjectId(id),
+        },
+      },
+      {
+        $lookup: {
+          from: this.mediaMaterialsBufferCollection,
+          localField: "bufferId",
+          foreignField: "_id",
+          as: "media_buffer_mapping",
+        },
+      },
+      // {
+      //   $set: {
+      //     buffer: "$media_buffer_mapping.buffer",
+      //   },
+      // },
+      {
+        $unset: ["bufferId", "media_buffer_mapping"],
+      },
+    ]);
+
+    for await (const document of buffer) {
+      console.log(document);
+    }
+  }
+
+  getPhotoBufferFirst(id: string, response: Response) {
+    this.getPhotoBuffer(id, response);
+  }
+
+  getPhotoBufferSecond(id: string, response: Response) {
+    this.getPhotoBuffer(id, response);
   }
 }

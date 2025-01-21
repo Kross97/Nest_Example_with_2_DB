@@ -74,7 +74,6 @@ export class UserMongoService {
     try {
       const ordersColl = this.mongoDbService.getMongoCollection("orders");
       const productsColl = this.mongoDbService.getMongoCollection("products");
-      // sssssssssdadasdasdasdassadfsdafsadfdasda
       await ordersColl.deleteMany({});
 
       const orderData = [
@@ -207,6 +206,7 @@ export class UserMongoService {
    *
    * */
   async getUsers(query: Record<"search", string>) {
+    // this.exampleLookup();
     const users = this.userCollection.find({
       $or: [
         {

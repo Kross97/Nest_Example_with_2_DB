@@ -46,14 +46,14 @@ export class MediaMaterialsController {
   //  с помощью записи файла и его чтения через ReadableStream
   @Get("download/first/:id")
   // @Header('content-type', 'image/png')
-  getPhotoBuffer(@Param("id") id: string, @Res() response: Response) {
-    return this.mediaMaterialsService.call("getPhotoBufferFirst", [id, response]);
+  getPhotoBuffer(@Param("id") id: string, @Res() response: Response, @Query() query: TQueryDb) {
+    return this.mediaMaterialsService.call("getPhotoBufferFirst", [id, response], query);
   }
 
   // Второй успешный способ возврата файла из БД без записи в файловую систему
   @Get("download/second/:id")
   // @Header('content-type', 'image/png')
-  getPhotoBlob(@Param("id") id: string, @Res() response: Response) {
-    return this.mediaMaterialsService.call("getPhotoBufferSecond", [id, response]);
+  getPhotoBlob(@Param("id") id: string, @Res() response: Response, @Query() query: TQueryDb) {
+    return this.mediaMaterialsService.call("getPhotoBufferSecond", [id, response], query);
   }
 }
