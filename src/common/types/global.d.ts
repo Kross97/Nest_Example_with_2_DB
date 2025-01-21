@@ -1,4 +1,6 @@
 import { Request as RequestExpress } from "express";
+import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
+import { NestInterceptor, Type } from "@nestjs/common";
 
 declare module "express" {
   type NikitaRequest = RequestExpress & {

@@ -2,9 +2,10 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Collection, ObjectId } from "mongodb";
 import { IUserRequest } from "../types";
-import { MARK_MONGO_PROVIDER, MongodbConnector } from "../../../mongodb.connector";
+import { MARK_MONGO_PROVIDER } from "../../../db-source/mongodb.connector";
 import { HTTP_ERROR_DICTIONARY } from "../../../common/constants/httpErrorDictionary";
 import { replaceMongoIdField } from "../../../common/utils/replaceMongoIdField";
+import { MongodbService } from "../../../db-source/mongodb.service";
 
 export interface IUserMongo {
   _id: ObjectId;
@@ -18,7 +19,7 @@ export interface IUserMongo {
 export class UserMongoService {
   private userCollection: Collection<IUserMongo>;
 
-  constructor(@Inject(MARK_MONGO_PROVIDER) private mongoDbService: MongodbConnector) {
+  constructor(@Inject(MARK_MONGO_PROVIDER) private mongoDbService: MongodbService) {
     this.userCollection = this.mongoDbService.getMongoCollection<IUserMongo>("users");
   }
 

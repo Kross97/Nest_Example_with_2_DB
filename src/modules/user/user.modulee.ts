@@ -7,9 +7,8 @@ import { Car } from "../../entities/car/car.entity";
 import { RoleEntity } from "../../entities/user/role.entity";
 import { MediaMaterialsEntity } from "../../entities/media_materials/MediaMaterials.entity";
 import { UserMongoService } from "./databases_layers/user.mongo.service";
-// import { createMongoDbService, MARK_MONGO_PROVIDER } from "../../mongodb.service";
 import { UserService } from "./user.service";
-import { MongoNestConnector } from "../../mongodb.connector";
+import { MongoNestConnector } from "../../db-source/mongodb.connector";
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Car, RoleEntity, MediaMaterialsEntity]), MongoNestConnector.connectMongo()],

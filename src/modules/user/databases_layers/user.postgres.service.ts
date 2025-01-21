@@ -5,7 +5,7 @@ import { Repository } from "typeorm";
 import { User } from "../../../entities/user/user.entity";
 import { Car } from "../../../entities/car/car.entity";
 import { MOCK_USER } from "../constants";
-import { fileToMediaEntity } from "../../../common/utils/fileToMediaEntity";
+import { fileToMediaEntityPostgres } from "../../../common/utils/fileToMediaEntity";
 import { IUserRequest } from "../types";
 import { HTTP_ERROR_DICTIONARY } from "../../../common/constants/httpErrorDictionary";
 import { RoleEntity } from "../../../entities/user/role.entity";
@@ -83,7 +83,7 @@ export class UserPostgresService {
   }
 
   async createUserWithMedia(user: User, file: Express.Multer.File) {
-    user.mediaMaterials = [fileToMediaEntity(file)];
+    user.mediaMaterials = [fileToMediaEntityPostgres(file)];
     await this.userRepository.save(user);
 
     return { status: "ПОЛЬЗОВАТЕЛЬ_С_FORM_DATA_PHOTO_СОЗДАН", user };

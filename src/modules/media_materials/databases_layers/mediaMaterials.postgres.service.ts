@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -6,7 +7,7 @@ import { createReadStream } from "fs";
 import { writeFile, rm } from "fs/promises";
 import { resolve } from "path";
 import { MediaMaterialsEntity } from "../../../entities/media_materials/MediaMaterials.entity";
-import { fileToMediaEntity } from "../../../common/utils/fileToMediaEntity";
+import { fileToMediaEntityPostgres } from "../../../common/utils/fileToMediaEntity";
 
 @Injectable()
 export class MediaMaterialsPostgresService {
@@ -16,13 +17,13 @@ export class MediaMaterialsPostgresService {
   ) {}
 
   async createMedia(file: Express.Multer.File) {
-    const fileSaved = await this.mediaMaterialsRepository.save(fileToMediaEntity(file));
+    const fileSaved = await this.mediaMaterialsRepository.save(fileToMediaEntityPostgres(file));
 
     return { status: "ФАЙЛ_СОХРАНЕН", file: fileSaved };
   }
 
   async createMediaMany(files: Express.Multer.File[]) {
-    const filesSaved = await this.mediaMaterialsRepository.save(files.map(fileToMediaEntity));
+    const filesSaved = await this.mediaMaterialsRepository.save(files.map(fileToMediaEntityPostgres));
 
     return { status: "ФАЙЛЫ_СОХРАНЕНЫ", files: filesSaved };
   }

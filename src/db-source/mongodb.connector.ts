@@ -1,35 +1,8 @@
-// eslint-disable-next-line max-classes-per-file
-import { Db, MongoClient, Document } from "mongodb";
-import { BeforeApplicationShutdown, DynamicModule, Injectable, Module, OnModuleDestroy } from "@nestjs/common";
+import { MongoClient } from "mongodb";
+import { DynamicModule, Module } from "@nestjs/common";
+import { MongodbService } from "./mongodb.service";
 
 export const MARK_MONGO_PROVIDER = "MARK_MONGO_PROVIDER";
-
-@Injectable()
-export class MongodbConnector implements BeforeApplicationShutdown, OnModuleDestroy {
-  public db: Db = null;
-
-  private client: MongoClient = null;
-
-  private dbName: string = "Kross97_mongo_db";
-
-  constructor(client: MongoClient) {
-    this.client = client;
-    this.db = client.db(this.dbName);
-  }
-
-  onModuleDestroy() {
-    console.log("OnModuleDestroy ---> MongodbService");
-  }
-
-  async beforeApplicationShutdown(signal?: string) {
-    console.log("beforeApplicationShutdown ---> MongodbService");
-    await this.client.close();
-  }
-
-  getMongoCollection<T extends Document = Document>(collectionName: string) {
-    return this.db.collection<T>(collectionName);
-  }
-}
 
 const createMongoDbService = async () => {
   /**
@@ -43,7 +16,7 @@ const createMongoDbService = async () => {
   await client.connect();
   console.log("Connected successfully to server");
 
-  return new MongodbConnector(client);
+  return new MongodbService(client);
 };
 
 /**
@@ -53,7 +26,7 @@ const createMongoDbService = async () => {
  * */
 @Module({})
 export class MongoNestConnector {
-  private static MongodbService: MongodbConnector;
+  private static MongodbService: MongodbService;
 
   private static getModuleData(): DynamicModule {
     return {

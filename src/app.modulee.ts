@@ -10,7 +10,7 @@ import { AuthorizationModule } from "./modules/authorization/authorization.modul
 import { CryptoModule } from "./modules/crypto/crypto.modulee";
 import { ChildProcessClusterModule } from "./modules/childProcess_cluster/childProcess_cluster.modulee";
 import { StreamsModule } from "./modules/streams/streams.modulee";
-import { MongoNestConnector } from "./mongodb.connector";
+import { MongoNestConnector } from "./db-source/mongodb.connector";
 // import dbConfiguration from "./config/db.config";
 
 // способ orm_config 1

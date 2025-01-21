@@ -7,11 +7,10 @@ import { parsingFormData } from "../../common/utils/parsingFormData";
 import { IUserRequest } from "./types";
 import { MediaMaterialsEntity } from "../../entities/media_materials/MediaMaterials.entity";
 import { MediaBufferEntity } from "../../entities/media_materials/MediaBuffer.entity";
+import { TQueryDb, TTypesDb } from "../../db-source/types/mongo";
 
 type MyInstanceType<T extends new (...args: any[]) => any> = T extends new (...args: any[]) => infer R ? R : any;
-type TDispatcherServices = Record<"postgres" | "mongo", MyInstanceType<typeof UserPostgresService>>;
-
-export type TQueryDb = Record<"db", "mongo" | "postgres">;
+type TDispatcherServices = Record<TTypesDb, MyInstanceType<typeof UserPostgresService>>;
 
 @Injectable()
 export class UserService {
@@ -60,7 +59,6 @@ export class UserService {
     params?: Parameters<TDispatcherServices["postgres"][M]>,
     queryParam?: TQueryDb
   ) {
-    console.log("queryParam =>", queryParam, method);
     const typeService = queryParam?.db || "postgres";
     return this.dispatcherServices[typeService][method](...(params || []));
   }

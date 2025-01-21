@@ -30,7 +30,7 @@ module.exports = {
     "airbnb",
     "plugin:jest/recommended",
     "plugin:react/recommended",
-    // "plugin:prettier/recommended", // плагин здесь не нужен мешает работате (дергается код, видно конфликт)
+    "plugin:prettier/recommended", // плагин здесь не нужен мешает работате (дергается код, видно конфликт)
     "plugin:@typescript-eslint/recommended",
     "prettier", // eslint-config-prettier - Отключает все правила, которые не нужны или могут конфликтовать с Prettier .
   ],
