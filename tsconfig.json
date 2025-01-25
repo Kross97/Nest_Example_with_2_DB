@@ -19,8 +19,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["node_modules", "dist", "front"],
+  "exclude": ["node_modules", "dist", "front", "документация"],
   "include": ["src",
-    "./native_node_servers/simple_server.ts"
+    "./native_node_servers/simple_server.ts",
+    "./server_express",
+    "./front"
   ]
 }

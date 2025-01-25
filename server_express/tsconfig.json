@@ -1,0 +1,33 @@
+{
+  // нужен для правильной работы import при использовании ts-node
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "compilerOptions": {
+    // задает директорию куда складываются файлы после компиляции tsc
+    "outDir": "./dist_ts",
+
+    // Если указано, все глобальные (немодульные) файлы будут объединены в один указанный выходной файл.
+    // "outFile": "./dist/out_file.js",
+
+    // работа с корневыми каталогами (РАСПИСАТЬ НУЖНО)
+    //"rootDir": "",
+    //"rootDirs": [],
+
+
+    "module": "esnext",
+    "target": "es5",
+    "sourceMap": true,
+
+    /**
+       Эти две настройки нужны для корректной работы импорта по умолчанию
+    */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
