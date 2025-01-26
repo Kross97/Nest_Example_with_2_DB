@@ -24,15 +24,15 @@ userModule.get("/:id", function (req, res) {
   void UserPostgresService.getOneUser(req, res);
 });
 
-userModule.delete("delete/:id", function (req, res) {
+userModule.delete("/delete/:id", function (req, res) {
   void UserPostgresService.deleteUser(req, res);
 });
 
-userModule.put("update/:id", jsonParser, function (req, res) {
+userModule.put("/update/:id", jsonParser, function (req, res) {
   void UserPostgresService.updateUser(req, res);
 });
 
-userModule.put("update/photos/:id", function (req, res) {
+userModule.put("/update/photos/:id", function (req, res) {
   // void UserPostgresService.updatePhotos(req, res);
   res.send("sss");
 });

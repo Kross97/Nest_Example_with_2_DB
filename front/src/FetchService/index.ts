@@ -1,5 +1,6 @@
 import { getCurrentClusterPort, getTokenJwt } from "../provider/AllProvider";
 import { errorHandler } from "./utils/errorHandler";
+import { TTypesDataBases } from "../provider/types";
 
 interface IUrlParams {
   url: string;
@@ -30,7 +31,7 @@ const dispatcherResponses: Record<string, string> = {
 const initAuthHeader = () => ({ Authorization: `Bearer ${getTokenJwt()}` });
 
 class FetchService {
-  public typeDb: "postgres" | "mongo" = "postgres";
+  public typeDb: TTypesDataBases = "postgres";
 
   private mainPort = process.env.MAIN_BACK_PORT || 3001;
 
@@ -64,8 +65,14 @@ class FetchService {
   private reBuildWithConfigPorts = (url: string) => {
     const urlWithDb = this.buildQueryDbType(url);
     const currentUrl = new URL(urlWithDb);
+    const [, controller] = currentUrl.pathname.split("/");
+
+    if (controller in this.portsConfig) {
+      currentUrl.port = String(this.portsConfig[controller]);
+    }
     console.log("currentUrl", currentUrl, "config", this.portsConfig);
-    return urlWithDb;
+
+    return currentUrl.toString();
   };
 
   async request<T = any>({

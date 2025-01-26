@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { Request, Response } from "express";
 import { TypeOrmDataSource } from "$nest_project_db_source";
 import { User } from "$nest_project/entities/user/user.entity";
@@ -8,7 +6,7 @@ import { RoleEntity } from "$nest_project/entities/user/role.entity";
 
 import { MediaMaterialsEntity } from "$nest_project/entities/media_materials/MediaMaterials.entity";
 import { UserPostgresDb } from "$nest_project/userDb";
-import { IUserRequest } from "../../../modules/user/types";
+import { IUserRequest } from "../../../src/modules/user/types";
 
 class UserPostgresServiceClass {
   private userPostgresDb: UserPostgresDb;
@@ -32,7 +30,7 @@ class UserPostgresServiceClass {
   }
 
   async getOneUser(request: Request, response: Response) {
-    const user = this.userPostgresDb.getOneUser(request.params.id);
+    const user = await this.userPostgresDb.getOneUser(request.params.id);
     response.send(user);
   }
 

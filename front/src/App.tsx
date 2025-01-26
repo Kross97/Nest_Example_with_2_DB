@@ -10,7 +10,7 @@ import { CryptoBlock } from "./modules/crypto";
 import { EventEmitterAgent, EventsDictionary } from "./EventEmitter";
 
 export function FullApp() {
-  const { token, typeDb, setTypeDbHandler } = useAllContext();
+  const { token, typeDb, setTypeDbHandler, portsConfigs } = useAllContext();
 
   const exitHandler = () => {
     EventEmitterAgent.emit(EventsDictionary.unAuthorized);
@@ -33,12 +33,17 @@ export function FullApp() {
           <option value="mongo">mongo</option>
         </select>
       )}
-      {/* для размонтирования и запросов на указанную базу данных */}
+      {/**
+          Для размонтирования и триггера всех запросов в зависимости от базы данных (postgres | mongo)
+       */}
       <div key={typeDb} style={{ display: "flex", flexWrap: "wrap" }}>
         {token && <ClusterBlock />}
         <div style={{ display: "flex" }}>
           {token && <PhotoBlock />}
-          {token && <UserBlock />}
+          {/**
+              Для размонтирования и триггера всех запросов в зависимости от платформы (express | nest)
+           */}
+          {token && <UserBlock key={portsConfigs.user} />}
         </div>
         {token && <CryptoBlock />}
         {!token && <AuthBlock />}

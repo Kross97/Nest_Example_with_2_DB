@@ -83,7 +83,10 @@ export function UserBlock() {
       <ModalUser user={userEdit} showEditHandler={showEditHandler} />
       {idUSerForShow && <ModalShowUser id={idUSerForShow} onClose={() => setIdShow(null)} />}
       <div className={cn.userBlock}>
-        <select onChange={(e) => changeConfigPorts({ key: "user", type: e.target.value as "express" | "nest" })}>
+        <select
+          style={{ width: "200px", marginBottom: "20px" }}
+          onChange={(e) => changeConfigPorts({ key: "user", type: e.target.value as "express" | "nest" })}
+        >
           <option value={"express"}>express</option>
           <option value={"nest"}>nest</option>
         </select>

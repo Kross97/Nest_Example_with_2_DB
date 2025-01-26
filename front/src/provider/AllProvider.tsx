@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { EventEmitterAgent, EventsDictionary } from "../EventEmitter";
 import { AUTH_LOCAL_STORAGE_KEYS } from "../common/constants";
 import { FetchAgent } from "../FetchService";
+import { TPortsConfigTopics, TPortsConfigPlatforms, TTypesDataBases } from "./types";
 
 interface IAllContext {
   token: string | null;
@@ -9,8 +10,9 @@ interface IAllContext {
   setCurrentPortHandler: (newPort?: number) => void;
   currentPort: string | number | null;
   setTypeDbHandler: (typeDb: IAllContext["typeDb"]) => void;
-  changeConfigPorts: (partialConfig: { key: string; type: "express" | "nest" }) => void;
-  typeDb: "postgres" | "mongo";
+  changeConfigPorts: (partialConfig: { key: string; type: TPortsConfigPlatforms }) => void;
+  portsConfigs: Record<TPortsConfigTopics, number>;
+  typeDb: TTypesDataBases;
 }
 
 export interface IPortsData {
@@ -27,6 +29,7 @@ const AllContext = React.createContext<IAllContext>({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setTypeDbHandler: (type) => {},
   changeConfigPorts: () => {},
+  portsConfigs: {} as Record<TPortsConfigTopics, number>,
 });
 
 const dispatcherPorts: Record<"express" | "nest", number> = {
@@ -34,7 +37,10 @@ const dispatcherPorts: Record<"express" | "nest", number> = {
   express: 3002,
 };
 
-const configPorts = {
+/**
+ * Конфигурация портов для разных разделов для перенаправления на порты разных платформ (express | nest)
+ * */
+const configPorts: Record<TPortsConfigTopics, number> = {
   user: dispatcherPorts.nest,
 };
 
@@ -104,6 +110,7 @@ export function AllProvider({ children }: { children: JSX.Element }) {
         setTypeDbHandler,
         typeDb,
         changeConfigPorts,
+        portsConfigs,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ import { RentCarEntity } from "$nest_project/entities/rentCar/rent-car.entity";
 export const TypeOrmDataSource = new DataSource({
   type: process.env.DB_TYPE as "postgres",
   host: process.env.DB_MAIN_HOST,
-  port: +process.env.DB_MAIN_PORT,
+  port: Number(process.env.DB_MAIN_PORT),
   username: process.env.DB_MAIN_USER,
   password: process.env.DB_MAIN_PASSWORD,
   database: process.env.DB_MAIN_DATABASE,

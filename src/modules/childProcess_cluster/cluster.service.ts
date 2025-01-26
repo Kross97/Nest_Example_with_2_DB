@@ -88,7 +88,7 @@ const initClusterEvents = () => {
 export class ClusterService {
   static mainPort: number = +process.env.NEST_PORT || 3001;
 
-  static availablePorts = [{ id: null, port: ClusterService.mainPort }];
+  static availablePorts = [{ id: null, port: ClusterService?.mainPort }];
 
   async startClustersFork() {
     if (typedCluster.isPrimary) {
