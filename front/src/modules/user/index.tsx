@@ -4,10 +4,12 @@ import { FetchAgent } from "../../FetchService";
 import { IUser, IUSerRequest } from "./types";
 import { ModalUser } from "./ModalUser";
 import { ModalShowUser } from "./ModalShowUser";
+import { useAllContext } from "../../provider/AllProvider";
 
 type TKeysUser = "password" | "login" | "nameLast" | "nameFirst";
 
 export function UserBlock() {
+  const { changeConfigPorts } = useAllContext();
   const [userEdit, setUserEdit] = useState<IUSerRequest | null>(null);
   const [users, setUsers] = useState<IUser[]>([]);
   const [data, setUser] = useState<Record<TKeysUser, string>>({} as Record<TKeysUser, string>);
@@ -81,6 +83,10 @@ export function UserBlock() {
       <ModalUser user={userEdit} showEditHandler={showEditHandler} />
       {idUSerForShow && <ModalShowUser id={idUSerForShow} onClose={() => setIdShow(null)} />}
       <div className={cn.userBlock}>
+        <select onChange={(e) => changeConfigPorts({ key: "user", type: e.target.value as "express" | "nest" })}>
+          <option value={"express"}>express</option>
+          <option value={"nest"}>nest</option>
+        </select>
         <button style={{ marginBottom: "10px" }} onClick={refreshUsers}>
           рефреш_логинов
         </button>

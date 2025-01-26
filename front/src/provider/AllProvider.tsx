@@ -9,6 +9,7 @@ interface IAllContext {
   setCurrentPortHandler: (newPort?: number) => void;
   currentPort: string | number | null;
   setTypeDbHandler: (typeDb: IAllContext["typeDb"]) => void;
+  changeConfigPorts: (partialConfig: { key: string; type: "express" | "nest" }) => void;
   typeDb: "postgres" | "mongo";
 }
 
@@ -25,10 +26,21 @@ const AllContext = React.createContext<IAllContext>({
   typeDb: "postgres",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setTypeDbHandler: (type) => {},
+  changeConfigPorts: () => {},
 });
+
+const dispatcherPorts: Record<"express" | "nest", number> = {
+  nest: 3001,
+  express: 3002,
+};
+
+const configPorts = {
+  user: dispatcherPorts.nest,
+};
 
 export function AllProvider({ children }: { children: JSX.Element }) {
   const [typeDb, setTypeDb] = useState<IAllContext["typeDb"]>("postgres");
+  const [portsConfigs, setPortsConfig] = useState({ ...configPorts });
   const [token, setToken] = useState<string | null>(() => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.JWT_TOKEN_AUTH_DATA) || null);
   const [currentPort, setCurrentPort] = useState<string | number | null>(
     () => localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.CLUSTER_PORT_DATA) || FetchAgent.backPort
@@ -46,6 +58,10 @@ export function AllProvider({ children }: { children: JSX.Element }) {
       EventEmitterAgent.remove(EventsDictionary.unAuthorized, unAuthHandler);
     };
   }, []);
+
+  useEffect(() => {
+    FetchAgent.portsConfig = portsConfigs;
+  }, [portsConfigs]);
 
   const setCurrentPortHandler = async (newPort?: number) => {
     let idPort: number = newPort || -1;
@@ -73,6 +89,11 @@ export function AllProvider({ children }: { children: JSX.Element }) {
     setToken(token);
   };
 
+  const changeConfigPorts = (partialConfig: { key: string; type: "express" | "nest" }) => {
+    const { key, type } = partialConfig;
+    setPortsConfig((prev) => ({ ...prev, [key]: dispatcherPorts[type] }));
+  };
+
   return (
     <AllContext.Provider
       value={{
@@ -82,6 +103,7 @@ export function AllProvider({ children }: { children: JSX.Element }) {
         currentPort,
         setTypeDbHandler,
         typeDb,
+        changeConfigPorts,
       }}
     >
       {children}

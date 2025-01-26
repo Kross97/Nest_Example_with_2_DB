@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start-dev": "nest start --watch",
-    "start-ex": "ts-node -P ./src/server_express/tsconfig.json -r tsconfig-paths/register ./src/server_express/index.ts",
+    "start-ex": "ts-node -P ./server_express/tsconfig.json -r tsconfig-paths/register ./server_express/index.ts",
     "node": "ts-node native_node_servers/simple_server.ts",
     "node-cluster": "ts-node native_node_servers/cluster_server/cluster_server.ts",
     "start:debug": "nest start --debug --watch",

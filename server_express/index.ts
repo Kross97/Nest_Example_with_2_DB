@@ -11,7 +11,7 @@ import { connectParser } from "./utils/parsers";
 TypeOrmDataSource.initialize().then(() => {
   console.log("База данных подключенна, идет запуск приложения");
   const app = express();
-  const port = 3002;
+  const port = process.env.EXPRESS_PORT;
 
   app.use("/user", userModule);
   connectParser(app);

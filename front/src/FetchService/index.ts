@@ -36,6 +36,11 @@ class FetchService {
 
   public backPort = getCurrentClusterPort() || this.mainPort;
 
+  /**
+   * Конфиг портов для переключения между Nest и Express
+   * */
+  public portsConfig: Record<string, number> = {};
+
   private backUrl: () => string = () => `http://localhost:${this.mainPort}`;
 
   public setBackPort(newPort: number) {
@@ -46,9 +51,22 @@ class FetchService {
     this.backPort = this.mainPort;
   };
 
+  /**
+   * Для перевода запросов на mongo или postgress
+   * */
   private buildQueryDbType(currentUrl: string) {
     return currentUrl.includes("?") ? `${currentUrl}&db=${this.typeDb}` : `${currentUrl}?db=${this.typeDb}`;
   }
+
+  /**
+   * Для перевода запросов разных модулей на порты express или nest
+   * */
+  private reBuildWithConfigPorts = (url: string) => {
+    const urlWithDb = this.buildQueryDbType(url);
+    const currentUrl = new URL(urlWithDb);
+    console.log("currentUrl", currentUrl, "config", this.portsConfig);
+    return urlWithDb;
+  };
 
   async request<T = any>({
     url,
@@ -63,7 +81,7 @@ class FetchService {
     const currentHeaders = { ...headers, ...dispatcherHeaders[requestType], ...initAuthHeader() };
     const currentUrl = method === "GET" && body ? `${urlHost}?${new URLSearchParams(body).toString()}` : urlHost;
 
-    const response = await fetch(this.buildQueryDbType(currentUrl), {
+    const response = await fetch(this.reBuildWithConfigPorts(currentUrl), {
       headers: currentHeaders,
       method,
       body: method === "GET" ? null : dispatcherBody[requestType](body),

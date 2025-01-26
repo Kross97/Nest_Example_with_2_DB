@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Injectable, Redirect } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import * as cluster from "node:cluster";
 import type { Cluster, Worker } from "cluster";
 import * as os from "os";
@@ -86,7 +86,7 @@ const initClusterEvents = () => {
 
 @Injectable()
 export class ClusterService {
-  static mainPort: number = +process.env.MAIN_PORT || 3001;
+  static mainPort: number = +process.env.NEST_PORT || 3001;
 
   static availablePorts = [{ id: null, port: ClusterService.mainPort }];
 

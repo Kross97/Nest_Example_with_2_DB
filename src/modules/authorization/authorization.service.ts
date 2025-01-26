@@ -21,6 +21,7 @@ export class AuthorizationService {
 
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    // eslint-disable-next-line max-len
     private clusterService: ClusterService // private tokenKeyErr: string, // - раскоментить для теста ошибки "Nest can't resolve dependencies...."
   ) {
     this.headJwt = { alg: "HS256", typ: "jwt" };
