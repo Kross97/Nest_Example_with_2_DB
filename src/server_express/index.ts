@@ -6,6 +6,7 @@ import "dotenv/config";
 import express from "express";
 import { userModule } from "./modules/user/user.modules";
 import { TypeOrmDataSource } from "./db-source";
+import { connectParser } from "./utils/parsers";
 
 TypeOrmDataSource.initialize().then(() => {
   console.log("База данных подключенна, идет запуск приложения");
@@ -13,6 +14,7 @@ TypeOrmDataSource.initialize().then(() => {
   const port = 3002;
 
   app.use("/user", userModule);
+  connectParser(app);
 
   app.get("/", (req, res) => {
     res.send("Hello World!");

@@ -1,18 +1,19 @@
 import express from "express";
 import { UserPostgresService } from "./user.postgres.service";
+import { jsonParser } from "../../utils/parsers";
 
 export const userModule = express.Router();
 
 userModule.get("/allRoles", function (req, res) {
-  res.send("user_all");
+  void UserPostgresService.getAllRoles(res);
 });
 
-userModule.post("/create", function (req, res) {
-  res.send("user");
+userModule.post("/create", jsonParser, function (req, res) {
+  void UserPostgresService.createUser(req, res);
 });
 
 userModule.post("/createFormData", function (req, res) {
-  res.send("");
+  res.send("createFormData");
 });
 
 userModule.get("/all", function (req, res) {
@@ -20,17 +21,18 @@ userModule.get("/all", function (req, res) {
 });
 
 userModule.get("/:id", function (req, res) {
-  res.send("user");
+  void UserPostgresService.getOneUser(req, res);
 });
 
 userModule.delete("delete/:id", function (req, res) {
-  res.send("d");
+  void UserPostgresService.deleteUser(req, res);
 });
 
-userModule.put("update/:id", function (req, res) {
-  res.send("");
+userModule.put("update/:id", jsonParser, function (req, res) {
+  void UserPostgresService.updateUser(req, res);
 });
 
 userModule.put("update/photos/:id", function (req, res) {
-  res.send("");
+  // void UserPostgresService.updatePhotos(req, res);
+  res.send("sss");
 });

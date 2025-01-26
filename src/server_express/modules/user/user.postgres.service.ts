@@ -8,6 +8,7 @@ import { RoleEntity } from "$nest_project/entities/user/role.entity";
 
 import { MediaMaterialsEntity } from "$nest_project/entities/media_materials/MediaMaterials.entity";
 import { UserPostgresDb } from "$nest_project/userDb";
+import { IUserRequest } from "../../../modules/user/types";
 
 class UserPostgresServiceClass {
   private userPostgresDb: UserPostgresDb;
@@ -18,32 +19,36 @@ class UserPostgresServiceClass {
     const roleRepository = TypeOrmDataSource.getRepository(RoleEntity);
     const mediaMaterialsEntity = TypeOrmDataSource.getRepository(MediaMaterialsEntity);
     this.userPostgresDb = new UserPostgresDb(userRepository, carRepository, roleRepository, mediaMaterialsEntity);
-    console.log("this.userPostgresDb =>", this.userPostgresDb);
   }
 
-  // createUserMock(response: Response) {
-  //   return this.userPostgresDb.createUserMock();
-  // }
-  //
-  // refreshUserData(response: Response) {
-  //   return this.userPostgresDb.refreshUserData();
-  // }
-  //
-  // getOneUser(request: Request, response: Response) {
-  //   return this.userPostgresDb.getOneUser(id);
-  // }
-  //
-  // async createUser(request: Request, response: Response) {
-  //   try {
-  //     return await this.userPostgresDb.createUser(user);
-  //   } catch {
-  //     throw "";
-  //   }
-  // }
-  //
-  // createUserWithMedia(request: Request, response: Response) {
-  //   return this.userPostgresDb.createUserWithMedia(user, file);
-  // }
+  async createUserMock(response: Response) {
+    const userMock = await this.userPostgresDb.createUserMock();
+    response.send(userMock);
+  }
+
+  async refreshUserData(response: Response) {
+    await this.userPostgresDb.refreshUserData();
+    response.send("refresh_success");
+  }
+
+  async getOneUser(request: Request, response: Response) {
+    const user = this.userPostgresDb.getOneUser(request.params.id);
+    response.send(user);
+  }
+
+  async createUser(request: Request<any, any, IUserRequest>, response: Response) {
+    try {
+      const createdUser = await this.userPostgresDb.createUser(request.body);
+      response.send(createdUser);
+    } catch {
+      response.statusCode = 400;
+      response.send("Ошибка создания пользователя");
+    }
+  }
+
+  createUserWithMedia(request: Request, response: Response) {
+    return this.userPostgresDb.createUserWithMedia(user, file);
+  }
 
   async getUsers(request: Request, response: Response) {
     const query: Record<"search", string> = { search: (request.query.search as string) || "" };
@@ -51,49 +56,52 @@ class UserPostgresServiceClass {
     response.send(users);
   }
 
-  // deleteUser(request: Request, response: Response) {
-  //   return this.userPostgresDb.deleteUser(idOrLogin);
-  // }
-  //
-  // /**
-  //  * Когда при обновлении данных которые уже есть в БД (в данном случае user) нужно прикрепить связанные данные
-  //  * которых еще нет в БД (в данном случае car) , нужно создать связанные данные через .save()
-  //  * а затем обновить главную сущность (через user -> update) с прикреплением связанных данных (car)
-  //  *
-  //  * -------------------------------------------------
-  //  *
-  //  * Если бы всех данных не было бы в БД , то метод .save() на главной сущности рекурсивно бы создал как
-  //  * главную сущность (user) так и связанные сущности (car)
-  //  * */
-  // updateUser(request: Request, response: Response) {
-  //   try {
-  //     return this.userPostgresDb.updateUser(id, body);
-  //   } catch (err) {
-  //     /**
-  //      * Мой установленный констрэйнт на валидацию названий модели в БД
-  //      * CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" = 'mercedes')
-  //      * */
-  //     if (err.constraint === "model_germany_check") {
-  //       throw "";
-  //     } else {
-  //       throw "";
-  //     }
-  //   }
-  // }
-  //
-  // getAllRoles(response: Response) {
-  //   return this.userPostgresDb.getAllRoles();
-  // }
-  //
-  // /**
-  //  * Сохранять массив новых данных (mediaMaterials) лучше через создание save
-  //  * (this.mediaMaterialsEntityRepository.save(mediaMaterials)) и привязки их к user
-  //  * в данном случае обновление на User через this.userRepository.update(id, { mediaMaterials }) не работает
-  //  * показывает ошибку в добавлении при связи one-to-many
-  //  *
-  //  * Моя заметка: обновление через update работать не будет если связанные сущности
-  //  * еще не были созданы в БД, а главная сущность (в данном случае user) уже созданна в БД
-  //  * */
+  async deleteUser(request: Request, response: Response) {
+    const deleted = await this.userPostgresDb.deleteUser(request.params.id);
+    response.send(deleted);
+  }
+
+  /**
+   * Когда при обновлении данных которые уже есть в БД (в данном случае user) нужно прикрепить связанные данные
+   * которых еще нет в БД (в данном случае car) , нужно создать связанные данные через .save()
+   * а затем обновить главную сущность (через user -> update) с прикреплением связанных данных (car)
+   *
+   * -------------------------------------------------
+   *
+   * Если бы всех данных не было бы в БД , то метод .save() на главной сущности рекурсивно бы создал как
+   * главную сущность (user) так и связанные сущности (car)
+   * */
+  updateUser(request: Request, response: Response) {
+    try {
+      const updated = this.userPostgresDb.updateUser(request.params.id, request.body);
+      response.send(updated);
+    } catch (err) {
+      /**
+       * Мой установленный констрэйнт на валидацию названий модели в БД
+       * CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" = 'mercedes')
+       * */
+      if (err.constraint === "model_germany_check") {
+        throw "";
+      } else {
+        throw "";
+      }
+    }
+  }
+
+  async getAllRoles(response: Response) {
+    const allRoles = await this.userPostgresDb.getAllRoles();
+    response.send(allRoles);
+  }
+
+  /**
+   * Сохранять массив новых данных (mediaMaterials) лучше через создание save
+   * (this.mediaMaterialsEntityRepository.save(mediaMaterials)) и привязки их к user
+   * в данном случае обновление на User через this.userRepository.update(id, { mediaMaterials }) не работает
+   * показывает ошибку в добавлении при связи one-to-many
+   *
+   * Моя заметка: обновление через update работать не будет если связанные сущности
+   * еще не были созданы в БД, а главная сущность (в данном случае user) уже созданна в БД
+   * */
   // updatePhotos(request: Request, response: Response) {
   //   return this.userPostgresDb.updatePhotos(id, files);
   // }
