@@ -10,7 +10,7 @@ import { MediaMaterialsEntity } from "$nest_project/entities/media_materials/Med
 import { UserPostgresDb } from "$nest_project/userDb";
 
 class UserPostgresServiceClass {
-  // private userPostgresDb: UserPostgresDb;
+  private userPostgresDb: UserPostgresDb;
 
   constructor() {
     const userRepository = TypeOrmDataSource.getRepository(User);
@@ -46,9 +46,9 @@ class UserPostgresServiceClass {
   // }
 
   async getUsers(request: Request, response: Response) {
-    console.log("request.query =>", request.query);
-    const users = await this.userPostgresDb.getUsers(request.query);
-    response.send("");
+    const query: Record<"search", string> = { search: (request.query.search as string) || "" };
+    const users = await this.userPostgresDb.getUsers(query);
+    response.send(users);
   }
 
   // deleteUser(request: Request, response: Response) {

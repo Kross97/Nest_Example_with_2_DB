@@ -3,6 +3,12 @@
  * */
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { User } from "$nest_project/entities/user/user.entity";
+import { Car } from "$nest_project/entities/car/car.entity";
+import { RoleEntity } from "$nest_project/entities/user/role.entity";
+import { MediaBufferEntity } from "$nest_project/entities/media_materials/MediaBuffer.entity";
+import { MediaMaterialsEntity } from "$nest_project/entities/media_materials/MediaMaterials.entity";
+import { RentCarEntity } from "$nest_project/entities/rentCar/rent-car.entity";
 
 export const TypeOrmDataSource = new DataSource({
   type: process.env.DB_TYPE as "postgres",
@@ -17,7 +23,7 @@ export const TypeOrmDataSource = new DataSource({
   /**
    * В данном проекте будем ссылаться да данные entities и migrations от Nest (основного приложения)
    * */
-  entities: ["dist/src/entities/**/*.entity.js"],
+  entities: [User, RoleEntity, MediaMaterialsEntity, Car, MediaBufferEntity, RentCarEntity],
   migrations: ["dist/src/migrations/*.js"],
   cache: {
     // настройка для простого кэша в таблице в БД

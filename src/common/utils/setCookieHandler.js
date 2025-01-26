@@ -6,9 +6,8 @@ exports.setCookieHandler = void 0;
  * и credentials: 'include' настройка на клиенте
  * */
 const setCookieHandler = (response, key, value) => {
-    // console.log('response =>', response,  response.appendHeader)
-    // response.appendHeader('Set-Cookie', `${key}=${value}; path=/;`);
-    // response.appendHeader('Set-Cookie', `testCookie=test-cookie; path=/;`);
+  // console.log('response =>', response,  response.appendHeader)
+  // response.appendHeader('Set-Cookie', `${key}=${value}; path=/;`);
+  // response.appendHeader('Set-Cookie', `testCookie=test-cookie; path=/;`);
 };
 exports.setCookieHandler = setCookieHandler;
-//# sourceMappingURL=setCookieHandler.js.map
