@@ -1,0 +1,1 @@
+{"version":3,"file":"childProcess.service.d.ts","sourceRoot":"","sources":["../../../../modules/childProcess_cluster/childProcess.service.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAEnC,qBACa,mBAAmB;;IAGxB,sBAAsB;IAQtB,kBAAkB,CAAC,QAAQ,EAAE,QAAQ;IAiBrC,mBAAmB;IAuCnB,oBAAoB;IAmCpB,mBAAmB;CA6B1B"}

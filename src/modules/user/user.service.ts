@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { Injectable } from "@nestjs/common";
 import { Request } from "express";
-import { UserPostgresService } from "./databases_layers/user.postgres.service";
-import { UserMongoService } from "./databases_layers/user.mongo.service";
+import { UserPostgresService } from "./databases_layers/postgres/user.postgres.service";
+import { UserMongoService } from "./databases_layers/mongo/user.mongo.service";
 import { parsingFormData } from "../../common/utils/parsingFormData";
 import { IUserRequest } from "./types";
 import { MediaMaterialsEntity } from "../../entities/media_materials/MediaMaterials.entity";

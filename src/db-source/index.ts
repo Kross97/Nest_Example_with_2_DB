@@ -1,10 +1,12 @@
 import { DataSource } from "typeorm";
 
-// пакет для маппинга переменных с .env в process.env
-// без него process.env.DB_TYPE в конфиге не заработает
+/**
+ * пакет для маппинга переменных с .env в process.env
+   без него process.env.DB_TYPE в конфиге не заработает
+ * */
 import "dotenv/config";
 
-const AppDataSource = new DataSource({
+const TypeOrmDataSource = new DataSource({
   type: process.env.DB_TYPE as "postgres",
   host: process.env.DB_MAIN_HOST,
   port: +process.env.DB_MAIN_PORT,
@@ -30,12 +32,10 @@ const AppDataSource = new DataSource({
   },
 });
 
-AppDataSource.initialize()
+TypeOrmDataSource.initialize()
   .then(() => {
     console.log("Data Source has been initialized!");
   })
   .catch((err) => {
     console.error("Error during Data Source initialization", err);
   });
-
-export default AppDataSource;

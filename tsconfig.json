@@ -1,4 +1,12 @@
 {
+  // нужен для правильной работы import при использовании ts-node
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,

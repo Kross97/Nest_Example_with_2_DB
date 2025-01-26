@@ -1,0 +1,70 @@
+{
+  // нужен для правильной работы import при использовании ts-node
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "compilerOptions": {
+    // задает директорию куда складываются файлы после компиляции tsc
+    "outDir": "./dist_ts",
+
+    // Если указано, все глобальные (немодульные) файлы будут объединены в один указанный выходной файл.
+    // "outFile": "./dist/out_file.js",
+
+    // работа с корневыми каталогами (РАСПИСАТЬ НУЖНО)
+    // "rootDir": "./", // вляет на область видимость импортов (если это проект внутри основного проекта)
+    //"rootDirs": [],
+
+
+    "target":"ESNEXT",
+    "module":"commonjs",
+
+    // "sourceMap": true,
+    "moduleResolution": "node",
+
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
+
+    // Включает экспериментальную поддержку для передачи метаданных типов для декораторов, работающих с модулем reflect-metadata.
+    "emitDecoratorMetadata": true,
+
+    // Обеспечивает экспериментальную поддержку декораторов — версии декораторов
+    "experimentalDecorators": true,
+
+    /**
+       Эти две настройки нужны для корректной работы импорта по умолчанию
+    */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // если он включен то после компиляции (tsc) рядом с файлом js будет файл .d.ts описывающий этот файл (через declare)
+    // "declaration": true,
+    // папка куда будут помещены файлы деклараций
+    // "declarationDir": "./dist_types",
+    // при включении помогает редакторам переходить к исходному ts файлу через декларации
+    // "declarationMap": true,
+
+
+    // Устанавливает базовый каталог, из которого разрешаются имена модулей
+    // При использовании "baseUrl": "./" TypeScript будет искать файлы, находящиеся в той же папке, что и tsconfig.json
+    // Начиная с TypeScript 4.1, baseUrl больше не требуется устанавливать при использовании paths.
+
+    "baseUrl": "./",
+    "rootDir": "../",
+
+    // Псевдонимы путей
+    "paths": {
+      "$nest_project_db_source": ["./db-source/index.ts"],
+      "$nest_project/entities/*": ["../entities/*"],
+      "$nest_project/userDb": ["../modules/user/databases_layers/postgres/user.postgres.db.ts"]
+    }
+
+  },
+  "include": ["../../src"],
+  "exclude": [
+    "node_modules"
+  ]
+}

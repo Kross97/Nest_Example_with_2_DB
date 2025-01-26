@@ -1,6 +1,11 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.modulee";
+
+/**
+ * Пакет для коректной работы с декораторами TS
+ * */
 import "reflect-metadata";
+
 import { json } from "express";
 import { AuthGuard } from "./common/guards/jwt.guard";
 import { ValidationPipe } from "./common/pipes/parseCookies.pipe";

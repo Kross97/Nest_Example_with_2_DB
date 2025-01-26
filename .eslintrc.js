@@ -72,6 +72,7 @@ module.exports = {
     "no-return-await": "off",
     "class-methods-use-this": "off",
     "no-console": "off",
+    "no-void": "off",
   },
   settings: {
     react: {
