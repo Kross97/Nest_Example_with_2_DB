@@ -7,6 +7,7 @@ import { RoleEntity } from "$nest_project/entities/user/role.entity";
 import { MediaMaterialsEntity } from "$nest_project/entities/media_materials/MediaMaterials.entity";
 import { UserPostgresDb } from "$nest_project/userDb";
 import { IUserRequest } from "../../../src/modules/user/types";
+import { HTTP_ERRORS, HttpErrors } from "../../common/classes/HttpErrors";
 
 class UserPostgresServiceClass {
   private userPostgresDb: UserPostgresDb;
@@ -79,9 +80,9 @@ class UserPostgresServiceClass {
        * CONSTRAINT model_germany_check CHECK ("model" = 'vw' OR "model" = 'bmw' OR "model" = 'mercedes')
        * */
       if (err.constraint === "model_germany_check") {
-        throw "";
+        HTTP_ERRORS.throwBadGatewayException(response, "Ошибка ограничения model_germany_check");
       } else {
-        throw "";
+        HTTP_ERRORS.throwBadGatewayException(response, "Ошибка");
       }
     }
   }
@@ -100,9 +101,10 @@ class UserPostgresServiceClass {
    * Моя заметка: обновление через update работать не будет если связанные сущности
    * еще не были созданы в БД, а главная сущность (в данном случае user) уже созданна в БД
    * */
-  // updatePhotos(request: Request, response: Response) {
-  //   return this.userPostgresDb.updatePhotos(id, files);
-  // }
+  async updatePhotos(request: Request, response: Response) {
+    const updated = await this.userPostgresDb.updatePhotos(request.params.id, request.files);
+    response.send(updated);
+  }
 }
 
 export const UserPostgresService = new UserPostgresServiceClass();
