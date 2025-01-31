@@ -1,4 +1,3 @@
-
 import { Injectable } from "@nestjs/common";
 import { Response } from "express";
 import { PdfBaseService } from "./services_template/pdf.base.service";
@@ -11,13 +10,10 @@ export interface IRequestData {
 
 @Injectable()
 export class PdfMainService {
-  private dispatcherPdfGenerators: Record<
-    TTypesTemplates,
-    { generatePdf: (res: Response, requestData: IRequestData) => void }
-  >;
+  private dispatcherPdfGenerators: Record<TTypesTemplates, { generatePdf: (res: Response, requestData: IRequestData) => void }>;
 
   /**
-   * A place where you can further scale the number of templates for PDF rendering
+   * Место, где вы можете еще больше масштабировать количество шаблонов для рендеринга PDF-файлов.
    * */
   constructor(private pdfBaseService: PdfBaseService) {
     this.dispatcherPdfGenerators = {

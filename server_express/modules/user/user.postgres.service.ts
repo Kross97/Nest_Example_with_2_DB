@@ -7,7 +7,7 @@ import { RoleEntity } from "$nest_project/entities/user/role.entity";
 import { MediaMaterialsEntity } from "$nest_project/entities/media_materials/MediaMaterials.entity";
 import { UserPostgresDb } from "$nest_project/userDb";
 import { IUserRequest } from "../../../src/modules/user/types";
-import { HTTP_ERRORS, HttpErrors } from "../../common/classes/HttpErrors";
+import { HTTP_ERRORS } from "../../common/classes/HttpErrors";
 
 class UserPostgresServiceClass {
   private userPostgresDb: UserPostgresDb;

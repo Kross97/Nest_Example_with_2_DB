@@ -1,4 +1,3 @@
-
 import { Injectable } from "@nestjs/common";
 
 import { ICostItem } from "../types";
@@ -43,13 +42,7 @@ export class TableCostService {
         { title: "" },
       ],
       [...this.rowSeparator()],
-      [
-        { title: "" },
-        { title: "" },
-        { title: "Attraction", bold: true },
-        { title: "Totals", bold: true },
-        { title: "" },
-      ],
+      [{ title: "" }, { title: "" }, { title: "Attraction", bold: true }, { title: "Totals", bold: true }, { title: "" }],
     ];
   }
 
@@ -168,21 +161,18 @@ export class TableCostService {
                     <table>
                     ${this.theadTable(tableData.projectName)}
                     <tbody>
-                       ${[...tableBody, ...(index === array.length - 1 ? [this.scopeTotal(costs)] : [])].reduce(
-                         (accRow, row) => {
-                           accRow += `<tr>
+                       ${[...tableBody, ...(index === array.length - 1 ? [this.scopeTotal(costs)] : [])].reduce((accRow, row) => {
+                         accRow += `<tr>
                                    ${row.reduce((accCell, itemCell) => {
-                                     accCell += `<td style="font-weight: ${
-                                       itemCell.bold ? "bold" : "initial"
-                                     }" colspan="${itemCell.col ? itemCell.col : 1}">${itemCell.title}
+                                     accCell += `<td style="font-weight: ${itemCell.bold ? "bold" : "initial"}" colspan="${
+                                       itemCell.col ? itemCell.col : 1
+                                     }">${itemCell.title}
                                     </td>`;
                                      return accCell;
                                    }, "")}
                                 </tr>`;
-                           return accRow;
-                         },
-                         ""
-                       )}
+                         return accRow;
+                       }, "")}
                     </tbody>
                 </table>
             </div>`;
