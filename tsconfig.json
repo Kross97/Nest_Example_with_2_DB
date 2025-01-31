@@ -1,4 +1,12 @@
 {
+  // нужен для правильной работы import при использовании ts-node
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -6,7 +14,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
+    "strict": false,
+    "target": "ESNext",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -18,8 +27,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["node_modules", "dist", "front"],
-  "include": ["src",
-    "./native_node_servers/simple_server.ts"
-  ]
+  "exclude": ["node_modules", "dist", "front", "документация", "server_express"],
+  "include": ["src", "./native_node_servers/simple_server.ts"]
 }

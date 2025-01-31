@@ -1,0 +1,7 @@
+при переключении на версию node v20
+
+typeorm выдаёт ошибку "Unable to open file data-source"
+
+решение проблемы:
+
+подключаться к data-source файлу через пакет typeorm-ts-node-commonjs а не через пакет typeorm-ts-node-esm

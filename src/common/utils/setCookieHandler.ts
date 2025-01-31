@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response } from "express";
 
 /**
  * Чтобы установка кук сработало нужнл включить credentials: true в конфиге бэка

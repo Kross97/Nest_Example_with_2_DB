@@ -1,10 +1,10 @@
-import { MediaMaterialsEntity } from '../../entities/media_materials/MediaMaterials.entity';
-import { MediaBufferEntity } from '../../entities/media_materials/MediaBuffer.entity';
+import { MediaMaterialsEntity } from "../../entities/media_materials/MediaMaterials.entity";
+import { MediaBufferEntity } from "../../entities/media_materials/MediaBuffer.entity";
 
-export const fileToMediaEntity =(file: Express.Multer.File): MediaMaterialsEntity => {
+export const fileToMediaEntityPostgres = (file: Express.Multer.File): MediaMaterialsEntity => {
   const media = new MediaMaterialsEntity();
   const mediaBuffer = new MediaBufferEntity();
-  //@ts-ignore
+  // @ts-ignore
   mediaBuffer.buffer = file.buffer;
 
   media.buffer = mediaBuffer;
@@ -12,5 +12,18 @@ export const fileToMediaEntity =(file: Express.Multer.File): MediaMaterialsEntit
   media.name = file.originalname;
   media.size = file.size;
 
-  return  media
+  return media;
+};
+
+export const fileToMediaEntityMongo = (file: Express.Multer.File) => {
+  return {
+    fileData: {
+      mimeType: file.mimetype,
+      name: file.originalname,
+      size: file.size,
+    },
+    fileBuffer: {
+      buffer: file.buffer,
+    },
+  };
 };

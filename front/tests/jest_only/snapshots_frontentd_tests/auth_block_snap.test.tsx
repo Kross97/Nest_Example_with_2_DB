@@ -1,12 +1,12 @@
-import React from 'react';
-import { AuthBlock } from '../../../src/modules/auth';
-import renderer from 'react-test-renderer';
+import React from "react";
+import renderer from "react-test-renderer";
+import { AuthBlock } from "../../../src/modules/auth";
 
-describe('Тестирование снапшотами блока Auth', () => {
-    it('Снапшот компонента модалки ', () => {
-        const tree = renderer.create(<AuthBlock></AuthBlock>).toJSON();
-        expect(tree).toMatchSnapshot();
-        expect(tree).toMatchInlineSnapshot(`
+describe("Тестирование снапшотами блока Auth", () => {
+  it("Снапшот компонента модалки", () => {
+    const tree = renderer.create(<AuthBlock />).toJSON();
+    expect(tree).toMatchSnapshot();
+    expect(tree).toMatchInlineSnapshot(`
             <div
               className="authBlock"
             >
@@ -48,5 +48,5 @@ describe('Тестирование снапшотами блока Auth', () => 
               </button>
             </div>
         `);
-    });
+  });
 });

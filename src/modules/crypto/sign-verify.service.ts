@@ -1,5 +1,5 @@
-import {Injectable} from "@nestjs/common";
-import {generateKeyPairSync, createSign, createVerify, KeyObject, Sign, Verify} from 'crypto'
+import { Injectable } from "@nestjs/common";
+import { generateKeyPairSync, createSign, createVerify, KeyObject, Sign, Verify } from "crypto";
 
 /**
  *  Документация по options в методе generateKeyPairSync :
@@ -22,57 +22,51 @@ import {generateKeyPairSync, createSign, createVerify, KeyObject, Sign, Verify} 
 
 @Injectable()
 export class SignVerifyService {
+  private readonly privateKey: KeyObject;
 
-    private readonly privateKey: KeyObject
+  private readonly publicKey: KeyObject;
 
-    private readonly publicKey: KeyObject
-
-    constructor() {
-
-        /**
-         * Генерирует новую пару асимметричных ключей заданного типа.
-         * В настоящее время поддерживаются RSA, RSA-PSS, DSA, EC, Ed25519, Ed448, X25519, X448 и DH.
-         * */
-        const { privateKey, publicKey } = generateKeyPairSync(
-            'rsa',
-            {
-                modulusLength: 2048,
-            }
-        );
-        this.privateKey = privateKey;
-        this.publicKey = publicKey;
-    }
-
-
+  constructor() {
     /**
-     * Создание классов Sign и Verify
-     * 1. Sign - для создания подписи, и подписи данных
-     * 2. Verify - для проверки данных с помощью публичного ключа и сигнатуры (Buffer)
+     * Генерирует новую пару асимметричных ключей заданного типа.
+     * В настоящее время поддерживаются RSA, RSA-PSS, DSA, EC, Ed25519, Ed448, X25519, X448 и DH.
      * */
-    private initialSignVerifyInstances() {
-        return { sign: createSign('SHA256') , verify: createVerify('SHA256') }
-    }
+    const { privateKey, publicKey } = generateKeyPairSync("rsa", {
+      modulusLength: 2048,
+    });
+    this.privateKey = privateKey;
+    this.publicKey = publicKey;
+  }
 
-    async createSign(text: string) {
-        const { sign } = this.initialSignVerifyInstances();
-        sign.update(text);
-        sign.end();
-        const signature = sign.sign(this.privateKey);
-        console.log("ЗАКРЫТЫЙ (ПРИВАТНЫЙ) КЛЮЧ", this.privateKey);
-        console.log("ОТКРЫТЫЙ (ПУБЛИЧНЫЙ) КЛЮЧ", this.publicKey);
+  /**
+   * Создание классов Sign и Verify
+   * 1. Sign - для создания подписи, и подписи данных
+   * 2. Verify - для проверки данных с помощью публичного ключа и сигнатуры (Buffer)
+   * */
+  private initialSignVerifyInstances() {
+    return { sign: createSign("SHA256"), verify: createVerify("SHA256") };
+  }
 
-        console.log('signature (подпись с приватным ключом)', signature);
-        return signature.toString('base64')
-    }
+  async createSign(text: string) {
+    const { sign } = this.initialSignVerifyInstances();
+    sign.update(text);
+    sign.end();
+    const signature = sign.sign(this.privateKey);
+    console.log("ЗАКРЫТЫЙ (ПРИВАТНЫЙ) КЛЮЧ", this.privateKey);
+    console.log("ОТКРЫТЫЙ (ПУБЛИЧНЫЙ) КЛЮЧ", this.publicKey);
 
-    async verifySign(text: string, signature: string) {
-        const { verify } = this.initialSignVerifyInstances();
-        verify.update(text);
-        verify.end();
-        console.log('signature (создание буффера подписи из base64)', Buffer.from(signature, 'base64'));
+    console.log("signature (подпись с приватным ключом)", signature);
+    return signature.toString("base64");
+  }
 
-        const isVerify = verify.verify(this.publicKey, Buffer.from(signature, 'base64'));
-        console.log('isVerify', isVerify);
-        return isVerify;
-    }
-};
+  async verifySign(text: string, signature: string) {
+    const { verify } = this.initialSignVerifyInstances();
+    verify.update(text);
+    verify.end();
+    console.log("signature (создание буффера подписи из base64)", Buffer.from(signature, "base64"));
+
+    const isVerify = verify.verify(this.publicKey, Buffer.from(signature, "base64"));
+    console.log("isVerify", isVerify);
+    return isVerify;
+  }
+}

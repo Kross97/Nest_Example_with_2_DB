@@ -3,6 +3,27 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "assets": [
+      {
+        "include": "assets - здесь нужен чтобы указать какие еще расширения (кроме ts, js) должны попадать в dist"
+      },
+      {
+        "include": "**/*.html",
+        "watchAssets": true
+      },
+      {
+        "include": "**/*.png",
+        "watchAssets": true
+      },
+      {
+        "include": "**/*.PNG",
+        "watchAssets": true
+      },
+      {
+        "include": "**/*.css",
+        "watchAssets": true
+      }
+    ]
   }
 }

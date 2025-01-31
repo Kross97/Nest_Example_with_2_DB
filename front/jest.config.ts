@@ -1,4 +1,3 @@
-
 /**
  * Данный конфиг после вызова команды jest --init
  *
@@ -91,7 +90,7 @@ export default {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    'test-utils': "<rootDir>/tests/react_testing_library/test-utils",
+    "test-utils": "<rootDir>/tests/react_testing_library/test-utils",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -106,7 +105,7 @@ export default {
   // A preset that is used as a base for Jest's configuration
   // preset: "ts-jest",
 
-  prettierPath: require.resolve('prettier-2'),
+  prettierPath: require.resolve("prettier-2"),
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -141,7 +140,7 @@ export default {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-   setupFilesAfterEnv: ["<rootDir>/tests/setup_env/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/tests/setup_env/setupTests.ts"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -186,8 +185,8 @@ export default {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+.tsx?$": ["ts-jest",{}],
-    ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform"
+    "^.+.tsx?$": ["ts-jest", {}],
+    ".+\\.(css|styl|less|sass|scss)$": "jest-css-modules-transform",
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

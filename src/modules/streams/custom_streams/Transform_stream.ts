@@ -1,4 +1,4 @@
-import { Transform, TransformCallback } from 'stream';
+import { Transform, TransformCallback } from "stream";
 
 /**
  * Поток Transform - это поток Duplex, в котором выходной поток каким-то образом вычисляется из входного.
@@ -37,13 +37,13 @@ export class MyTransformStream extends Transform {
   /**
    * Методы общие для всех
    * */
-  _construct(callback: (error?: (Error | null)) => void) {
-    console.log('_construct Transform потока');
+  _construct(callback: (error?: Error | null) => void) {
+    console.log("_construct Transform потока");
     callback();
   }
 
-  _destroy(error: Error | null, callback: (error?: (Error | null)) => void) {
-    console.log('_destroy Transform потока');
+  _destroy(error: Error | null, callback: (error?: Error | null) => void) {
+    console.log("_destroy Transform потока");
     callback();
   }
 
@@ -51,7 +51,7 @@ export class MyTransformStream extends Transform {
    * Методы Transform
    * */
   _flush(callback: TransformCallback) {
-    console.log('_flush Transform потока');
+    console.log("_flush Transform потока");
     callback();
   }
 
@@ -72,31 +72,31 @@ export class MyTransformStream extends Transform {
    *  2. callback(null, data) - такой же запись во внутр.буффер (this.push(data)) и завершение метода
    * */
   _transform(chunk: any, encoding: BufferEncoding, callback: TransformCallback) {
-    console.log('_transform Transform потока', chunk, encoding)
-     this.push(chunk);
-     this.push(`данные_трансформации_метка_${new Date().toLocaleString()}`)
-     callback();
+    console.log("_transform Transform потока", chunk, encoding);
+    this.push(chunk);
+    this.push(`данные_трансформации_метка_${new Date().toLocaleString()}`);
+    callback();
   }
 
   /**
    * Методы Writable
    * */
-  _write(chunk: any, encoding: BufferEncoding, callback: (error?: (Error | null)) => void) {
-    console.log('_write Transform потока', chunk, 'encoding', encoding);
-    this._transform(chunk, encoding, callback)
-    //callback();
-  }
-
-  _writev(chunks: Array<{ chunk: any; encoding: BufferEncoding }>, callback: (error?: (Error | null)) => void) {
-    console.log('_writev Transform потока', chunks);
-    chunks.forEach((chunk) => {
-      this._transform(chunk.chunk, chunk.encoding, callback)
-    })
+  _write(chunk: any, encoding: BufferEncoding, callback: (error?: Error | null) => void) {
+    console.log("_write Transform потока", chunk, "encoding", encoding);
+    this._transform(chunk, encoding, callback);
     // callback();
   }
 
-  _final(callback: (error?: (Error | null)) => void) {
-    console.log('_final Transform потока');
+  _writev(chunks: Array<{ chunk: any; encoding: BufferEncoding }>, callback: (error?: Error | null) => void) {
+    console.log("_writev Transform потока", chunks);
+    chunks.forEach((chunk) => {
+      this._transform(chunk.chunk, chunk.encoding, callback);
+    });
+    // callback();
+  }
+
+  _final(callback: (error?: Error | null) => void) {
+    console.log("_final Transform потока");
     callback();
   }
 
@@ -104,8 +104,6 @@ export class MyTransformStream extends Transform {
    * Метод Readable
    * */
   _read(size: number) {
-    console.log('_read Transform потока, size:', size);
+    console.log("_read Transform потока, size:", size);
   }
-
-
 }

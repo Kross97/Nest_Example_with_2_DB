@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 import Mock = jest.Mock;
 
 export const area = (radius?: number) => Math.PI * radius ** 2;
@@ -10,9 +10,8 @@ export function forEach(items, callback) {
   }
 }
 
-
 export function testSetTimeoutFirst(cb: Mock, ms: number) {
   setTimeout(() => {
     cb();
   }, ms);
-};
+}

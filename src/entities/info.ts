@@ -1,4 +1,3 @@
-
 // @JoinColumn()
 
 /**
@@ -12,8 +11,6 @@
  *  photo: Photo;  ----> photoId (внешний ключ в таблицах)
  *
  * */
-
-
 
 // @ManyToOne - @OneToMany
 

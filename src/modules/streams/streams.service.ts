@@ -1,37 +1,35 @@
-import { Injectable } from '@nestjs/common';
-import { MyWritableStream } from './custom_streams/Writable_stream';
-import { MyReadableStream } from './custom_streams/Readable_stream';
-import { MyDuplexStream } from './custom_streams/Duplex_stream';
-import { Response } from 'express';
-import { MyTransformStream } from './custom_streams/Transform_stream';
-import { duplexPair } from 'stream';
+import { Injectable } from "@nestjs/common";
+import { Response } from "express";
+import { duplexPair } from "stream";
+import { MyWritableStream } from "./custom_streams/Writable_stream";
+import { MyReadableStream } from "./custom_streams/Readable_stream";
+import { MyDuplexStream } from "./custom_streams/Duplex_stream";
+import { MyTransformStream } from "./custom_streams/Transform_stream";
 
 @Injectable()
 export class StreamsService {
-  constructor(
-  ) {
-  }
+  constructor() {}
 
-  private buildCustomWritableStream ()  {
-   const writable = new MyWritableStream(undefined);
-   writable.on('close', () => console.log('close: закрытие пишущего потока'));
-   writable.on('drain', () => console.log('drain: поток вновь готов для записи'));
-   writable.on('pipe', (readable) => console.log('pipe: поток чтения подсоединен для передачи в поток записи', readable.toString()));
-   writable.on('error', (err) => console.log('error: ошибка в пишущем потоке', err));
-   writable.on('finish', () => console.log('finish: end() закрытие потока'));
+  private buildCustomWritableStream() {
+    const writable = new MyWritableStream(undefined);
+    writable.on("close", () => console.log("close: закрытие пишущего потока"));
+    writable.on("drain", () => console.log("drain: поток вновь готов для записи"));
+    writable.on("pipe", (readable) => console.log("pipe: поток чтения подсоединен для передачи в поток записи", readable.toString()));
+    writable.on("error", (err) => console.log("error: ошибка в пишущем потоке", err));
+    writable.on("finish", () => console.log("finish: end() закрытие потока"));
 
     return writable;
-  };
+  }
 
   private buildCustomReadableStream() {
     const readable = new MyReadableStream(undefined);
-    readable.setEncoding('utf8'); // если не указать будет возвращен Buffer, при указании данные будут приходит в строковом виде
+    readable.setEncoding("utf8"); // если не указать будет возвращен Buffer, при указании данные будут приходит в строковом виде
 
-    readable.on('close', () => console.log('close: закрытие читающего потока'));
-    readable.on('end', () => console.log('end: читающего потока происходит, когда больше нет данных для потребления из потока.'))
-    readable.on('error', (err) => console.log('error: ошибка читающего потока', err));
-    readable.on('pause', () => console.log('pause: читающий поток приостановлен'));
-    readable.on('resume', () => console.log('resume: читающий поток возобновил работу после паузы'));
+    readable.on("close", () => console.log("close: закрытие читающего потока"));
+    readable.on("end", () => console.log("end: читающего потока происходит, когда больше нет данных для потребления из потока."));
+    readable.on("error", (err) => console.log("error: ошибка читающего потока", err));
+    readable.on("pause", () => console.log("pause: читающий поток приостановлен"));
+    readable.on("resume", () => console.log("resume: читающий поток возобновил работу после паузы"));
     return readable;
   }
 
@@ -39,7 +37,6 @@ export class StreamsService {
     const duplex = new MyDuplexStream(undefined);
     return duplex;
   }
-
 
   private buildCustomTransformStream() {
     const transform = new MyTransformStream(undefined);
@@ -54,16 +51,16 @@ export class StreamsService {
    * */
   private exampleReadableWithData() {
     const readableStream = this.buildCustomReadableStream();
-    readableStream.on('data', (data) => {
-      console.log('Событие data: чтение данных', data);
+    readableStream.on("data", (data) => {
+      console.log("Событие data: чтение данных", data);
     });
 
-    readableStream.on('readable', () => {
+    readableStream.on("readable", () => {
       console.log("Разрешенно ли чтение", readableStream.readable);
-      setTimeout(() =>  {
+      setTimeout(() => {
         const data = readableStream.read(20);
-        console.log('Событие readable (ручное чтение): чтение данных', data);
-        }, 5000) // size задает количество байт на чтение;
+        console.log("Событие readable (ручное чтение): чтение данных", data);
+      }, 5000); // size задает количество байт на чтение;
     });
   }
 
@@ -87,54 +84,53 @@ export class StreamsService {
     setInterval(() => {
       writable.uncork();
       writable.cork();
-      }, 10000)
+    }, 10000);
   }
 
   private exampleDuplexWork(response: Response) {
     const duplex = this.buildCustomDuplexStream();
-    response.setHeader('content-type', 'text/plain; charset=utf-8');
+    response.setHeader("content-type", "text/plain; charset=utf-8");
 
-    duplex.setEncoding('utf8');
+    duplex.setEncoding("utf8");
     const idInterval = setInterval(() => {
-      duplex.write(`рандомнные_данные_за_${new Date().toLocaleString()}`, 'utf8');
+      duplex.write(`рандомнные_данные_за_${new Date().toLocaleString()}`, "utf8");
     }, 1000);
 
-    duplex.on('data', (data) => {
+    duplex.on("data", (data) => {
       response.write(data);
     });
 
     setTimeout(() => {
       clearInterval(idInterval);
       duplex.destroy();
-      response.end('конец', 'utf8');
+      response.end("конец", "utf8");
     }, 10000);
   }
 
   private exampleTransformStream(response: Response) {
     const transform = this.buildCustomTransformStream();
 
-    response.setHeader('content-type', 'text/plain; charset=utf-8');
+    response.setHeader("content-type", "text/plain; charset=utf-8");
 
     const idInterval = setInterval(() => {
       transform.write(`данные_для_записи_${Math.random()}`);
     }, 1000);
 
-
-    transform.on('data', (data) => {
-      console.log("Event чтение", data)
+    transform.on("data", (data) => {
+      console.log("Event чтение", data);
       response.write(data);
     });
 
     setTimeout(() => {
-         clearInterval(idInterval);
-         transform.destroy();
-         response.end('конец записи Transform потока')
+      clearInterval(idInterval);
+      transform.destroy();
+      response.end("конец записи Transform потока");
     }, 10000);
   }
 
   getExampleFirst(response: Response) {
-   //const readableStream = this.buildCustomReadableStream();
-   //const writableStream = this.buildCustomWritableStream();
-   this.exampleTransformStream(response)
+    // const readableStream = this.buildCustomReadableStream();
+    // const writableStream = this.buildCustomWritableStream();
+    this.exampleTransformStream(response);
   }
 }

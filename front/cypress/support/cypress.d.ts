@@ -1,4 +1,4 @@
-import { mount } from 'cypress/react'
+import { mount } from "cypress/react";
 
 /**
  * метод mount изначально не встроен в cypress
@@ -6,11 +6,11 @@ import { mount } from 'cypress/react'
  * */
 
 declare global {
-    namespace Cypress {
-        interface Chainable {
-            mount: typeof mount;
-            // декларация кастомной команды для теста
-            Kross_97: () => void;
-        }
+  namespace Cypress {
+    interface Chainable {
+      mount: typeof mount;
+      // декларация кастомной команды для теста
+      Kross_97: () => void;
     }
+  }
 }

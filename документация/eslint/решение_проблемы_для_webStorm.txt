@@ -1,0 +1,17 @@
+
+eslint с новых версий не работает корректно в webStorm
+он работает корректно в версии "eslint": "^7.32.0",
+
+остальные связанные с ним пакеты по версиям:
+
+"@typescript-eslint/eslint-plugin": "^6.21.0",
+"@typescript-eslint/parser": "^6.0.0",
+"eslint": "^7.32.0",
+"eslint-config-prettier": "^10.0.1",
+"eslint-plugin-prettier": "^4.2.1",
+"prettier": "^2.8.0",
+"typescript": "^4.9.5"
+
+важное замечание при "typescript" версии 5 при данных версиях библиотек , шторм перестает подсвечивать ошибки TS
+нужно установить версию "typescript": "^4.9.5"
+и удалить node_modules и package-lock.json и установить все заново (это решило проблему и все работает)

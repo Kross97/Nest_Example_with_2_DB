@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { AuthorizationService } from './authorization.service';
-import { AuthorizationController } from './authorization.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../../entities/user/user.entity';
-import { ChildProcessClusterModule } from '../childProcess_cluster/childProcess_cluster.modulee';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AuthorizationService } from "./authorization.service";
+import { AuthorizationController } from "./authorization.controller";
+import { User } from "../../entities/user/user.entity";
+import { ChildProcessClusterModule } from "../childProcess_cluster/childProcess_cluster.modulee";
 
 // @Global() // Делает модуль глобальным , его внутренние сервисы могут инжектить все, без необходимости использовать imports в своих модулях
 @Module({
@@ -12,5 +12,4 @@ import { ChildProcessClusterModule } from '../childProcess_cluster/childProcess_
   controllers: [AuthorizationController],
   providers: [AuthorizationService],
 })
-export class AuthorizationModule {
-}
+export class AuthorizationModule {}

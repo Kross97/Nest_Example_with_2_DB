@@ -8,7 +8,13 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "es5",
-    "sourceMap": true
+    "sourceMap": true,
+
+    /**
+      Эти две настройки нужны для корректной работы импорта по умолчанию
+   */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "node_modules"

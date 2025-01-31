@@ -43,12 +43,12 @@
 import { mount } from "cypress/react18";
 import React from "react";
 
-Cypress.Commands.add('mount', (component, options) => {
-    //  возможность для оборачивания компонентов в провайдеры
-    //  return mount(<MyProvider>{component}</MyProvider>, options)
-    return mount(<>{component}</>, options);
+Cypress.Commands.add("mount", (component, options) => {
+  //  возможность для оборачивания компонентов в провайдеры
+  //  return mount(<MyProvider>{component}</MyProvider>, options)
+  return mount(<>{component}</>, options);
 });
 
-Cypress.Commands.add('Kross_97', () => {
-   cy.log('Kross_97 тестирование фронта с Cypress')
+Cypress.Commands.add("Kross_97", () => {
+  cy.log("Kross_97 тестирование фронта с Cypress");
 });

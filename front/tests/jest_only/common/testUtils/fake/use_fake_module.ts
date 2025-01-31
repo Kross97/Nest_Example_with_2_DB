@@ -1,4 +1,4 @@
-import { fakeModule } from './fake_module';
+import { fakeModule } from "./fake_module";
 
 export class TestFakeApi {
   static all() {

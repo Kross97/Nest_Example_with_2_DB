@@ -1,0 +1,2 @@
+tsc --all  - показать все опции комплятора
+tsc --init - инициализация typescript и создание tsconfig.json

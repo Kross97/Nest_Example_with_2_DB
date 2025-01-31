@@ -1,0 +1,30 @@
+Ошибка возникающая при работе с декораторами TS:
+
+"
+var decorated = decorator(target, propertyKey, descriptor);
+                                ^
+ColumnTypeUndefinedError: Column type for Car#model is not defined and cannot be guessed. Make sure you have turned on an "emitDecoratorMetadata": true option in tsconfig.json. Also make sure you have impo
+rted "reflect-metadata" on top of the main entry file in your application (before any entity imported).If you are using JavaScript instead of TypeScript you must explicitly provide a column type.
+"
+решение проблемы #1:
+
+1. import "reflect-metadata"; - в корне проекта
+2. указать эти пункты в tsconfig.ts:
+
+       "emitDecoratorMetadata": true,
+       "experimentalDecorators": true,
+
+решение проблемы #2
+
+1. посмотреть чтобы кто-то явно регистрировал сущности typeOrm либо:
+
+    1.1 TypeOrmModule.forFeature([User])
+
+    1.2
+        import "reflect-metadata"; - в корне файла DataSource
+
+        настройка DataSource:
+            entities: [User]
+
+        при этом если выбрать этот вариант, то нужно чтобы приложение запускалось после инициализации DataSource TypeOrm
+        тем самым будет гарантироваться что  "reflect-metadata" заработал и конект к БД есть
